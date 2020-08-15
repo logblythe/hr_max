@@ -3,12 +3,44 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hrmax/core/constants/constants.dart';
+import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/network/models/question_model.dart';
+import 'package:hrmax/ui/screens/question/widgets/review_dialog.dart';
+import 'package:hrmax/ui/screens/question/widgets/settings_dialog.dart';
 import 'package:hrmax/ui/widgets/button.dart';
 import 'package:hrmax/ui/widgets/question/multi_select_question.dart';
 import 'package:hrmax/ui/widgets/question/single_select_question.dart';
 import 'package:hrmax/ui/widgets/timer.dart';
+
+class Settings {
+  bool allowBack;
+  bool allowFirst;
+  bool allowLast;
+  bool allowReview;
+  bool allowSubmit;
+  bool isAnswerMandatory;
+  bool questionTimer;
+
+  Settings({
+    this.allowBack,
+    this.allowFirst,
+    this.allowLast,
+    this.allowReview,
+    this.allowSubmit,
+    this.isAnswerMandatory,
+    this.questionTimer,
+  });
+
+  Settings.init()
+      : allowBack = true,
+        allowFirst = true,
+        allowLast = true,
+        allowReview = true,
+        allowSubmit = true,
+        isAnswerMandatory = true,
+        questionTimer = true;
+}
 
 class QuestionsScreen extends StatefulWidget {
   @override
@@ -19,8 +51,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   QuestionResponse response;
   int _initialPage = 0;
   PageController _controller;
-  Map<int, dynamic> answersMap = {};
+  Map<int, List<Option>> answersMap = {};
   Map<int, bool> timerMap = {};
+  Settings _settings = Settings.init();
 
   loadAsset() async {
     var result = await rootBundle.loadString('assets/response.json');
@@ -37,30 +70,35 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        backgroundColor: Colors.white,
         actions: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TimerWidget(
-                duration: Duration(minutes: 12),
-                warningDuration: Duration(minutes: 2),
-                initialText: "Time remaining",
-                onExpiredText: "Time is up",
-                onExpired: _handleQuizTimerExpired,
-                textStyle: TextStyle(color: Colors.black),
-                warningTextStyle: TextStyle(color: Colors.redAccent),
+          Row(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TimerWidget(
+                    duration: Duration(minutes: 12),
+                    warningDuration: Duration(minutes: 2),
+                    initialText: "",
+                    onExpiredText: "Time is up",
+                    onExpired: () => _handleQuizTimerExpired(context),
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    warningTextStyle: TextStyle(color: Colors.redAccent),
+                  ),
+                ),
               ),
-            ),
+              IconButton(
+                icon: Icon(Icons.scatter_plot),
+                onPressed: _handleOptionsPress,
+              )
+            ],
           )
         ],
       ),
@@ -83,12 +121,16 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               controller: _controller,
                               onPageChanged: _handlePageChange,
                               children: response.questions.map((question) {
-                                answersMap[question.id] = [];
+                                if (answersMap[question.id] == null) {
+                                  answersMap[question.id] = [];
+                                }
                                 if (question.questionTypeId ==
                                     QuestionResponse.SINGLE_SELECT) {
                                   return SingleSelectQuestion(
                                     question: question,
                                     onAnswered: _handleAnswered,
+                                    questionDuration:
+                                        _settings.questionTimer ? 10 : null,
                                     onQuestionTimerExpired:
                                         _handleQuestionTimeExpired,
                                   );
@@ -96,6 +138,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                   return MultiSelectQuestion(
                                     question: question,
                                     onAnswered: _handleAnswered,
+                                    questionDuration:
+                                        _settings.questionTimer ? 10 : null,
                                     onQuestionTimerExpired:
                                         _handleQuestionTimeExpired,
                                   );
@@ -104,42 +148,29 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32, vertical: 8),
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16.0),
-                                  child: Text(
-                                    '${_initialPage + 1}/${response.questions.length}',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Button(
+                                _settings.allowBack
+                                    ? Button(
                                         label: Prev,
                                         onPressed: () => _handlePrev(),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Button(
-                                        label: _initialPage + 1 !=
-                                                response.questions.length
-                                            ? Next
-                                            : Submit,
-                                        onPressed: () => _handleNext(context),
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                      )
+                                    : Container(),
+                                _settings.allowSubmit
+                                    ? Button(
+                                        label: Submit,
+                                        onPressed: () => _handleSubmit(context),
+                                      )
+                                    : Container(),
+                                Button(
+                                  label: _initialPage + 1 !=
+                                          response.questions.length
+                                      ? Next
+                                      : Submit,
+                                  onPressed: () => _handleNext(context),
+                                )
                               ],
                             ),
                           ),
@@ -148,30 +179,53 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                FloatingActionButton(
-                                  backgroundColor: Colors.white,
-                                  mini: true,
-                                  child: Icon(
-                                    Icons.skip_previous,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                  onPressed: () => _handleFirst(),
-                                ),
-                                FloatingActionButton(
-                                  backgroundColor: Colors.white,
-                                  mini: true,
-                                  child: Icon(
-                                    Icons.skip_next,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                  onPressed: () => _handleLast(),
-                                ),
+                                _settings.allowFirst
+                                    ? FloatingActionButton(
+                                        tooltip: FIRST,
+                                        backgroundColor: Colors.white,
+                                        mini: true,
+                                        child: Icon(
+                                          Icons.skip_previous,
+                                          color: Theme.of(context).accentColor,
+                                        ),
+                                        onPressed: () => _handleFirst(),
+                                      )
+                                    : Container(),
+                                _settings.allowReview
+                                    ? FloatingActionButton(
+                                        tooltip: "Review",
+                                        child: Icon(Icons.rate_review),
+                                        onPressed: () => _handleReview(context),
+                                      )
+                                    : Container(),
+                                _settings.allowLast
+                                    ? FloatingActionButton(
+                                        tooltip: LAST,
+                                        backgroundColor: Colors.white,
+                                        mini: true,
+                                        child: Icon(
+                                          Icons.skip_next,
+                                          color: Theme.of(context).accentColor,
+                                        ),
+                                        onPressed: () => _handleLast(),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
+                    Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        '${_initialPage + 1}/${response.questions.length}',
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColorDark,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -180,7 +234,19 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _handleAnswered(int questionId, dynamic answers) {
-    answersMap[questionId] = answers;
+    answersMap.addAll({questionId: answers});
+  }
+
+  void _handleOptionsPress() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SettingsDialog(
+          settings: _settings,
+          onSave: _handleSettingsSave,
+        );
+      },
+    );
   }
 
   void _handlePageChange(int current) => _initialPage = current;
@@ -209,7 +275,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       _answered = true;
     }
 //      answersMap.containsKey(_questions[_initialPage].id);
-    if (_timeUp) {
+    if (_timeUp || !_settings.isAnswerMandatory) {
       if (_lastPageReached) {
         setState(() => _initialPage = _initialPage + 1);
         _controller.animateToPage(
@@ -227,9 +293,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           curve: Curves.bounceInOut,
         );
       } else {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text("Ready to submit")),
-        );
+        _handleSubmit(context);
       }
     } else {
       Scaffold.of(context).showSnackBar(
@@ -262,7 +326,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     );
   }
 
-  _handleQuizTimerExpired() {}
+  _handleQuizTimerExpired(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(content: Text("Your time is up")),
+    );
+  }
 
   _handleQuestionTimeExpired(int quesId) {
     timerMap[quesId] = true;
@@ -274,7 +342,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   isMultiSelect() {
-    bool isMulti=response.questions[_initialPage].questionTypeId ==
+    bool isMulti = response.questions[_initialPage].questionTypeId ==
         QuestionResponse.MULTI_SELECT;
     return isMulti;
   }
@@ -283,5 +351,53 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _handleReview(BuildContext context) {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierColor: Colors.black54,
+        transitionBuilder: (context, a1, a2, w) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: Center(
+                child: Card(
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    width: MediaQuery.of(context).size.width - 80,
+                    height: MediaQuery.of(context).size.height - 100,
+                    child: ReviewDialog(answersMap: answersMap),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 150),
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
+          return;
+        });
+  }
+
+  void _handleSubmit(BuildContext context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(content: Text("Ready to submit")),
+    );
+  }
+
+  _handleSettingsSave(Settings settings) {
+    setState(() {
+      _settings = settings;
+    });
   }
 }
