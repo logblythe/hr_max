@@ -123,8 +123,13 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
         }
       });
     });
-    widget.onAnswered(widget.question.id,
-        widget.question.options.where((option) => option.id == 1));
+    List<Option> selectedOptions = [];
+    widget.question.options.forEach((option) {
+      if (selectedAnswers[option.id]) {
+        selectedOptions.add(option);
+      }
+    });
+    widget.onAnswered(widget.question.id, selectedOptions);
   }
 
   @override
