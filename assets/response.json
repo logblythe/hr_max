@@ -1,0 +1,374 @@
+{
+  "totalQuestionsInExam": 10,
+  "eLearningEmailID": "girinirman@gmail.com",
+  "eLearningContactPoint": "Management Team",
+  "baseUrl": "https://hr.technomax.com.np/",
+  "IdTracker": 10002,
+  "score": 0.00,
+  "instruction": "Basic Operation Level entry course",
+  "quiz": {
+    "Id": 7,
+    "name": "Test Course",
+    "description": "Basic Operation Level entry course"
+  },
+  "config": {
+    "Id": 4,
+    "duration": 12,
+    "timePerQuestion": 0,
+    "TotalQuestion": 10,
+    "MarkPerQuestion": 1.00,
+    "NegativeMarkingScore": 0.00,
+    "MinPassMark": 0.00,
+    "NegativeMarking": false,
+    "allowLast": true,
+    "allowFirst": true,
+    "allowBack": true,
+    "SuffleQuestion": true,
+    "allowReview": true,
+    "allowSubmit": false,
+    "autoMove": false,
+    "autoMoveHolder": false,
+    "isAnswerMandatory": true,
+    "enableAutoClose": false,
+    "showResult": true,
+    "enableGenerateCertificate": false,
+    "showCorrectAnswer": true
+  },
+  "autoClose": false,
+  "readingMaterialExist": false,
+  "employeeDetail": {
+    "loginId": "Superadmin",
+    "name": "Anil  Maharjan",
+    "department": "Management Team",
+    "branch": "Head Office",
+    "imagePath": "/Resources/No-Profile-Image.png",
+    "pdfUrl": null,
+    "mediaUrl": null,
+    "mediaList": null,
+    "pdfList": null
+  },
+  "questions": [
+    {
+      "Id": 10040,
+      "Name": "If you receive ‘\u0026 Co’  cheques,",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10154,
+          "QuestionId": 10040,
+          "Name": "Payment can be made to bearer  in cash",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10155,
+          "QuestionId": 10040,
+          "Name": "Payment can be made after identification of payee.",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10156,
+          "QuestionId": 10040,
+          "Name": "Payment can be done though any account of account holder in the Bank",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10157,
+          "QuestionId": 10040,
+          "Name": "Such cheque can be deposited in payee’s account only",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10034,
+      "Name": "KYC is required for",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10130,
+          "QuestionId": 10034,
+          "Name": "Opening of accounts",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10131,
+          "QuestionId": 10034,
+          "Name": "Encashment of cheque of more than Rs 1 Million",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10132,
+          "QuestionId": 10034,
+          "Name": "Taking loans",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10133,
+          "QuestionId": 10034,
+          "Name": "All of above",
+          "IsAnswer": true
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10035,
+      "Name": "If you receive ‘\u0026 Co’  cheques, [Select Multiple Correct Answers]",
+      "QuestionTypeId": "Multiple Choice - Multiple Answer",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10134,
+          "QuestionId": 10035,
+          "Name": "Payment can be made to bearer  in cash",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10135,
+          "QuestionId": 10035,
+          "Name": "Payment can be made after identification of payee.",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10136,
+          "QuestionId": 10035,
+          "Name": "Payment can be done though any account of account holder in the Bank",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10137,
+          "QuestionId": 10035,
+          "Name": "Such cheque can be deposited in payee’s account only",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10036,
+      "Name": "If an individual account holder comes to your counter stating to issue a cheque book stating that his earlier cheque book along with cheque requisition slip  lost. Now the user want to make the new requisition. In this scenario please select as a business desk officer what action would you take [Select Multiple Correct Answers]",
+      "QuestionTypeId": "Multiple Choice - Multiple Answer",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10138,
+          "QuestionId": 10036,
+          "Name": "You will issue cheque book against his request letter after verification of signature",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10139,
+          "QuestionId": 10036,
+          "Name": "You will ensure that the requested person is the account holder himself or not and if yes, then only issue cheque book.",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10140,
+          "QuestionId": 10036,
+          "Name": "You will ensure that request has been given by account holder and issue cheque book the bearer of the request letter",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10141,
+          "QuestionId": 10036,
+          "Name": "You will refuse to issue cheque book",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10033,
+      "Name": "If cheque presented to Teller counter  and has insufficient balance, the customer will be [Select Multiple Correct Answers]",
+      "QuestionTypeId": "Multiple Choice - Multiple Answer",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10126,
+          "QuestionId": 10033,
+          "Name": "asked to present it later",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10127,
+          "QuestionId": 10033,
+          "Name": "return saying that the account has insufficient balance",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10128,
+          "QuestionId": 10033,
+          "Name": "return requesting to refer the account holder",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10129,
+          "QuestionId": 10033,
+          "Name": "held until the sufficient balance is maintained",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10038,
+      "Name": "If an individual account holder comes to your counter stating to issue a cheque book stating that his earlier cheque book along with cheque requisition slip  lost.",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10146,
+          "QuestionId": 10038,
+          "Name": "You will issue cheque book against his request letter after verification of signature",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10147,
+          "QuestionId": 10038,
+          "Name": "You will ensure that the requested person is the account holder himself or not and if yes, then only issue cheque book.",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10148,
+          "QuestionId": 10038,
+          "Name": "You will ensure that request has been given by account holder and issue cheque book the bearer of the request letter",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10149,
+          "QuestionId": 10038,
+          "Name": "You will refuse to issue cheque book",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10037,
+      "Name": "Know Your Customers means",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10142,
+          "QuestionId": 10037,
+          "Name": "To know details about customer",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10143,
+          "QuestionId": 10037,
+          "Name": "To know about  family of customer.",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10144,
+          "QuestionId": 10037,
+          "Name": "To know about  assets of customer",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10145,
+          "QuestionId": 10037,
+          "Name": "To know about  deposit and loans of customer",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10032,
+      "Name": "A customer who presents  cheque for deposit in his account is known as:",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10122,
+          "QuestionId": 10032,
+          "Name": "Payee",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10123,
+          "QuestionId": 10032,
+          "Name": "Drawer",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10124,
+          "QuestionId": 10032,
+          "Name": "Drawee",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10125,
+          "QuestionId": 10032,
+          "Name": "None of the above",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    },
+    {
+      "Id": 10039,
+      "Name": "Endorsement in cheque means",
+      "QuestionTypeId": "Multiple Choice",
+      "MarkPerQuestion": 1.00,
+      "NegativeMarkingScore": 0.00,
+      "Options": [
+        {
+          "Id": 10150,
+          "QuestionId": 10039,
+          "Name": "Transfer of title of cheque from  account holder to other",
+          "IsAnswer": true
+        },
+        {
+          "Id": 10151,
+          "QuestionId": 10039,
+          "Name": "Restriction of  payment of cheque in cash",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10152,
+          "QuestionId": 10039,
+          "Name": "Such cheque must be deposited in payees accounts only",
+          "IsAnswer": false
+        },
+        {
+          "Id": 10153,
+          "QuestionId": 10039,
+          "Name": "Payment can be done through  any customer’s account only",
+          "IsAnswer": false
+        }
+      ],
+      "CorrectAnswer": null,
+      "OptionType": null
+    }
+  ],
+  "questionsAnswered": null,
+  "materials": [],
+  "materialsEditable": [],
+  "trackerQuestionResult": null,
+  "enableReview": false,
+  "enableShowResult": false,
+  "enableShowCorrectAnswer": false
+}
