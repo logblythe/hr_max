@@ -72,6 +72,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
+        title: Text(
+          '${_initialPage + 1}/${response?.questions?.length} questions',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
         actions: <Widget>[
           Row(
             children: <Widget>[
@@ -216,16 +222,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        '${_initialPage + 1}/${response.questions.length}',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    )
                   ],
                 ),
               ),

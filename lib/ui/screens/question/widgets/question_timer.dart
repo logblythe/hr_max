@@ -15,17 +15,20 @@ class QuestionTimer extends StatefulWidget {
 
 class _QuestionTimerState extends State<QuestionTimer> {
   Timer _timer;
-  int seconds;
+  int _seconds;
+  double _progress;
 
   @override
   void initState() {
     super.initState();
-    seconds = widget.duration.inSeconds;
+    _seconds = widget.duration.inSeconds;
+    _progress = 1;
     _timer = Timer.periodic(Duration(seconds: 1), (_) {
-      var sec = seconds - 1;
+      var sec = _seconds - 1;
       if (sec >= 0) {
         setState(() {
-          seconds = sec;
+          _seconds = sec;
+          _progress = sec / widget.duration.inSeconds;
         });
       } else {
         _timer.cancel();
@@ -38,9 +41,16 @@ class _QuestionTimerState extends State<QuestionTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      seconds.toString(),
-      style: TextStyle(color: Colors.red),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: LinearProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          Theme
+              .of(context)
+              .primaryColor,
+        ),
+        value: _progress,
+      ),
     );
   }
 }

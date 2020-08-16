@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/view_models/learning_view_model.dart';
 import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/exams_screen.dart';
 import 'package:hrmax/ui/screens/learning_dashboard/widgets/learning_analytics.dart';
 import 'package:provider/provider.dart';
 
