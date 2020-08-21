@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: nameController,
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        UIHelper.verticalSpaceMedium,
+                        UIHelper.verticalSpaceLarge,
                         TextInput(
                           prefixIcon: Icon(Icons.lock),
                           title: PASSWORD,
@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                         ),
                         UIHelper.verticalSpaceLarge,
+                        UIHelper.verticalSpaceMedium,
                         PrimaryButton(
                             text: LOGIN,
                             busy: model.busy,

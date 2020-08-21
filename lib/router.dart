@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/ui/screens/exams_screen.dart';
+import 'package:hrmax/network/models/options.dart';
+import 'package:hrmax/ui/screens/exam/exams_screen.dart';
 import 'package:hrmax/ui/screens/home_screen.dart';
 import 'package:hrmax/ui/screens/learning_dashboard/learning_dashboard_screen.dart';
 import 'package:hrmax/ui/screens/login_screen.dart';
 import 'package:hrmax/ui/screens/question/questions_screen.dart';
+import 'package:hrmax/ui/screens/result_screen.dart';
 
 class RoutePaths {
   static const String LOGIN = "/login";
@@ -11,6 +13,7 @@ class RoutePaths {
   static const String PROFILE = "/profile";
   static const String LEARNING_DASHBOARD = "/learning-dashboard";
   static const String EXAM_LIST = "/exams";
+  static const String RESULT = "/result";
   static const String QUESTIONS = "/questions";
 }
 
@@ -27,6 +30,15 @@ class Router {
         return MaterialPageRoute(builder: (_) => ExamsScreen());
       case RoutePaths.QUESTIONS:
         return MaterialPageRoute(builder: (_) => QuestionsScreen());
+      case RoutePaths.RESULT:
+        {
+          final Map<int, List<Option>> answersMap = settings.arguments;
+          return MaterialPageRoute(
+            builder: (_) {
+              return ResultScreen(answersMap: answersMap);
+            },
+          );
+        }
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

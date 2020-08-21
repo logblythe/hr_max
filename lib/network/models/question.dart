@@ -9,7 +9,7 @@ class Question {
   double markPerQuestion;
   double negativeMarkingScore;
   List<Option> options;
-  Object correctAnswer;
+  List<int> correctAnswer;
   Object optionType;
 
 	Question.fromJsonMap(Map<String, dynamic> map): 
@@ -19,7 +19,7 @@ class Question {
 		markPerQuestion = map["MarkPerQuestion"],
 		negativeMarkingScore = map["NegativeMarkingScore"],
 		options = List<Option>.from(map["Options"].map((it) => Option.fromJsonMap(it))),
-		correctAnswer = map["CorrectAnswer"],
+		correctAnswer = List<int>.from(map["CorrectAnswer"] ),
 		optionType = map["OptionType"];
 
 	Map<String, dynamic> toJson() {

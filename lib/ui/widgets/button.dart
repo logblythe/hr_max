@@ -9,8 +9,8 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Color(0xFFE040FB),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      color: Theme.of(context).primaryColorDark,
       textColor: Colors.white,
       child: Text(label),
       onPressed: onPressed,

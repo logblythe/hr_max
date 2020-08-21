@@ -39,6 +39,13 @@ class _QuestionTimerState extends State<QuestionTimer> {
     });
   }
 
+
+  @override
+  void dispose() {
+super.dispose();
+_timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(

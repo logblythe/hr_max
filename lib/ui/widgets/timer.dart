@@ -31,6 +31,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   int min = 00;
   int sec = 00;
   Timer _timer;
+  bool _disposed = false;
 
   @override
   void initState() {
@@ -40,9 +41,11 @@ class _TimerWidgetState extends State<TimerWidget> {
     _timer = Timer.periodic(Duration(seconds: 1), (_) {
       seconds = seconds - 1;
       if (seconds >= 0) {
-        setState(() {
-          calculateMinutesAndSeconds();
-        });
+        if (!_disposed) {
+          setState(() {
+            calculateMinutesAndSeconds();
+          });
+        }
       } else {
         _timer.cancel();
         if (widget.onExpired != null) {
@@ -50,6 +53,13 @@ class _TimerWidgetState extends State<TimerWidget> {
         }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+    _disposed = true;
   }
 
   void calculateMinutesAndSeconds() {

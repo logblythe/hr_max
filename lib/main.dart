@@ -18,10 +18,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: APP_TITLE,
         theme: ThemeData(
+          accentColor: Color(0xFF512DA8),
           primaryColorDark: Color(0xFF512DA8),
           primaryColorLight: Color(0xFFD1C4E9),
           primaryColor: Color(0xFF673AB7),
-          accentColor: Color(0xFFE040FB),
+//          accentColor: Color(0xFFE040FB),
         ),
         home: LoginScreen(),
         onGenerateRoute: (settings) => Router.generateRoute(settings),

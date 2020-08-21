@@ -6,6 +6,7 @@ import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/network/models/question_model.dart';
+import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/screens/question/widgets/review_dialog.dart';
 import 'package:hrmax/ui/screens/question/widgets/settings_dialog.dart';
 import 'package:hrmax/ui/widgets/button.dart';
@@ -39,7 +40,7 @@ class Settings {
         allowReview = true,
         allowSubmit = true,
         isAnswerMandatory = true,
-        questionTimer = true;
+        questionTimer = false;
 }
 
 class QuestionsScreen extends StatefulWidget {
@@ -187,6 +188,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               children: <Widget>[
                                 _settings.allowFirst
                                     ? FloatingActionButton(
+                                        heroTag: "first",
                                         tooltip: FIRST,
                                         backgroundColor: Colors.white,
                                         mini: true,
@@ -199,6 +201,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                     : Container(),
                                 _settings.allowReview
                                     ? FloatingActionButton(
+                                        heroTag: "review",
                                         tooltip: "Review",
                                         child: Icon(Icons.rate_review),
                                         onPressed: () => _handleReview(context),
@@ -206,6 +209,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                     : Container(),
                                 _settings.allowLast
                                     ? FloatingActionButton(
+                                        heroTag: "last",
                                         tooltip: LAST,
                                         backgroundColor: Colors.white,
                                         mini: true,
@@ -279,6 +283,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           duration: Duration(milliseconds: 300),
           curve: Curves.bounceInOut,
         );
+      } else {
+        print('hey');
       }
     } else if (_answered) {
       if (_lastPageReached) {
@@ -386,9 +392,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _handleSubmit(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text("Ready to submit")),
-    );
+    Navigator.of(context).pushNamed(RoutePaths.RESULT, arguments: answersMap);
   }
 
   _handleSettingsSave(Settings settings) {

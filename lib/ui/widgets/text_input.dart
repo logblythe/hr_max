@@ -58,11 +58,25 @@ class _TextInputState extends State<TextInput> {
         return null;
       },
       decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-          labelText: title,
-          labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          prefixIcon: prefixIcon,
-          suffix: suffixIcon),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        labelText: title,
+        labelStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(
+            color: Theme.of(context).hintColor,
+          ),
+        ),
+        prefixIcon: prefixIcon,
+        suffix: suffixIcon,
+      ),
       obscureText: obscureText ?? false,
       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       controller: controller,
