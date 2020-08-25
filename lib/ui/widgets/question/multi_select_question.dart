@@ -3,6 +3,7 @@ import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/ui/screens/question/widgets/question_timer.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
+import 'package:hrmax/utils.dart';
 
 class MultiSelectQuestion extends StatefulWidget {
   final Question question;
@@ -47,7 +48,10 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
         } else {
           selectedAnswers[option.id] = false;
         }
-        if(widget.selectedOption.length==2){
+
+        List<int> correctAnswers = widget.question.correctAnswer;
+        List<int> answers = widget.selectedOption.map((e) => e.id).toList();
+        if (areListsEqual(correctAnswers,answers)) {
           setState(() {
             _correct=true;
           });

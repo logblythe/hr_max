@@ -161,21 +161,21 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               children: <Widget>[
                                 _settings.allowBack
                                     ? Button(
-                                        label: Prev,
+                                        label: PREV,
                                         onPressed: () => _handlePrev(),
                                       )
                                     : Container(),
                                 _settings.allowSubmit
                                     ? Button(
-                                        label: Submit,
+                                        label: SUBMIT,
                                         onPressed: () => _handleSubmit(context),
                                       )
                                     : Container(),
                                 Button(
                                   label: _initialPage + 1 !=
                                           response.questions.length
-                                      ? Next
-                                      : Submit,
+                                      ? NEXT
+                                      : SUBMIT,
                                   onPressed: () => _handleNext(context),
                                 )
                               ],

@@ -19,6 +19,8 @@ dependencies:
   shared_preferences:
   provider:
   charts_flutter: ^0.9.0
+  pdf_flutter:
+
 
 
 

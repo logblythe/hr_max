@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/screens/exam/widgets/exam_card.dart';
+import 'package:hrmax/ui/screens/exam/widgets/reading_material.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/button.dart';
 
@@ -18,9 +19,11 @@ class ExamsScreen extends StatelessWidget {
           itemCount: 10,
           itemBuilder: (context, index) {
             return ExamCard(
-                index: index,
-                onProcess: () => handleProceedPress(index, context),
-                onInstructions: () => handleInstructionPress(index, context));
+              index: index,
+              onProcess: () => handleProceedPress(index, context),
+              onInstructions: () => handleInstructionPress(index, context),
+              onViewMaterials: () => handleViewMaterials(index, context),
+            );
           },
         ),
       ),
@@ -68,6 +71,15 @@ class ExamsScreen extends StatelessWidget {
             ),
           ),
         );
+      },
+    );
+  }
+
+  handleViewMaterials(int index, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ReadingMaterial();
       },
     );
   }

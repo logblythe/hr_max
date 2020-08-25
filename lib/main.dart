@@ -17,13 +17,13 @@ class MyApp extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         title: APP_TITLE,
-        theme: ThemeData(
+       /* theme: ThemeData(
           accentColor: Color(0xFF512DA8),
           primaryColorDark: Color(0xFF512DA8),
           primaryColorLight: Color(0xFFD1C4E9),
           primaryColor: Color(0xFF673AB7),
 //          accentColor: Color(0xFFE040FB),
-        ),
+        ),*/
         home: LoginScreen(),
         onGenerateRoute: (settings) => Router.generateRoute(settings),
         navigatorKey: navigatorKey,
