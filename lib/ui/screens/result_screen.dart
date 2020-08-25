@@ -11,8 +11,12 @@ import 'package:hrmax/utils.dart';
 
 class ResultScreen extends StatefulWidget {
   final Map<int, List<Option>> answersMap;
+  final bool showResult;
+  final bool showCorrectAnswer;
 
-  const ResultScreen({Key key, this.answersMap}) : super(key: key);
+  const ResultScreen(
+      {Key key, this.answersMap, this.showResult, this.showCorrectAnswer})
+      : super(key: key);
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
@@ -49,47 +53,63 @@ class _ResultScreenState extends State<ResultScreen> {
           ? Center(child: CircularProgressIndicator())
           : Builder(
               builder: (context) => Container(
+                height: double.infinity,
                 color: Colors.grey.withAlpha(25),
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('You scored $_percentage %',style: Theme.of(context).textTheme.headline4,),
-                    Expanded(
-                      child: Stack(
+                child: !widget.showResult
+                    ? Text(
+                        'You scored $_percentage %',
+                        style: Theme.of(context).textTheme.headline1,
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Column(
+                          Text(
+                            'You scored $_percentage %',
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                          Expanded(
+                            child: Stack(
                               children: <Widget>[
-                                Expanded(
-                                  child: PageView(
-                                    controller: _controller,
-                                    onPageChanged: _handlePageChange,
-                                    children: response.questions.map((question) {
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: PageView(
+                                          controller: _controller,
+                                          onPageChanged: _handlePageChange,
+                                          children: response.questions
+                                              .map((question) {
 //                                if (answersMap[question.id] == null) {
 //                                  answersMap[question.id] = [];
 //                                }
-                                      if (question.questionTypeId ==
-                                          QuestionResponse.SINGLE_SELECT) {
-                                        return SingleSelectQuestion(
-                                          question: question,
-                                          showResult: true,
-                                          showCorrectAnswer: true,
-                                          selectedOption:
-                                              widget.answersMap[question.id],
-                                        );
-                                      } else {
-                                        return MultiSelectQuestion(
-                                          question: question,
-                                          showResult: true,
-                                          showCorrectAnswer: true,
-                                          selectedOption:
-                                              widget.answersMap[question.id],
-                                        );
-                                      }
-                                    }).toList(),
+                                            if (question.questionTypeId ==
+                                                QuestionResponse
+                                                    .SINGLE_SELECT) {
+                                              return SingleSelectQuestion(
+                                                question: question,
+                                                showResult: widget.showResult,
+                                                showCorrectAnswer:
+                                                    widget.showCorrectAnswer,
+                                                selectedOption: widget
+                                                    .answersMap[question.id],
+                                              );
+                                            } else {
+                                              return MultiSelectQuestion(
+                                                question: question,
+                                                showResult: widget.showResult,
+                                                showCorrectAnswer:
+                                                    widget.showCorrectAnswer,
+                                                selectedOption: widget
+                                                    .answersMap[question.id],
+                                              );
+                                            }
+                                          }).toList(),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -97,9 +117,6 @@ class _ResultScreenState extends State<ResultScreen> {
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
     );

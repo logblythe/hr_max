@@ -19,27 +19,33 @@ class ReviewDialog extends StatelessWidget {
         return Container(
           margin: EdgeInsets.only(bottom: 8),
           padding: EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              CircleAvatar(
-                radius: 16,
-                child: Text((index + 1).toString()),
-              ),
-              Text(
-                answered ? "Answered" : "Not answered",
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-              ),
-              answered
-                  ? Icon(
-                      Icons.done,
-                      color: Colors.lightGreen,
-                    )
-                  : Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    )
-            ],
+          child: InkWell(
+            onTap: (){
+              Navigator.of(context).pop();
+              onItemClick(index);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 16,
+                  child: Text((index + 1).toString()),
+                ),
+                Text(
+                  answered ? "Answered" : "Not answered",
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                ),
+                answered
+                    ? Icon(
+                        Icons.done,
+                        color: Colors.lightGreen,
+                      )
+                    : Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      )
+              ],
+            ),
           ),
         );
       },

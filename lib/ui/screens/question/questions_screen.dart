@@ -22,16 +22,19 @@ class Settings {
   bool allowSubmit;
   bool isAnswerMandatory;
   bool questionTimer;
+  bool showResult;
+  bool showCorrectAnswer;
 
-  Settings({
-    this.allowBack,
-    this.allowFirst,
-    this.allowLast,
-    this.allowReview,
-    this.allowSubmit,
-    this.isAnswerMandatory,
-    this.questionTimer,
-  });
+  Settings(
+      {this.allowBack,
+      this.allowFirst,
+      this.allowLast,
+      this.allowReview,
+      this.allowSubmit,
+      this.isAnswerMandatory,
+      this.questionTimer,
+      this.showResult,
+      this.showCorrectAnswer});
 
   Settings.init()
       : allowBack = true,
@@ -40,7 +43,9 @@ class Settings {
         allowReview = true,
         allowSubmit = true,
         isAnswerMandatory = true,
-        questionTimer = false;
+        questionTimer = true,
+        showResult = true,
+        showCorrectAnswer = true;
 }
 
 class QuestionsScreen extends StatefulWidget {
@@ -137,7 +142,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                     question: question,
                                     onAnswered: _handleAnswered,
                                     questionDuration:
-                                        _settings.questionTimer ? 10 : null,
+                                        _settings.questionTimer ? 60 : null,
                                     onQuestionTimerExpired:
                                         _handleQuestionTimeExpired,
                                   );
@@ -146,7 +151,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                     question: question,
                                     onAnswered: _handleAnswered,
                                     questionDuration:
-                                        _settings.questionTimer ? 10 : null,
+                                        _settings.questionTimer ? 60 : null,
                                     onQuestionTimerExpired:
                                         _handleQuestionTimeExpired,
                                   );
@@ -377,7 +382,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     ),
                     width: MediaQuery.of(context).size.width - 80,
                     height: MediaQuery.of(context).size.height - 100,
-                    child: ReviewDialog(answersMap: answersMap),
+                    child: ReviewDialog(answersMap: answersMap,onItemClick: _handleReviewItemClick,),
                   ),
                 ),
               ),
@@ -392,12 +397,23 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _handleSubmit(BuildContext context) {
-    Navigator.of(context).pushNamed(RoutePaths.RESULT, arguments: answersMap);
+    Navigator.of(context).pushNamed(RoutePaths.RESULT, arguments: [
+      answersMap,
+      _settings.showResult,
+      _settings.showCorrectAnswer
+    ]);
   }
 
   _handleSettingsSave(Settings settings) {
     setState(() {
       _settings = settings;
     });
+  }
+
+  _handleReviewItemClick(int index) {
+    setState(() {
+      _initialPage=index;
+    });
+    _controller.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeInCubic);
   }
 }

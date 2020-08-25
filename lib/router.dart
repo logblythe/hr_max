@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/ui/screens/exam/exams_screen.dart';
 import 'package:hrmax/ui/screens/home_screen.dart';
 import 'package:hrmax/ui/screens/learning_dashboard/learning_dashboard_screen.dart';
@@ -32,10 +31,14 @@ class Router {
         return MaterialPageRoute(builder: (_) => QuestionsScreen());
       case RoutePaths.RESULT:
         {
-          final Map<int, List<Option>> answersMap = settings.arguments;
+          List<dynamic> arguments = settings.arguments;
           return MaterialPageRoute(
             builder: (_) {
-              return ResultScreen(answersMap: answersMap);
+              return ResultScreen(
+                answersMap: arguments[0],
+                showResult: arguments[1],
+                showCorrectAnswer: arguments[2],
+              );
             },
           );
         }

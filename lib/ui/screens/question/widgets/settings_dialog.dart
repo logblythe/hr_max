@@ -21,6 +21,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
   bool submit;
   bool review;
   bool timer;
+  bool result;
+  bool correctAnswer;
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
     submit = widget.settings.allowSubmit;
     review = widget.settings.allowReview;
     timer = widget.settings.questionTimer;
+    result = widget.settings.showResult;
+    correctAnswer = widget.settings.showCorrectAnswer;
   }
 
   @override
@@ -103,17 +107,38 @@ class _SettingsDialogState extends State<SettingsDialog> {
               });
             },
           ),
+          CheckboxListTile(
+            value: result,
+            title: Text("Show result"),
+            onChanged: (value) {
+              setState(() {
+                result = value;
+              });
+            },
+          ),
+          CheckboxListTile(
+            value: correctAnswer,
+            title: Text("Show correct answer"),
+            onChanged: (value) {
+              setState(() {
+                correctAnswer = value;
+              });
+            },
+          ),
           Button(
             label: "Save",
             onPressed: () {
               widget.onSave(Settings(
-                  allowBack: back,
-                  allowFirst: first,
-                  allowLast: last,
-                  allowReview: review,
-                  allowSubmit: submit,
-                  isAnswerMandatory: mandatory,
-                  questionTimer: timer));
+                allowBack: back,
+                allowFirst: first,
+                allowLast: last,
+                allowReview: review,
+                allowSubmit: submit,
+                isAnswerMandatory: mandatory,
+                questionTimer: timer,
+                showResult: result,
+                showCorrectAnswer: correctAnswer,
+              ));
               Navigator.of(context).pop();
             },
           ),
