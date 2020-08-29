@@ -140,8 +140,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
-                            warningTextStyle:
-                            TextStyle(
+                            warningTextStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.redAccent),
@@ -333,16 +332,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         _handleSubmit(context);
       }
     } else {
-      showToast(isSingleSelect()
-          ? "Please select one answer"
-          : isMultiSelect()
-          ? "Please select two or more answers"
-          : "Please select answer",
+      showToast(
+          isSingleSelect()
+              ? "Please select one answer"
+              : isMultiSelect()
+                  ? "Please select two or more answers"
+                  : "Please select answer",
           context: context,
           axis: Axis.horizontal,
           alignment: Alignment.topCenter,
           position: StyledToastPosition.bottom);
-     /* Scaffold.of(context).showSnackBar(
+      /* Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text(isSingleSelect()
               ? "Please select one answer"
@@ -373,9 +373,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   _handleQuizTimerExpired(BuildContext context) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(content: Text("Your time is up")),
-    );
+    Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT, arguments: [
+      answersMap,
+      _settings.showResult,
+      _settings.showCorrectAnswer
+    ]);
   }
 
   _handleQuestionTimeExpired(int quesId) {

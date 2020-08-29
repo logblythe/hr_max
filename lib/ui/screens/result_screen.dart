@@ -59,7 +59,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 child: !widget.showResult
                     ? Text(
                         'You scored $_percentage %',
-                        style: Theme.of(context).textTheme.headline1,
+                        style: Theme.of(context).textTheme.headline4,
                       )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
