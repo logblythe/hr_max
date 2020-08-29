@@ -23,6 +23,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
   bool timer;
   bool result;
   bool correctAnswer;
+  bool enableAutoClose;
+  bool enableReviewDialog;
 
   @override
   void initState() {
@@ -36,6 +38,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
     timer = widget.settings.questionTimer;
     result = widget.settings.showResult;
     correctAnswer = widget.settings.showCorrectAnswer;
+    enableAutoClose = widget.settings.enableAutoClose;
+    enableReviewDialog = widget.settings.enableReviewDialog;
   }
 
   @override
@@ -125,6 +129,24 @@ class _SettingsDialogState extends State<SettingsDialog> {
               });
             },
           ),
+          CheckboxListTile(
+            value: enableAutoClose,
+            title: Text("enableAutoClose"),
+            onChanged: (value) {
+              setState(() {
+                enableAutoClose = value;
+              });
+            },
+          ),
+          CheckboxListTile(
+            value: enableReviewDialog,
+            title: Text("enableReviewDialog"),
+            onChanged: (value) {
+              setState(() {
+                enableReviewDialog = value;
+              });
+            },
+          ),
           Button(
             label: "Save",
             onPressed: () {
@@ -138,6 +160,8 @@ class _SettingsDialogState extends State<SettingsDialog> {
                 questionTimer: timer,
                 showResult: result,
                 showCorrectAnswer: correctAnswer,
+                enableAutoClose: enableAutoClose,
+                enableReviewDialog: enableReviewDialog,
               ));
               Navigator.of(context).pop();
             },

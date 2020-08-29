@@ -69,21 +69,6 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
       children: <Widget>[
         Column(
           children: <Widget>[
-            widget.questionDuration != null
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: QuestionTimer(
-                      duration:
-                          Duration(seconds: widget.questionDuration ?? 10),
-                      onExpired: () {
-                        setState(() {
-                          _questionTimerExpired = true;
-                        });
-                        widget.onQuestionTimerExpired(widget.question.id);
-                      },
-                    ),
-                  )
-                : Container(),
             UIHelper.verticalSpaceLarge,
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -190,7 +175,25 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                   color: _correct ? Colors.green[700] : Colors.red,
                 ),
               )
-            : Container()
+            : Container(),
+        widget.questionDuration != null
+            ? Positioned(
+          right: 4,
+          top: 4,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: QuestionTimer(
+              duration: Duration(seconds: widget.questionDuration ?? 10),
+              onExpired: () {
+                setState(() {
+                  _questionTimerExpired = true;
+                });
+                widget.onQuestionTimerExpired(widget.question.id);
+              },
+            ),
+          ),
+        )
+            : Container(),
       ],
     );
   }

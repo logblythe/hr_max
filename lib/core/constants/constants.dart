@@ -21,3 +21,4 @@ const VIEW_READING_MATERIALS = "View Materials";
 const FORGOT_PASSWORD = "Forgot Password?";
 const FIRST = "First";
 const LAST = "Last";
+const REVIEW = "Review";

@@ -25,6 +25,18 @@ class UIHelper {
   SizedBox(width: _HorizontalSpaceMedium);
   static const Widget horizontalSpaceLarge =
   SizedBox(width: _HorizontalSpaceLarge);
+  static BoxDecoration boxDecoration(context,{color,radius}) => BoxDecoration(
+    color: color??Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(radius??8.0)),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.2),
+        blurRadius: 2.0,
+        offset: Offset(0, 0.3),
+        spreadRadius: 0.5,
+      )
+    ],
+  );
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: Colors.black,

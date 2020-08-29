@@ -15,7 +15,7 @@ class TimerWidget extends StatefulWidget {
     Key key,
     this.textStyle,
     this.warningTextStyle,
-    this.warningDuration = const Duration(seconds: 10),
+    this.warningDuration = const Duration(minutes: 5),
     this.onExpired,
     this.initialText,
     this.onExpiredText,
@@ -81,7 +81,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         ? RichText(
             text: TextSpan(
                 text: widget.initialText,
-                style: widget.textStyle,
+                style: TextStyle(color: Colors.black),
                 children: [
                   TextSpan(
                     text:

@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:hrmax/router.dart';
+import 'package:hrmax/ui/screens/question/widgets/quit_quiz_dialog.dart';
 import 'package:hrmax/ui/screens/question/widgets/review_dialog.dart';
+import 'package:hrmax/ui/screens/question/widgets/review_submit_dialog.dart';
 import 'package:hrmax/ui/screens/question/widgets/settings_dialog.dart';
+import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/button.dart';
 import 'package:hrmax/ui/widgets/question/multi_select_question.dart';
 import 'package:hrmax/ui/widgets/question/single_select_question.dart';
@@ -24,17 +28,22 @@ class Settings {
   bool questionTimer;
   bool showResult;
   bool showCorrectAnswer;
+  bool enableAutoClose;
+  bool enableReviewDialog;
 
-  Settings(
-      {this.allowBack,
-      this.allowFirst,
-      this.allowLast,
-      this.allowReview,
-      this.allowSubmit,
-      this.isAnswerMandatory,
-      this.questionTimer,
-      this.showResult,
-      this.showCorrectAnswer});
+  Settings({
+    this.allowBack,
+    this.allowFirst,
+    this.allowLast,
+    this.allowReview,
+    this.allowSubmit,
+    this.isAnswerMandatory,
+    this.questionTimer,
+    this.showResult,
+    this.showCorrectAnswer,
+    this.enableAutoClose,
+    this.enableReviewDialog,
+  });
 
   Settings.init()
       : allowBack = true,
@@ -45,7 +54,9 @@ class Settings {
         isAnswerMandatory = true,
         questionTimer = true,
         showResult = true,
-        showCorrectAnswer = true;
+        showCorrectAnswer = true,
+        enableAutoClose = true,
+        enableReviewDialog = true;
 }
 
 class QuestionsScreen extends StatefulWidget {
@@ -79,7 +90,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         title: Text(
-          '${_initialPage + 1}/${response?.questions?.length} questions',
+          "Quiz Title",
           style: TextStyle(
             fontSize: 16,
           ),
@@ -87,25 +98,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         actions: <Widget>[
           Row(
             children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TimerWidget(
-                    duration: Duration(minutes: 12),
-                    warningDuration: Duration(minutes: 2),
-                    initialText: "",
-                    onExpiredText: "Time is up",
-                    onExpired: () => _handleQuizTimerExpired(context),
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    warningTextStyle: TextStyle(color: Colors.redAccent),
-                  ),
-                ),
-              ),
               IconButton(
                 icon: Icon(Icons.scatter_plot),
                 onPressed: _handleOptionsPress,
@@ -120,118 +112,157 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               builder: (context) => Container(
                 color: Colors.grey.withAlpha(25),
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                child: Stack(
-                  children: <Widget>[
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: PageView(
-                              physics: NeverScrollableScrollPhysics(),
-                              controller: _controller,
-                              onPageChanged: _handlePageChange,
-                              children: response.questions.map((question) {
-                                if (answersMap[question.id] == null) {
-                                  answersMap[question.id] = [];
-                                }
-                                if (question.questionTypeId ==
-                                    QuestionResponse.SINGLE_SELECT) {
-                                  return SingleSelectQuestion(
-                                    question: question,
-                                    onAnswered: _handleAnswered,
-                                    questionDuration:
-                                        _settings.questionTimer ? 60 : null,
-                                    onQuestionTimerExpired:
-                                        _handleQuestionTimeExpired,
-                                  );
-                                } else {
-                                  return MultiSelectQuestion(
-                                    question: question,
-                                    onAnswered: _handleAnswered,
-                                    questionDuration:
-                                        _settings.questionTimer ? 60 : null,
-                                    onQuestionTimerExpired:
-                                        _handleQuestionTimeExpired,
-                                  );
-                                }
-                              }).toList(),
-                            ),
+                child: WillPopScope(
+                  onWillPop: () async {
+                    bool _exit;
+                    _exit = await showDialog(
+                        context: context,
+                        builder: (context) => QuitQuizDialog());
+                    return Future.value(_exit);
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${_initialPage + 1}/${response?.questions?.length} questions',
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _settings.allowBack
-                                    ? Button(
-                                        label: PREV,
-                                        onPressed: () => _handlePrev(),
-                                      )
-                                    : Container(),
-                                _settings.allowSubmit
-                                    ? Button(
-                                        label: SUBMIT,
-                                        onPressed: () => _handleSubmit(context),
-                                      )
-                                    : Container(),
-                                Button(
-                                  label: _initialPage + 1 !=
-                                          response.questions.length
-                                      ? NEXT
-                                      : SUBMIT,
-                                  onPressed: () => _handleNext(context),
-                                )
-                              ],
+                          TimerWidget(
+                            duration: Duration(minutes: 10),
+                            warningDuration: Duration(minutes: 5),
+                            initialText: "Time remaining",
+                            onExpiredText: "Time is up",
+                            onExpired: () => _handleQuizTimerExpired(context),
+                            textStyle: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(32, 8, 32, 32),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _settings.allowFirst
-                                    ? FloatingActionButton(
-                                        heroTag: "first",
-                                        tooltip: FIRST,
-                                        backgroundColor: Colors.white,
-                                        mini: true,
-                                        child: Icon(
-                                          Icons.skip_previous,
-                                          color: Theme.of(context).accentColor,
-                                        ),
-                                        onPressed: () => _handleFirst(),
-                                      )
-                                    : Container(),
-                                _settings.allowReview
-                                    ? FloatingActionButton(
-                                        heroTag: "review",
-                                        tooltip: "Review",
-                                        child: Icon(Icons.rate_review),
-                                        onPressed: () => _handleReview(context),
-                                      )
-                                    : Container(),
-                                _settings.allowLast
-                                    ? FloatingActionButton(
-                                        heroTag: "last",
-                                        tooltip: LAST,
-                                        backgroundColor: Colors.white,
-                                        mini: true,
-                                        child: Icon(
-                                          Icons.skip_next,
-                                          color: Theme.of(context).accentColor,
-                                        ),
-                                        onPressed: () => _handleLast(),
-                                      )
-                                    : Container(),
-                              ],
-                            ),
+                            warningTextStyle:
+                            TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.redAccent),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      UIHelper.verticalSpaceSmall,
+                      Expanded(
+                        child: Stack(
+                          children: <Widget>[
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Column(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: PageView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      controller: _controller,
+                                      onPageChanged: _handlePageChange,
+                                      children:
+                                          response.questions.map((question) {
+                                        if (answersMap[question.id] == null) {
+                                          answersMap[question.id] = [];
+                                        }
+                                        if (question.questionTypeId ==
+                                            QuestionResponse.SINGLE_SELECT) {
+                                          return SingleSelectQuestion(
+                                            question: question,
+                                            onAnswered: _handleAnswered,
+                                            questionDuration:
+                                                _settings.questionTimer
+                                                    ? 60
+                                                    : null,
+                                            onQuestionTimerExpired:
+                                                _handleQuestionTimeExpired,
+                                          );
+                                        } else {
+                                          return MultiSelectQuestion(
+                                            question: question,
+                                            onAnswered: _handleAnswered,
+                                            questionDuration:
+                                                _settings.questionTimer
+                                                    ? 60
+                                                    : null,
+                                            onQuestionTimerExpired:
+                                                _handleQuestionTimeExpired,
+                                          );
+                                        }
+                                      }).toList(),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        _settings.allowBack
+                                            ? Button(
+                                                label: PREV,
+                                                onPressed: () => _handlePrev(),
+                                              )
+                                            : Container(),
+                                        _settings.allowSubmit &&
+                                                _initialPage + 1 !=
+                                                    response?.questions?.length
+                                            ? Button(
+                                                label: SUBMIT,
+                                                onPressed: () =>
+                                                    _handleSubmit(context),
+                                              )
+                                            : Container(),
+                                        Button(
+                                          label: _initialPage + 1 ==
+                                                  response?.questions?.length
+                                              ? SUBMIT
+                                              : NEXT,
+                                          onPressed: () => _handleNext(context),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        32, 8, 32, 32),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        _settings.allowFirst
+                                            ? Button(
+                                                label: FIRST,
+                                                onPressed: () => _handleFirst(),
+                                              )
+                                            : Container(),
+                                        _settings.allowReview
+                                            ? Button(
+                                                label: REVIEW,
+                                                onPressed: () =>
+                                                    _handleReview(context),
+                                              )
+                                            : Container(),
+                                        _settings.allowLast
+                                            ? Button(
+                                                label: LAST,
+                                                onPressed: () => _handleLast(),
+                                              )
+                                            : Container(),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -269,7 +300,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   void _handleNext(context) {
     List<Question> _questions = response.questions;
-    bool _lastPageReached = _initialPage < _questions.length - 1;
+    bool _lastPageReached = _initialPage == _questions.length - 1;
     bool _timeUp = timerMap[_questions[_initialPage].id] ?? false;
     bool _answered = false;
     if (isSingleSelect() &&
@@ -279,9 +310,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         answersMap[_questions[_initialPage].id].length >= 2) {
       _answered = true;
     }
-//      answersMap.containsKey(_questions[_initialPage].id);
     if (_timeUp || !_settings.isAnswerMandatory) {
-      if (_lastPageReached) {
+      if (!_lastPageReached) {
         setState(() => _initialPage = _initialPage + 1);
         _controller.animateToPage(
           _initialPage,
@@ -289,10 +319,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           curve: Curves.bounceInOut,
         );
       } else {
-        print('hey');
+        _handleSubmit(context);
       }
     } else if (_answered) {
-      if (_lastPageReached) {
+      if (!_lastPageReached) {
         setState(() => _initialPage = _initialPage + 1);
         _controller.animateToPage(
           _initialPage,
@@ -303,7 +333,16 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         _handleSubmit(context);
       }
     } else {
-      Scaffold.of(context).showSnackBar(
+      showToast(isSingleSelect()
+          ? "Please select one answer"
+          : isMultiSelect()
+          ? "Please select two or more answers"
+          : "Please select answer",
+          context: context,
+          axis: Axis.horizontal,
+          alignment: Alignment.topCenter,
+          position: StyledToastPosition.bottom);
+     /* Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text(isSingleSelect()
               ? "Please select one answer"
@@ -311,7 +350,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                   ? "Please select two or more answers"
                   : "Please select answer"),
         ),
-      );
+      );*/
     }
   }
 
@@ -382,7 +421,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     ),
                     width: MediaQuery.of(context).size.width - 80,
                     height: MediaQuery.of(context).size.height - 100,
-                    child: ReviewDialog(answersMap: answersMap,onItemClick: _handleReviewItemClick,),
+                    child: ReviewDialog(
+                      answersMap: answersMap,
+                      onItemClick: _handleReviewItemClick,
+                    ),
                   ),
                 ),
               ),
@@ -397,11 +439,47 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _handleSubmit(BuildContext context) {
-    Navigator.of(context).pushNamed(RoutePaths.RESULT, arguments: [
-      answersMap,
-      _settings.showResult,
-      _settings.showCorrectAnswer
-    ]);
+    if (_settings.enableReviewDialog) {
+      int _answeredCount = 0;
+      answersMap.forEach((key, value) {
+        if (value.length != 0) {
+          _answeredCount = _answeredCount + 1;
+        }
+      });
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ReviewSubmitDialog(
+            answeredCount: _answeredCount,
+            totalCount: response.questions.length,
+            onAccept: () {
+              if (_settings.enableAutoClose) {
+                Navigator.of(context).pop();
+              } else {
+                Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT,
+                    arguments: [
+                      answersMap,
+                      _settings.showResult,
+                      _settings.showCorrectAnswer
+                    ]);
+              }
+            },
+            onReject: () {},
+          );
+        },
+      );
+    } else {
+      if (_settings.enableAutoClose) {
+        Navigator.of(context).pop();
+      } else {
+        Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT,
+            arguments: [
+              answersMap,
+              _settings.showResult,
+              _settings.showCorrectAnswer
+            ]);
+      }
+    }
   }
 
   _handleSettingsSave(Settings settings) {
@@ -412,8 +490,9 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   _handleReviewItemClick(int index) {
     setState(() {
-      _initialPage=index;
+      _initialPage = index;
     });
-    _controller.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeInCubic);
+    _controller.animateToPage(index,
+        duration: Duration(milliseconds: 250), curve: Curves.easeInCubic);
   }
 }

@@ -43,13 +43,12 @@ class ExamCard extends StatelessWidget {
                   ),
                   Text("Attempt count : 86 ",
                       style: Theme.of(context).textTheme.caption),
-                  Text("0.00%", style: Theme.of(context).textTheme.caption),
                   SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Flexible(
-                        flex:1,
+                        flex: 1,
                         child: Container(
                           width: double.infinity,
                           child: Button(
@@ -88,14 +87,14 @@ class ExamCard extends StatelessWidget {
           right: 26,
           top: 20,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(
-                color: Theme.of(context).accentColor.withOpacity(0.8),
+                color: Colors.green,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(8),
                     bottomRight: Radius.circular(8))),
             child: Text(
-              "Passed",
+              "12%",
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white,
                   ),
