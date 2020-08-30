@@ -34,9 +34,11 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
   bool _questionTimerExpired = false;
   List<Option> _options;
   bool _correct = false;
+  int _expireTime;
 
   @override
   void initState() {
+    _expireTime = widget.questionDuration;
     _options = widget.selectedOption;
     if (_options != null) {
       if (_options.length > 0) {
@@ -55,6 +57,15 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
   }
 
   @override
+  void didUpdateWidget(SingleSelectQuestion oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      _expireTime = widget.questionDuration;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return Stack(
@@ -62,7 +73,20 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
         Container(
           child: Column(
             children: <Widget>[
-              UIHelper.verticalSpaceLarge,
+              widget.questionDuration != null
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: QuestionTimer(
+                        duration: Duration(seconds: _expireTime ?? 10),
+                        onExpired: () {
+                          setState(() {
+                            _questionTimerExpired = true;
+                          });
+                          widget.onQuestionTimerExpired(widget.question.id);
+                        },
+                      ),
+                    )
+                  : Container(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Text(
@@ -172,24 +196,6 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
                 ),
               )
             : Container(),
-        widget.questionDuration != null
-            ? Positioned(
-                right: 4,
-                top: 4,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: QuestionTimer(
-                    duration: Duration(seconds: widget.questionDuration ?? 10),
-                    onExpired: () {
-                      setState(() {
-                        _questionTimerExpired = true;
-                      });
-                      widget.onQuestionTimerExpired(widget.question.id);
-                    },
-                  ),
-                ),
-              )
-            : Container(),
       ],
     );
   }
@@ -209,7 +215,7 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   String getCorrectAnswer() {
     return widget.question.options

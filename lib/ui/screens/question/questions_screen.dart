@@ -177,6 +177,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                                     : null,
                                             onQuestionTimerExpired:
                                                 _handleQuestionTimeExpired,
+                                            selectedOption:
+                                                answersMap[question.id],
                                           );
                                         } else {
                                           return MultiSelectQuestion(
@@ -188,6 +190,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                                     : null,
                                             onQuestionTimerExpired:
                                                 _handleQuestionTimeExpired,
+                                            selectedOption:
+                                                answersMap[question.id],
                                           );
                                         }
                                       }).toList(),
@@ -200,57 +204,87 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        _settings.allowBack
-                                            ? Button(
-                                                label: PREV,
-                                                onPressed: () => _handlePrev(),
-                                              )
-                                            : Container(),
-                                        _settings.allowSubmit &&
-                                                _initialPage + 1 !=
-                                                    response?.questions?.length
-                                            ? Button(
+                                        Expanded(
+                                          child: Visibility(
+                                            visible: _settings.allowBack,
+                                            child: Button(
+                                              label: PREV,
+                                              onPressed: () => _handlePrev(),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Visibility(
+                                              visible: _settings.allowSubmit &&
+                                                  _initialPage + 1 !=
+                                                      response
+                                                          ?.questions?.length,
+                                              child: Button(
                                                 label: SUBMIT,
                                                 onPressed: () =>
                                                     _handleSubmit(context),
-                                              )
-                                            : Container(),
-                                        Button(
-                                          label: _initialPage + 1 ==
-                                                  response?.questions?.length
-                                              ? SUBMIT
-                                              : NEXT,
-                                          onPressed: () => _handleNext(context),
-                                        )
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Button(
+                                            label: _initialPage + 1 ==
+                                                    response?.questions?.length
+                                                ? SUBMIT
+                                                : NEXT,
+                                            onPressed: () =>
+                                                _handleNext(context),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        32, 8, 32, 32),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 4, 16, 0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        _settings.allowFirst
-                                            ? Button(
-                                                label: FIRST,
-                                                onPressed: () => _handleFirst(),
-                                              )
-                                            : Container(),
-                                        _settings.allowReview
-                                            ? Button(
+                                        Expanded(
+                                          child: Visibility(
+                                            visible: _settings.allowFirst &&
+                                                _initialPage != 0,
+                                            child: Button(
+                                              label: FIRST,
+                                              onPressed: _handleFirst,
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Visibility(
+                                              visible: _settings.allowReview,
+                                              child: Button(
                                                 label: REVIEW,
                                                 onPressed: () =>
                                                     _handleReview(context),
-                                              )
-                                            : Container(),
-                                        _settings.allowLast
-                                            ? Button(
-                                                label: LAST,
-                                                onPressed: () => _handleLast(),
-                                              )
-                                            : Container(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Visibility(
+                                            visible: _settings.allowLast &&
+                                                _initialPage + 1 !=
+                                                    response?.questions?.length,
+                                            child: Button(
+                                              label: LAST,
+                                              onPressed: _handleLast,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -341,16 +375,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           context: context,
           axis: Axis.horizontal,
           alignment: Alignment.topCenter,
-          position: StyledToastPosition.bottom);
-      /* Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text(isSingleSelect()
-              ? "Please select one answer"
-              : isMultiSelect()
-                  ? "Please select two or more answers"
-                  : "Please select answer"),
-        ),
-      );*/
+          position: StyledToastPosition.center);
     }
   }
 
@@ -382,6 +407,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   _handleQuestionTimeExpired(int quesId) {
     timerMap[quesId] = true;
+    showToast("Time up",
+        context: context,
+        axis: Axis.horizontal,
+        alignment: Alignment.topCenter,
+        position: StyledToastPosition.center);
+    _handleNext(context);
   }
 
   isSingleSelect() {
@@ -402,7 +433,15 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   void _handleReview(BuildContext context) {
-    showGeneralDialog(
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ReviewDialog(
+            answersMap: answersMap,
+            onItemClick: _handleReviewItemClick,
+          );
+        });
+/*    showGeneralDialog(
         context: context,
         barrierDismissible: true,
         barrierLabel:
@@ -421,8 +460,6 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    width: MediaQuery.of(context).size.width - 80,
-                    height: MediaQuery.of(context).size.height - 100,
                     child: ReviewDialog(
                       answersMap: answersMap,
                       onItemClick: _handleReviewItemClick,
@@ -437,7 +474,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         pageBuilder: (BuildContext buildContext, Animation animation,
             Animation secondaryAnimation) {
           return;
-        });
+        });*/
   }
 
   void _handleSubmit(BuildContext context) {

@@ -51,9 +51,9 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
 
         List<int> correctAnswers = widget.question.correctAnswer;
         List<int> answers = widget.selectedOption.map((e) => e.id).toList();
-        if (areListsEqual(correctAnswers,answers)) {
+        if (areListsEqual(correctAnswers, answers)) {
           setState(() {
-            _correct=true;
+            _correct = true;
           });
         }
       } else {
@@ -69,7 +69,21 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
       children: <Widget>[
         Column(
           children: <Widget>[
-            UIHelper.verticalSpaceLarge,
+            widget.questionDuration != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: QuestionTimer(
+                      duration:
+                          Duration(seconds: widget.questionDuration ?? 10),
+                      onExpired: () {
+                        setState(() {
+                          _questionTimerExpired = true;
+                        });
+                        widget.onQuestionTimerExpired(widget.question.id);
+                      },
+                    ),
+                  )
+                : Container(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: Text(
@@ -105,7 +119,10 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                                 child: InkWell(
                                     onTap: () => handleCheckValueChange(
                                         !selectedAnswers[option.id], option.id),
-                                    child: Text(option.name)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(option.name),
+                                    )),
                               )
                             ],
                           ),
@@ -150,7 +167,7 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                           color: Colors.grey,
                         ),
                         UIHelper.verticalSpaceSmall,
-                         Text(
+                        Text(
                           getQuestionByAnswerIndex(0),
                           style: TextStyle(fontSize: 12),
                         ),
@@ -176,24 +193,6 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                 ),
               )
             : Container(),
-        widget.questionDuration != null
-            ? Positioned(
-          right: 4,
-          top: 4,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: QuestionTimer(
-              duration: Duration(seconds: widget.questionDuration ?? 10),
-              onExpired: () {
-                setState(() {
-                  _questionTimerExpired = true;
-                });
-                widget.onQuestionTimerExpired(widget.question.id);
-              },
-            ),
-          ),
-        )
-            : Container(),
       ],
     );
   }
@@ -205,7 +204,7 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
   }
 
   void handleCheckValueChange(bool selected, int id) {
-    var ss = setState(() {
+    setState(() {
       selectedAnswers.forEach((key, value) {
         if (key == id && value != selected) {
           selectedAnswers[key] = selected;
@@ -222,5 +221,5 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
