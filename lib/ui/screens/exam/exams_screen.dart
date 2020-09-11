@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
-import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/screens/exam/widgets/exam_card.dart';
 import 'package:hrmax/ui/screens/exam/widgets/reading_material.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
@@ -31,7 +31,7 @@ class ExamsScreen extends StatelessWidget {
   }
 
   handleProceedPress(int index, context) {
-    Navigator.of(context).pushNamed(RoutePaths.QUESTIONS);
+    Navigator.of(context).pushNamed(Routes.QuestionRoute);
   }
 
   handleInstructionPress(int index, context) {

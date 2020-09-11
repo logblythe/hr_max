@@ -30,16 +30,18 @@ class PrimaryButton extends StatelessWidget {
               transitionBuilder: (Widget child, Animation<double> animation) =>
                   ScaleTransition(child: child, scale: animation),
               duration: Duration(milliseconds: 250),
-              child: busy
-                  ? Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
+              child: Container(
+                margin: const EdgeInsets.only(left: 8),
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                height: 24,
+                width: 24,
+                child: busy
+                    ? CircularProgressIndicator(
                         strokeWidth: 2,
-                      ),
-                    )
-                  : Icon(Icons.arrow_forward, color: Colors.white),
+                        backgroundColor: Colors.white,
+                      )
+                    : Container(),
+              ),
             )
           ],
         ),

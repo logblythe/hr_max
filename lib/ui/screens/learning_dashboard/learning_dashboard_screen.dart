@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
-import 'package:hrmax/core/view_models/learning_view_model.dart';
-import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/base_widget.dart';
+import 'package:hrmax/ui/screens/learning_dashboard/learning_view_model.dart';
 import 'package:hrmax/ui/screens/learning_dashboard/widgets/learning_analytics.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +32,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
   }
 
   _handlePendingClick() {
-    Navigator.of(context).pushNamed(RoutePaths.EXAM_LIST);
+    Navigator.of(context).pushNamed(Routes.ExamRoute);
   }
 
 //  handleAnalyticsClick(context) {

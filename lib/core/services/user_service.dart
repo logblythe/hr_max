@@ -1,17 +1,24 @@
-import 'package:hrmax/network/api_provider.dart';
-import 'package:hrmax/network/models/chuch_categories.dart';
-import 'package:hrmax/network/models/jokes.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:hrmax/core/services/api_service.dart';
+import 'package:hrmax/network/models/login_res.dart';
+import 'package:injectable/injectable.dart';
 
-class UserService{
-  ApiProvider _provider=ApiProvider();
+@lazySingleton
+class UserService {
+  ApiService _api;
 
-  Future<ChuchCategories> getCategories() async{
-    final response = await _provider.get("jokes/categories");
-    return ChuchCategories.fromJson(response);
-  }
+  UserService({@required ApiService apiService}) : _api = apiService;
 
-  Future<Jokes> fetchChuckJoke(String category) async {
-    final response = await _provider.get("jokes/random?category=" + category);
-    return Jokes.fromJson(response);
-  }
+  LoginRes _loginModel;
+
+  LoginRes get loginModel => _loginModel;
+
+  login(params) => _api.post("/account/userLogin", params: params).then(
+        (value) {
+          _loginModel = LoginRes.fromJsonMap(value);
+          /*   _storageHelper.set(key: KEY_EMAIL, value: params['email']);
+          _storageHelper.set(key: KEY_PASSWORD, value: params['password']);
+          _storageHelper.set(key: KEY_TOKEN, value: _loginModel.token);*/
+        },
+      );
 }

@@ -1,61 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hrmax/api_exceptions.dart';
+import 'package:hrmax/app/locator.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
-import 'package:hrmax/network/models/chuch_categories.dart';
-import 'package:hrmax/network/models/jokes.dart';
-import 'package:hrmax/router.dart';
 
 class LoginViewModel extends BaseViewModel {
-  UserService _userService;
-  NavigationService _navigationService;
+  final NavigationService _navigationService = locator<NavigationService>();
+  final UserService _userService = locator<UserService>();
   bool _obscureText = true;
 
-  LoginViewModel({
-    @required NavigationService navigationService,
-  }) : this._navigationService = navigationService;
-
   get obscureText => _obscureText;
-
-//  Future<LoginResponse> login(String email, String password) async {
-//    setBusy(true);
-//    var loginResponse = await _userService.performLogin(email, password);
-//    if (loginResponse.error != null) {
-//      setError(loginResponse.error);
-//    } else {
-//      setBusy(false);
-//    }
-//    return loginResponse;
-//  }
 
   void toggleObscureText() {
     _obscureText = !_obscureText;
     notifyListeners();
   }
 
-  navigateToHome() {
-    _navigationService.replace(RoutePaths.HOME);
-  }
-
-  void fetchCategories() async {
-    setBusy(true);
+  login(String email, String password) async {
     try {
-      ChuchCategories categories = await _userService.getCategories();
-      Jokes jokes = await fetchJokes(categories.categories[0]);
-      setBusy(false);
+      setLoading();
+      await _userService.login({
+        "username": email,
+        "password": password,
+        "deviceId": "1",
+      });
+      setCompleted();
+      _navigationService.replace(Routes.HomeRoute);
     } catch (e) {
-      setError(e.toString());
+      var error;
+      if (e is AppException) {
+        error = e.toJson()['Message'] ?? e.toJson()['message'];
+      } else {
+        error = e.toString();
+      }
+      setError(error);
+      Fluttertoast.showToast(
+          msg: error,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
-  }
-
-  fetchJokes(String category) async {}
-
-  void login(String email, String password) {
-    navigateToHome();
-//    setBusy(true);
-//    Future.delayed(Duration(milliseconds: 500)).then((value) {
-//      setBusy(false);
-//      navigateToHome();
-//    });
   }
 }

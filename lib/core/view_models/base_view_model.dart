@@ -1,27 +1,36 @@
-
 import 'package:flutter/material.dart';
-import 'package:hrmax/core/enum/app_state.dart';
+import 'package:hrmax/network/response.dart';
 
 class BaseViewModel extends ChangeNotifier {
   bool _isDisposed = false;
-  AppState _appState = AppState.IDLE;
+  Status status;
+  dynamic _error;
+  dynamic _dialogContent;
 
-  bool get busy => _appState == AppState.BUSY;
+  get dialogContent => _dialogContent;
 
-  bool get error => _appState == AppState.ERROR;
+  get error => _error;
 
-  String _errorMessage;
+  get loading => status == Status.LOADING;
 
-  String get errorMessage => errorMessage;
-
-  void setBusy(bool value) {
-    _appState = value ? AppState.BUSY : AppState.IDLE;
+  setLoading() {
+    status = Status.LOADING;
     if (!_isDisposed) notifyListeners();
   }
 
-  void setError(String message) {
-    _errorMessage = message;
-    _appState = AppState.ERROR;
+  setPaginating() {
+    status = Status.PAGINATING;
+    if (!_isDisposed) notifyListeners();
+  }
+
+  setCompleted() {
+    status = Status.COMPLETED;
+    if (!_isDisposed) notifyListeners();
+  }
+
+  setError(error) {
+    _error = error;
+    status = Status.ERROR;
     if (!_isDisposed) notifyListeners();
   }
 

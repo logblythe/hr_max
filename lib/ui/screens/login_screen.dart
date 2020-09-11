@@ -6,7 +6,6 @@ import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/primary_button.dart';
 import 'package:hrmax/ui/widgets/text_input.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,9 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
   LoginViewModel _model;
 
   handleLogin() {
@@ -28,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<LoginViewModel>(
-      model: LoginViewModel(navigationService: Provider.of(context)),
+      model: LoginViewModel(),
       onModelReady: (model) => _model = model,
       builder: (context, model, child) {
         return Scaffold(
@@ -65,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         UIHelper.verticalSpaceMedium,
                         PrimaryButton(
                             text: LOGIN,
-                            busy: model.busy,
+                            busy: model.loading,
                             onPressed: handleLogin),
                         UIHelper.verticalSpaceLarge,
                         Text(FORGOT_PASSWORD)

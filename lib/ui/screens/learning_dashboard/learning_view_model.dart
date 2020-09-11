@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
-import 'package:hrmax/network/models/chuch_categories.dart';
-import 'package:hrmax/network/models/jokes.dart';
-import 'package:hrmax/router.dart';
 
 class LearningViewModel extends BaseViewModel {
   UserService _userService;
@@ -33,18 +31,7 @@ class LearningViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  navigateToHome() => _navigationService.replace(RoutePaths.HOME);
-
-  void fetchCategories() async {
-    setBusy(true);
-    try {
-      ChuchCategories categories = await _userService.getCategories();
-      Jokes jokes = await fetchJokes(categories.categories[0]);
-      setBusy(false);
-    } catch (e) {
-      setError(e.toString());
-    }
-  }
+  navigateToHome() => _navigationService.replace(Routes.HomeRoute);
 
   fetchJokes(String category) async {}
 

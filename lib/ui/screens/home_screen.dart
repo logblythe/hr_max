@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
-import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/box_widget.dart';
 
@@ -13,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void handleProfileClick() {}
 
   void handleElearningClick() {
-    Navigator.pushNamed(context, RoutePaths.LEARNING_DASHBOARD);
+    Navigator.pushNamed(context, Routes.LearningDashRoute);
   }
 
   @override

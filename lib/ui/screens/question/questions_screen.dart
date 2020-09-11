@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/network/models/options.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/network/models/question_model.dart';
-import 'package:hrmax/router.dart';
 import 'package:hrmax/ui/screens/question/widgets/quit_quiz_dialog.dart';
 import 'package:hrmax/ui/screens/question/widgets/review_dialog.dart';
 import 'package:hrmax/ui/screens/question/widgets/review_submit_dialog.dart';
@@ -366,16 +366,18 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         _handleSubmit(context);
       }
     } else {
-      showToast(
-          isSingleSelect()
+      Fluttertoast.showToast(
+          msg: isSingleSelect()
               ? "Please select one answer"
               : isMultiSelect()
                   ? "Please select two or more answers"
                   : "Please select answer",
-          context: context,
-          axis: Axis.horizontal,
-          alignment: Alignment.topCenter,
-          position: StyledToastPosition.center);
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey.withOpacity(0.9),
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -398,7 +400,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   }
 
   _handleQuizTimerExpired(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT, arguments: [
+    Navigator.of(context).pushReplacementNamed(Routes.ResultRoute, arguments: [
       answersMap,
       _settings.showResult,
       _settings.showCorrectAnswer
@@ -407,11 +409,14 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
 
   _handleQuestionTimeExpired(int quesId) {
     timerMap[quesId] = true;
-    showToast("Time up",
-        context: context,
-        axis: Axis.horizontal,
-        alignment: Alignment.topCenter,
-        position: StyledToastPosition.center);
+    Fluttertoast.showToast(
+        msg: "Time up",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey.withOpacity(0.9),
+        textColor: Colors.white,
+        fontSize: 16.0);
     _handleNext(context);
   }
 
@@ -495,7 +500,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               if (_settings.enableAutoClose) {
                 Navigator.of(context).pop();
               } else {
-                Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT,
+                Navigator.of(context).pushReplacementNamed(Routes.ResultRoute,
                     arguments: [
                       answersMap,
                       _settings.showResult,
@@ -511,7 +516,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       if (_settings.enableAutoClose) {
         Navigator.of(context).pop();
       } else {
-        Navigator.of(context).pushReplacementNamed(RoutePaths.RESULT,
+        Navigator.of(context).pushReplacementNamed(Routes.ResultRoute,
             arguments: [
               answersMap,
               _settings.showResult,
