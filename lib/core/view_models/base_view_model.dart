@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/api_exceptions.dart';
 import 'package:hrmax/network/response.dart';
 
 class BaseViewModel extends ChangeNotifier {
   bool _isDisposed = false;
   Status status;
-  dynamic _error;
+  String _error;
   dynamic _dialogContent;
 
   get dialogContent => _dialogContent;
@@ -29,7 +30,11 @@ class BaseViewModel extends ChangeNotifier {
   }
 
   setError(error) {
-    _error = error;
+    if (error is AppException) {
+      _error = error.toJson()['Message'] ?? error.toJson()['message'];
+    } else {
+      _error = error.toString();
+    }
     status = Status.ERROR;
     if (!_isDisposed) notifyListeners();
   }

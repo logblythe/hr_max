@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hrmax/api_exceptions.dart';
+import 'package:hrmax/core/services/storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
@@ -11,18 +12,20 @@ import 'package:mime/mime.dart';
 @lazySingleton
 class ApiService {
   final String _baseUrl = "http://209.105.227.109:887/api";
-  String token;
 
-  Future<String> getToken() async {
-    /* SecuredStorageHelper storage = SecuredStorageHelper();
-    return storage.get(key: KEY_TOKEN);*/
-    return "token";
+  Future<Map<String, String>> getHeaders() async {
+    StorageService storage = StorageService();
+    return {
+      "token": await storage.get(KEY_TOKEN),
+      "deviceId": await storage.get(KEY_DEVICE_ID)
+    };
   }
 
-  Future<dynamic> get(String url, {String wholeUrl}) async {
+  Future<dynamic> get(String url) async {
+    var _headers = await getHeaders();
     var responseJson;
     try {
-      final response = await http.get(wholeUrl ?? _baseUrl + url);
+      final response = await http.get(_baseUrl + url, headers: _headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -31,16 +34,13 @@ class ApiService {
   }
 
   Future<dynamic> post(String url, {Map<String, dynamic> params}) async {
-    var token = await getToken();
+    var _headers = await getHeaders();
     print('the params $params');
-    print('the token $token');
-    /*var token =
-        "Bearer eyJhbGciOi16b12aJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkNDViYzBlNmYyNGIyNmRjNDBiZDQ2MiI16b12asInJvbGUiOiJDTElFTlQiLCJsb2dnZWRGcm9tIjoiTE9DQUwiLCJpYXQiOjE16b12a1OTg3NjkxNDYsImV4cCI6MTU5ODg1NTU0Nn0.F0dk19WgY6ne1zBt4iMPIZ2Nq8xfsXQskA9OcBone7E";*/
     var responseJson;
     try {
       final response = await http.post(
         _baseUrl + url,
-        headers: {'Authorization': token},
+        headers: _headers,
         body: params,
       );
       responseJson = _returnResponse(response);
@@ -52,12 +52,12 @@ class ApiService {
 
   Future<dynamic> patch(String url, {Map<String, dynamic> params}) async {
     print('the params $params');
-    var token = await getToken();
+    var _headers = await getHeaders();
     var responseJson;
     try {
       final response = await http.patch(
         _baseUrl + url,
-        headers: {'Authorization': token},
+        headers: _headers,
         body: params,
       );
       responseJson = _returnResponse(response);
@@ -70,12 +70,11 @@ class ApiService {
   Future<dynamic> multipart(String url, {Map<String, dynamic> params}) async {
     var responseJson;
     try {
-      var token = await getToken();
+      var _headers = await getHeaders();
       var request = http.MultipartRequest("PATCH", Uri.parse(_baseUrl + url));
-      request.headers.addAll({
-        HttpHeaders.contentTypeHeader: "multipart/form-data",
-        HttpHeaders.authorizationHeader: token
-      });
+      request.headers
+        ..addAll({HttpHeaders.contentTypeHeader: "multipart/form-data"})
+        ..addAll(_headers);
       //add text fields
       request.fields["userId"] = params['userId'];
       String mimeType = lookupMimeType(params['image'].path);

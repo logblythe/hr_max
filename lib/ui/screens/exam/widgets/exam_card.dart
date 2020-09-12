@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hrmax/core/constants/constants.dart';
+import 'package:hrmax/network/models/learning_tracker_res.dart';
 import 'package:hrmax/ui/widgets/button.dart';
 
 class ExamCard extends StatelessWidget {
-  final int index;
   final Function onProcess;
   final Function onInstructions;
   final Function onViewMaterials;
+  final LearningTrackerRes tracker;
 
-  ExamCard(
-      {this.index, this.onProcess, this.onInstructions, this.onViewMaterials});
+  ExamCard({
+    this.onProcess,
+    this.onInstructions,
+    this.onViewMaterials,
+    this.tracker,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +39,14 @@ class ExamCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          "Test Course",
+                          tracker.courseName ?? "",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
                   ),
-                  Text("Attempt count : 86 ",
+                  Text("Attempt count : ${tracker.attemptCount} ",
                       style: Theme.of(context).textTheme.caption),
                   SizedBox(height: 24),
                   Row(
@@ -94,7 +99,7 @@ class ExamCard extends StatelessWidget {
                     bottomLeft: Radius.circular(8),
                     bottomRight: Radius.circular(8))),
             child: Text(
-              "12%",
+              tracker.status,
               style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: Colors.white,
                   ),

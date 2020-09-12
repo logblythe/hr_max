@@ -9,7 +9,9 @@ import 'package:injectable/injectable.dart';
 
 import '../core/services/api_service.dart';
 import '../core/services/dialog_service.dart';
+import '../core/services/learning_service.dart';
 import '../core/services/navigation_service.dart';
+import '../core/services/storage_service.dart';
 import '../core/services/user_service.dart';
 
 /// adds generated dependencies
@@ -23,8 +25,11 @@ GetIt $initGetIt(
   final gh = GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<ApiService>(() => ApiService());
   gh.lazySingleton<DialogService>(() => DialogService());
+  gh.lazySingleton<LearningService>(
+      () => LearningService(apiService: get<ApiService>()));
   gh.lazySingleton<NavigationService>(() => NavigationService());
-  gh.lazySingleton<UserService>(
-      () => UserService(apiService: get<ApiService>()));
+  gh.lazySingleton<StorageService>(() => StorageService());
+  gh.lazySingleton<UserService>(() => UserService(
+      apiService: get<ApiService>(), storageService: get<StorageService>()));
   return get;
 }

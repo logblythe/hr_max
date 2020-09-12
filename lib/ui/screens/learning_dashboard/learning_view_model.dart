@@ -1,46 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/app/router.gr.dart';
-import 'package:hrmax/core/services/navigation_service.dart';
-import 'package:hrmax/core/services/user_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hrmax/app/locator.dart';
+import 'package:hrmax/core/services/learning_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
 
 class LearningViewModel extends BaseViewModel {
-  UserService _userService;
-  NavigationService _navigationService;
-  bool _obscureText = true;
+  final LearningService _learningService = locator<LearningService>();
 
-  LearningViewModel({
-    @required NavigationService navigationService,
-  }) : this._navigationService = navigationService;
 
-  get obscureText => _obscureText;
-
-//  Future<LoginResponse> login(String email, String password) async {
-//    setBusy(true);
-//    var loginResponse = await _userService.performLogin(email, password);
-//    if (loginResponse.error != null) {
-//      setError(loginResponse.error);
-//    } else {
-//      setBusy(false);
-//    }
-//    return loginResponse;
-//  }
-
-  void toggleObscureText() {
-    _obscureText = !_obscureText;
-    notifyListeners();
+  fetchLearningTrackers() async {
+    try {
+      setLoading();
+      await _learningService.fetchLearningTracker();
+      setCompleted();
+    } catch (e) {
+      setError(e);
+      Fluttertoast.showToast(
+          msg: error,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
-  navigateToHome() => _navigationService.replace(Routes.HomeRoute);
 
-  fetchJokes(String category) async {}
 
-  void login(String email, String password) {
-    navigateToHome();
-//    setBusy(true);
-//    Future.delayed(Duration(milliseconds: 500)).then((value) {
-//      setBusy(false);
-//      navigateToHome();
-//    });
-  }
 }

@@ -10,12 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void handleProfileClick() {}
-
-  void handleElearningClick() {
-    Navigator.pushNamed(context, Routes.LearningDashRoute);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: BoxWidget(
                     text: E_LEARNING,
                     imagePath: 'assets/images/e-learning.png',
-                    onPressed: handleElearningClick,
+                    onPressed: handleElearning,
                   ),
                 )
               ],
@@ -57,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: BoxWidget(
                     text: ISSUE_TICKET,
                     imagePath: 'assets/images/ticket.png',
-                    onPressed: handleElearningClick,
+                    onPressed: handleElearning,
                   ),
                 ),
               ],
@@ -67,4 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  handleProfileClick() {}
+
+  handleElearning() => Navigator.pushNamed(context, Routes.LearningDashRoute);
 }

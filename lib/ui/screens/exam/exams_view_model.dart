@@ -3,40 +3,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrmax/api_exceptions.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
+import 'package:hrmax/core/services/learning_service.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
-import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
+import 'package:hrmax/network/models/learning_tracker_res.dart';
 
-class LoginViewModel extends BaseViewModel {
+class ExamsViewModel extends BaseViewModel {
+  final LearningService _learningService = locator<LearningService>();
   final NavigationService _navigationService = locator<NavigationService>();
-  final UserService _userService = locator<UserService>();
-  bool _obscureText = true;
 
-  get obscureText => _obscureText;
+  List<LearningTrackerRes> get learningTrackers =>
+      _learningService.learningTrackers;
 
-  void toggleObscureText() {
-    _obscureText = !_obscureText;
-    notifyListeners();
-  }
-
-  login(String email, String password) async {
+  getLearningTrackers() async {
     try {
       setLoading();
-      await _userService.login({
-        "username": email,
-        "password": password,
-        "deviceId": "1",
-      });
+      await _learningService.fetchLearningTracker();
       setCompleted();
-      _navigationService.replace(Routes.HomeRoute);
+      // _navigationService.replace(Routes.QuestionRoute);
     } catch (e) {
+      setError(e);
       var error;
       if (e is AppException) {
         error = e.toJson()['Message'] ?? e.toJson()['message'];
       } else {
         error = e.toString();
       }
-      setError(error);
       Fluttertoast.showToast(
           msg: error,
           toastLength: Toast.LENGTH_LONG,
@@ -46,5 +38,10 @@ class LoginViewModel extends BaseViewModel {
           textColor: Colors.white,
           fontSize: 16.0);
     }
+  }
+
+  handleViewMaterials(LearningTrackerRes learningTracker) {
+    _learningService.setSelectedTracker(learningTracker);
+    _navigationService.navigateTo(Routes.MaterialsRoute);
   }
 }

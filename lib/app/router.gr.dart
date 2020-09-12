@@ -13,7 +13,9 @@ import '../network/models/options.dart';
 import '../ui/screens/exam/exams_screen.dart';
 import '../ui/screens/home_screen.dart';
 import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
-import '../ui/screens/login_screen.dart';
+import '../ui/screens/login/login_screen.dart';
+import '../ui/screens/materials/material_viewer_screen.dart';
+import '../ui/screens/materials/materials_screen.dart';
 import '../ui/screens/question/questions_screen.dart';
 import '../ui/screens/result_screen.dart';
 
@@ -24,6 +26,8 @@ class Routes {
   static const String ExamRoute = '/exams-screen';
   static const String QuestionRoute = '/questions-screen';
   static const String ResultRoute = '/result-screen';
+  static const String MaterialsRoute = '/material-screen';
+  static const String MaterialViewerRoute = '/material-viewer-screen';
   static const all = <String>{
     LoginRoute,
     HomeRoute,
@@ -31,6 +35,8 @@ class Routes {
     ExamRoute,
     QuestionRoute,
     ResultRoute,
+    MaterialsRoute,
+    MaterialViewerRoute,
   };
 }
 
@@ -44,6 +50,8 @@ class Router extends RouterBase {
     RouteDef(Routes.ExamRoute, page: ExamsScreen),
     RouteDef(Routes.QuestionRoute, page: QuestionsScreen),
     RouteDef(Routes.ResultRoute, page: ResultScreen),
+    RouteDef(Routes.MaterialsRoute, page: MaterialScreen),
+    RouteDef(Routes.MaterialViewerRoute, page: MaterialViewerScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -89,6 +97,18 @@ class Router extends RouterBase {
           showResult: args.showResult,
           showCorrectAnswer: args.showCorrectAnswer,
         ),
+        settings: data,
+      );
+    },
+    MaterialScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => MaterialScreen(),
+        settings: data,
+      );
+    },
+    MaterialViewerScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => MaterialViewerScreen(),
         settings: data,
       );
     },

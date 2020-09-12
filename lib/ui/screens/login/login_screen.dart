@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/constants/image_paths.dart';
-import 'package:hrmax/core/view_models/login_view_model.dart';
+import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/primary_button.dart';
@@ -14,8 +14,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final nameController = TextEditingController(text: "superadmin");
+  final passwordController = TextEditingController(text: "1234");
   LoginViewModel _model;
 
   handleLogin() {
