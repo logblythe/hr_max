@@ -18,7 +18,7 @@ class LearningMaterialViewModel extends BaseViewModel {
   fetchLearningMaterials() async {
     try {
       setLoading();
-      await _learningService.fetchLearningMaterials();
+      await _learningService.fetchMaterials();
       setCompleted();
     } catch (e) {
       setError(e);

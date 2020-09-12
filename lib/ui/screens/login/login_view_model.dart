@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hrmax/api_exceptions.dart';
+import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/navigation_service.dart';

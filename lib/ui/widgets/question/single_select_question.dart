@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/network/models/options.dart';
+import 'package:hrmax/network/models/option.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/ui/screens/question/widgets/question_timer.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
@@ -43,7 +43,10 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
     if (_options != null) {
       if (_options.length > 0) {
         if (_options.elementAt(0).id ==
-            widget.question.correctAnswer.elementAt(0)) {
+            widget.question.correctAnswer
+                .where((option) => option.isAnswer)
+                .map((option) => option.id)
+                .elementAt(0)) {
           setState(() {
             _correct = true;
           });
@@ -58,7 +61,6 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
 
   @override
   void didUpdateWidget(SingleSelectQuestion oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     setState(() {
       _expireTime = widget.questionDuration;
@@ -73,22 +75,20 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
         Container(
           child: Column(
             children: <Widget>[
-              widget.questionDuration != null
+              widget.questionDuration != null && widget.questionDuration > 0
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: QuestionTimer(
-                        duration: Duration(seconds: _expireTime ?? 10),
+                        duration: Duration(seconds: _expireTime),
                         onExpired: () {
-                          setState(() {
-                            _questionTimerExpired = true;
-                          });
+                          setState(() => _questionTimerExpired = true);
                           widget.onQuestionTimerExpired(widget.question.id);
                         },
                       ),
                     )
                   : Container(),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
                 child: Text(
                   widget.question.name,
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
@@ -219,7 +219,12 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
 
   String getCorrectAnswer() {
     return widget.question.options
-        .firstWhere((it) => it.id == widget.question.correctAnswer.elementAt(0))
+        .firstWhere((it) =>
+            it.id ==
+            widget.question.correctAnswer
+                .where((option) => option.isAnswer)
+                .map((option) => option.id)
+                .elementAt(0))
         .name;
   }
 }

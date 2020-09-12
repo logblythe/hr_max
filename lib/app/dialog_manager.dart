@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/dialog_request.dart';
+import 'package:hrmax/app/dialog_response.dart';
 import 'package:hrmax/core/services/dialog_service.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:hrmax/ui/widgets/button.dart';
 
 import 'locator.dart';
 
@@ -26,20 +28,47 @@ class _DialogManagerState extends State<DialogManager> {
     return widget.child;
   }
 
-  void _showDialog() {
-    Alert(
+  void _showDialog(DialogRequest dialogRequest) {
+    showDialog(
         context: context,
-        title: "FilledStacks",
-        desc: "My tutorials show real world structures.",
-        closeFunction: () => _dialogService.dialogComplete(),
-        buttons: [
-          DialogButton(
-            child: Text('Ok'),
-            onPressed: () {
-              _dialogService.dialogComplete();
-              Navigator.of(context).pop();
-            },
-          )
-        ]).show();
+        builder: (context) {
+          return AlertDialog(
+            title: Text(dialogRequest.title,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    .copyWith(color: Theme.of(context).primaryColorDark)),
+            content: Text(
+              dialogRequest.description,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            actions: [
+              dialogRequest.buttonTitleNegative != null
+                  ? InkWell(
+                      onTap: () {
+                        _dialogService
+                            .dialogComplete(DialogResponse(rejected: true));
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(dialogRequest.buttonTitleNegative),
+                      ),
+                    )
+                  : Container(),
+              SizedBox(
+                width: 64,
+                child: Button(
+                  label: dialogRequest.buttonTitlePositive ?? "OK",
+                  onPressed: () {
+                    _dialogService
+                        .dialogComplete(DialogResponse(confirmed: true));
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

@@ -9,7 +9,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../network/models/options.dart';
 import '../ui/screens/exam/exams_screen.dart';
 import '../ui/screens/home_screen.dart';
 import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
@@ -17,7 +16,7 @@ import '../ui/screens/login/login_screen.dart';
 import '../ui/screens/materials/material_viewer_screen.dart';
 import '../ui/screens/materials/materials_screen.dart';
 import '../ui/screens/question/questions_screen.dart';
-import '../ui/screens/result_screen.dart';
+import '../ui/screens/result/result_screen.dart';
 
 class Routes {
   static const String LoginRoute = '/';
@@ -87,16 +86,8 @@ class Router extends RouterBase {
       );
     },
     ResultScreen: (data) {
-      final args = data.getArgs<ResultScreenArguments>(
-        orElse: () => ResultScreenArguments(),
-      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ResultScreen(
-          key: args.key,
-          answersMap: args.answersMap,
-          showResult: args.showResult,
-          showCorrectAnswer: args.showCorrectAnswer,
-        ),
+        builder: (context) => ResultScreen(),
         settings: data,
       );
     },
@@ -113,18 +104,4 @@ class Router extends RouterBase {
       );
     },
   };
-}
-
-/// ************************************************************************
-/// Arguments holder classes
-/// *************************************************************************
-
-/// ResultScreen arguments holder class
-class ResultScreenArguments {
-  final Key key;
-  final Map<int, List<Option>> answersMap;
-  final bool showResult;
-  final bool showCorrectAnswer;
-  ResultScreenArguments(
-      {this.key, this.answersMap, this.showResult, this.showCorrectAnswer});
 }

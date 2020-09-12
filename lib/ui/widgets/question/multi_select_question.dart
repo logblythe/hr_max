@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/network/models/options.dart';
+import 'package:hrmax/network/models/option.dart';
 import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/ui/screens/question/widgets/question_timer.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
@@ -49,7 +49,10 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
           selectedAnswers[option.id] = false;
         }
 
-        List<int> correctAnswers = widget.question.correctAnswer;
+        List<int> correctAnswers = widget.question.correctAnswer
+            .where((option) => option.isAnswer)
+            .map((option) => option.id)
+            .toList();
         List<int> answers = widget.selectedOption.map((e) => e.id).toList();
         if (areListsEqual(correctAnswers, answers)) {
           setState(() {
@@ -69,7 +72,7 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
       children: <Widget>[
         Column(
           children: <Widget>[
-            widget.questionDuration != null
+            widget.questionDuration != null && widget.questionDuration > 0
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: QuestionTimer(
@@ -85,7 +88,7 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                   )
                 : Container(),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
               child: Text(
                 widget.question.name,
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
@@ -162,14 +165,11 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
                           ),
                         ),
                         UIHelper.verticalSpaceSmall,
-                        Divider(
-                          height: 5,
-                          color: Colors.grey,
-                        ),
+                        Divider(height: 5, color: Colors.grey),
                         UIHelper.verticalSpaceSmall,
                         Text(
                           getQuestionByAnswerIndex(0),
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12)
                         ),
                         UIHelper.verticalSpaceSmall,
                         Text(
@@ -199,7 +199,11 @@ class _MultiSelectQuestionState extends State<MultiSelectQuestion>
 
   String getQuestionByAnswerIndex(int index) {
     return widget.question.options.firstWhere((element) {
-      return element.id == widget.question.correctAnswer.elementAt(index);
+      return element.id ==
+          widget.question.correctAnswer
+              .where((option) => option.isAnswer)
+              .map((option) => option.id)
+              .elementAt(index);
     }).name;
   }
 

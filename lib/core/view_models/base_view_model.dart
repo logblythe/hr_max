@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/api_exceptions.dart';
+import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/network/response.dart';
 
 class BaseViewModel extends ChangeNotifier {

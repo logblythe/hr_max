@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hrmax/api_exceptions.dart';
+import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/learning_service.dart';
@@ -18,7 +18,7 @@ class ExamsViewModel extends BaseViewModel {
   getLearningTrackers() async {
     try {
       setLoading();
-      await _learningService.fetchLearningTracker();
+      await _learningService.fetchTracker();
       setCompleted();
       // _navigationService.replace(Routes.QuestionRoute);
     } catch (e) {

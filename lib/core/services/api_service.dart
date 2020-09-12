@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:hrmax/api_exceptions.dart';
 import 'package:hrmax/core/services/storage_service.dart';
+import 'package:hrmax/network/api_exceptions.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';

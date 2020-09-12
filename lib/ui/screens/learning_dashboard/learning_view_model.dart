@@ -11,7 +11,7 @@ class LearningViewModel extends BaseViewModel {
   fetchLearningTrackers() async {
     try {
       setLoading();
-      await _learningService.fetchLearningTracker();
+      await _learningService.fetchTracker();
       setCompleted();
     } catch (e) {
       setError(e);

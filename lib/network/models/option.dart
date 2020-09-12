@@ -1,6 +1,5 @@
 
 class Option {
-
   int id;
   int questionId;
   String name;
@@ -8,16 +7,16 @@ class Option {
 
 	Option.fromJsonMap(Map<String, dynamic> map):
 		id = map["Id"],
-		questionId = map["QuestionId"],
-		name = map["Name"],
-		isAnswer = map["IsAnswer"];
+		questionId = map["questionId"],
+		name = map["name"],
+		isAnswer = map["isAnswer"];
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
 		data['Id'] = id;
-		data['QuestionId'] = questionId;
-		data['Name'] = name;
-		data['IsAnswer'] = isAnswer;
+		data['questionId'] = questionId;
+		data['name'] = name;
+		data['isAnswer'] = isAnswer;
 		return data;
 	}
 }

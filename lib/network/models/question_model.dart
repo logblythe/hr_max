@@ -29,10 +29,10 @@ class QuestionResponse {
 
   QuestionResponse.fromJsonMap(Map<String, dynamic> map)
       : totalQuestionsInExam = map["totalQuestionsInExam"],
-        eLearningEmailID = map["eLearningEmailID"],
+        eLearningEmailID = map["eLearningEmailId"],
         eLearningContactPoint = map["eLearningContactPoint"],
         baseUrl = map["baseUrl"],
-        idTracker = map["IdTracker"],
+        idTracker = map["idTracker"],
         score = map["score"],
         instruction = map["instruction"],
         quiz = Quiz.fromJsonMap(map["quiz"]),
@@ -56,7 +56,7 @@ class QuestionResponse {
     data['eLearningEmailID'] = eLearningEmailID;
     data['eLearningContactPoint'] = eLearningContactPoint;
     data['baseUrl'] = baseUrl;
-    data['IdTracker'] = idTracker;
+    data['idTracker'] = idTracker;
     data['score'] = score;
     data['instruction'] = instruction;
     data['quiz'] = quiz == null ? null : quiz.toJson();

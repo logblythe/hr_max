@@ -1,7 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/ui/screens/question/questions_screen.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/button.dart';
+
+class Settings {
+  bool allowBack;
+  bool allowFirst;
+  bool allowLast;
+  bool allowReview;
+  bool allowSubmit;
+  bool isAnswerMandatory;
+  bool questionTimer;
+  bool showResult;
+  bool showCorrectAnswer;
+  bool enableAutoClose;
+  bool enableReviewDialog;
+
+  Settings({
+    this.allowBack,
+    this.allowFirst,
+    this.allowLast,
+    this.allowReview,
+    this.allowSubmit,
+    this.isAnswerMandatory,
+    this.questionTimer,
+    this.showResult,
+    this.showCorrectAnswer,
+    this.enableAutoClose,
+    this.enableReviewDialog,
+  });
+
+  Settings.init()
+      : allowBack = true,
+        allowFirst = true,
+        allowLast = true,
+        allowReview = true,
+        allowSubmit = true,
+        isAnswerMandatory = true,
+        questionTimer = true,
+        showResult = true,
+        showCorrectAnswer = true,
+        enableAutoClose = true,
+        enableReviewDialog = true;
+}
 
 class SettingsDialog extends StatefulWidget {
   final Function(Settings) onSave;

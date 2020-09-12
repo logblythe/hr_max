@@ -6,7 +6,7 @@ import 'package:hrmax/ui/screens/login/login_screen.dart';
 import 'package:hrmax/ui/screens/materials/material_viewer_screen.dart';
 import 'package:hrmax/ui/screens/materials/materials_screen.dart';
 import 'package:hrmax/ui/screens/question/questions_screen.dart';
-import 'package:hrmax/ui/screens/result_screen.dart';
+import 'package:hrmax/ui/screens/result/result_screen.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
