@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrmax/app/dialog_response.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
@@ -23,10 +21,11 @@ class QuestionViewmodel extends BaseViewModel {
   fetchQuestions() async {
     try {
       setLoading();
-      await _learningService.fetchQuestions();
+      await _learningService.fetchQuestions(
+          idTracker: _learningService.selectedTracker.idELearningTracker);
       setCompleted();
     } catch (e) {
-      showError(e);
+      setError(e);
     }
   }
 
@@ -73,19 +72,7 @@ class QuestionViewmodel extends BaseViewModel {
         _navigationService.navigateTo(Routes.ResultRoute);
       }
     } catch (e) {
-      showError(e);
+      setError(e);
     }
-  }
-
-  void showError(e) {
-    setError(e);
-    Fluttertoast.showToast(
-        msg: error,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
   }
 }

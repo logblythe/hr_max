@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/constants/image_paths.dart';
-import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/base_widget.dart';
+import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/primary_button.dart';
 import 'package:hrmax/ui/widgets/text_input.dart';
@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController(text: "superadmin");
   final passwordController = TextEditingController(text: "1234");
-  LoginViewModel _model;
+  LoginViewmodel _model;
 
   handleLogin() {
     if (_formKey.currentState.validate()) {
@@ -26,9 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<LoginViewModel>(
-      model: LoginViewModel(),
-      onModelReady: (model) => _model = model,
+    return BaseWidget<LoginViewmodel>(
+      model: LoginViewmodel(),
+      onModelReady: (model) {
+        _model = model;
+        model.getDeviceDetails();
+      },
       builder: (context, model, child) {
         return Scaffold(
           body: SafeArea(
