@@ -46,18 +46,18 @@ class LearningService {
     _answersMap = answersMap;
   }
 
-  fetchTracker() => _apiService
-      .get("/eLearning/getELearningTracker?paramSessionUserId=1")
+  fetchTracker({int userId}) => _apiService
+      .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
       .then((value) => _learningTrackers =
           List.from(value.map((e) => LearningTrackerRes.fromJsonMap(e))));
 
-  fetchMaterials() => _apiService
-      .get("/eLearning/getELearningMaterials?idCourse=7")
+  fetchMaterials({int courseId}) => _apiService
+      .get("/eLearning/getELearningMaterials?idCourse=$courseId")
       .then((value) => _learningMaterials =
           List.from(value.map((e) => LearningMaterial.fromJsonMap(e))));
 
-  fetchQuestions() => _apiService
-      .get("/eLearning/getELearningQuestions?idTracker=10002")
+  fetchQuestions({int idTracker}) => _apiService
+      .get("/eLearning/getELearningQuestions?idTracker=$idTracker")
       .then((value) => _questionResponse = QuestionResponse.fromJsonMap(value));
 
   submitQuestions(params) => _apiService

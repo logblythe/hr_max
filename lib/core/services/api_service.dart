@@ -4,7 +4,10 @@ import 'dart:io';
 
 import 'package:hrmax/core/services/storage_service.dart';
 import 'package:hrmax/network/api_exceptions.dart';
+import 'package:hrmax/network/logging_interceptor.dart';
+import 'package:hrmax/network/token_refresh_policy.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http_client_with_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mime/mime.dart';
@@ -12,6 +15,10 @@ import 'package:mime/mime.dart';
 @lazySingleton
 class ApiService {
   final String _baseUrl = "http://209.105.227.109:887/api";
+  final client = HttpClientWithInterceptor.build(
+    retryPolicy: ExpiredTokenRetryPolicy(),
+    interceptors: [LoggingInterceptor()],
+  );
 
   Future<Map<String, String>> getHeaders() async {
     StorageService storage = StorageService();
@@ -25,7 +32,7 @@ class ApiService {
     var _headers = await getHeaders();
     var responseJson;
     try {
-      final response = await http.get(_baseUrl + url, headers: _headers);
+      final response = await client.get(_baseUrl + url, headers: _headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -38,7 +45,7 @@ class ApiService {
     print('the params $params');
     var responseJson;
     try {
-      final response = await http.post(
+      final response = await client.post(
         _baseUrl + url,
         headers: _headers,
         body: params,
@@ -55,7 +62,7 @@ class ApiService {
     var _headers = await getHeaders();
     var responseJson;
     try {
-      final response = await http.patch(
+      final response = await client.patch(
         _baseUrl + url,
         headers: _headers,
         body: params,

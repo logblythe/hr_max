@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/network/response.dart';
 
@@ -36,7 +37,17 @@ class BaseViewModel extends ChangeNotifier {
       _error = error.toString();
     }
     status = Status.ERROR;
-    if (!_isDisposed) notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+      Fluttertoast.showToast(
+          msg: _error,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override

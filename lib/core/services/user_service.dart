@@ -22,9 +22,9 @@ class UserService {
   login(params) => _api.post("/account/userLogin", params: params).then(
         (value) {
           _loginModel = LoginRes.fromJsonMap(value);
-
-          ///TODO get deviceId in response and save it
-          _storage.set(KEY_DEVICE_ID, value: "1");
+          _storage.set(KEY_EMAIL, value: params["username"]);
+          _storage.set(KEY_PASSWORD, value: params["password"]);
+          _storage.set(KEY_DEVICE_ID, value: params["deviceId"]);
           _storage.set(KEY_TOKEN, value: _loginModel.userToken);
         },
       );
