@@ -23,8 +23,17 @@ class LoginViewmodel extends BaseViewModel {
     notifyListeners();
   }
 
+  init() async {
+    setLoading();
+    if (await _storageService.get(KEY_TOKEN) != null) {
+      _navigationService.navigateTo(Routes.HomeRoute);
+    } else {
+      getDeviceDetails();
+    }
+    setCompleted();
+  }
+
   login(String username, String password) async {
-    _storageService.deleteAll();
     try {
       setLoading();
       await _userService.login({

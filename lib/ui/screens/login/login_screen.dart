@@ -28,9 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BaseWidget<LoginViewmodel>(
       model: LoginViewmodel(),
-      onModelReady: (model) {
+      onModelReady: (model) async {
         _model = model;
-        model.getDeviceDetails();
+        model.init();
       },
       builder: (context, model, child) {
         return Scaffold(
@@ -44,9 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        Image.asset(
-                          ImagePath.LOGO,
-                        ),
+                        Image.asset(ImagePath.LOGO),
                         UIHelper.verticalSpaceLarge,
                         UIHelper.verticalSpaceLarge,
                         TextInput(

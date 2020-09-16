@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:hrmax/core/services/storage_service.dart';
 import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/network/logging_interceptor.dart';
+import 'package:hrmax/network/models/login_res.dart';
 import 'package:hrmax/network/token_refresh_policy.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_client_with_interceptor.dart';
@@ -21,40 +22,58 @@ class ApiService {
   );
 
   Future<Map<String, String>> getHeaders() async {
-    StorageService storage = StorageService();
+    StorageService _storage = StorageService();
     return {
-      "token": await storage.get(KEY_TOKEN),
-      "deviceId": await storage.get(KEY_DEVICE_ID)
+      "token": await _storage.get(KEY_TOKEN),
+      "deviceId": await _storage.get(KEY_DEVICE_ID)
     };
+  }
+
+  Future<dynamic> refreshToken() async {
+    StorageService _storage = StorageService();
+    post("/account/userLogin", params: {
+      "username": await _storage.get(KEY_EMAIL),
+      "password": await _storage.get(KEY_PASSWORD),
+      "deviceId": await _storage.get(KEY_DEVICE_ID),
+    }).then(
+      (value) {
+        LoginRes _loginModel = LoginRes.fromJsonMap(value);
+        _storage.set(KEY_TOKEN, value: _loginModel.userToken);
+      },
+    );
   }
 
   Future<dynamic> get(String url) async {
     var _headers = await getHeaders();
-    var responseJson;
     try {
-      final response = await client.get(_baseUrl + url, headers: _headers);
-      responseJson = _returnResponse(response);
+      var response = await client.get(_baseUrl + url, headers: _headers);
+      if (response.statusCode == 401) {
+        await refreshToken();
+        response = await post(url);
+      }
+      return _returnResponse(response);
     } on SocketException {
-      throw FetchDataException('No Internet connection');
+      throw FetchDataException({"message": "No internet connection"});
     }
-    return responseJson;
   }
 
   Future<dynamic> post(String url, {Map<String, dynamic> params}) async {
     var _headers = await getHeaders();
     print('the params $params');
-    var responseJson;
     try {
-      final response = await client.post(
+      var response = await client.post(
         _baseUrl + url,
         headers: _headers,
         body: params,
       );
-      responseJson = _returnResponse(response);
+      if (response.statusCode == 401) {
+        await refreshToken();
+        response = await post(url, params: params);
+      }
+      return _returnResponse(response);
     } on SocketException {
       throw FetchDataException({"message": 'No Internet connection'});
     }
-    return responseJson;
   }
 
   Future<dynamic> patch(String url, {Map<String, dynamic> params}) async {
