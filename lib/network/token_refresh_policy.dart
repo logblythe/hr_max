@@ -10,9 +10,9 @@ class ExpiredTokenRetryPolicy extends RetryPolicy {
 
   @override
   Future<bool> shouldAttemptRetryOnResponse(ResponseData response) async {
-    if (response.statusCode == 401) {
+  /*  if (response.statusCode == 401) {
       _navigationService.removeAllAndNavigateTo(Routes.LoginRoute);
-    }
+    }*/
     return false;
   }
 }
