@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../ui/screens/exam/exams_screen.dart';
 import '../ui/screens/home_screen.dart';
+import '../ui/screens/initial/initial_screen.dart';
 import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
 import '../ui/screens/login/login_screen.dart';
 import '../ui/screens/materials/material_viewer_screen.dart';
@@ -19,7 +20,8 @@ import '../ui/screens/question/questions_screen.dart';
 import '../ui/screens/result/result_screen.dart';
 
 class Routes {
-  static const String LoginRoute = '/';
+  static const String InitialRoute = '/';
+  static const String LoginRoute = '/login-screen';
   static const String HomeRoute = '/home-screen';
   static const String LearningDashRoute = '/learning-dashboard-screen';
   static const String ExamRoute = '/exams-screen';
@@ -28,6 +30,7 @@ class Routes {
   static const String MaterialsRoute = '/material-screen';
   static const String MaterialViewerRoute = '/material-viewer-screen';
   static const all = <String>{
+    InitialRoute,
     LoginRoute,
     HomeRoute,
     LearningDashRoute,
@@ -43,6 +46,7 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
+    RouteDef(Routes.InitialRoute, page: InitialScreen),
     RouteDef(Routes.LoginRoute, page: LoginScreen),
     RouteDef(Routes.HomeRoute, page: HomeScreen),
     RouteDef(Routes.LearningDashRoute, page: LearningDashboardScreen),
@@ -55,6 +59,12 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
+    InitialScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => InitialScreen(),
+        settings: data,
+      );
+    },
     LoginScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => LoginScreen(),
