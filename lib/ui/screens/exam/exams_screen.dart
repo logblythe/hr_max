@@ -29,7 +29,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               itemBuilder: (context, index) {
                 return ExamCard(
                   tracker: learningTrackers[index],
-                  onProcess: () => handleProceedPress(index, context),
+                  onProcess: () => model.handleProceed(learningTrackers[index]),
                   onInstructions: () => {},
                   onViewMaterials: () =>
                       model.handleViewMaterials(learningTrackers[index]),
@@ -40,9 +40,5 @@ class _ExamsScreenState extends State<ExamsScreen> {
         },
       ),
     );
-  }
-
-  handleProceedPress(int index, context) {
-    Navigator.of(context).pushNamed(Routes.QuestionRoute);
   }
 }

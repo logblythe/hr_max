@@ -14,10 +14,6 @@ class ExamsViewModel extends BaseViewModel {
   List<LearningTrackerRes> get learningTrackers =>
       _learningService.learningTrackers;
 
-  selectTracker(LearningTrackerRes learningTracker) {
-    _learningService.setSelectedTracker(learningTracker);
-  }
-
   getLearningTrackers() async {
     try {
       setLoading();
@@ -30,6 +26,12 @@ class ExamsViewModel extends BaseViewModel {
   }
 
   handleViewMaterials(LearningTrackerRes learningTracker) {
+    _learningService.setSelectedTracker(learningTracker);
     _navigationService.navigateTo(Routes.MaterialsRoute);
+  }
+
+  handleProceed(LearningTrackerRes learningTracker) {
+    _learningService.setSelectedTracker(learningTracker);
+    _navigationService.navigateTo(Routes.QuestionRoute);
   }
 }
