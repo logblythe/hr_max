@@ -15,7 +15,7 @@ import 'package:mime/mime.dart';
 
 @lazySingleton
 class ApiService {
-  final String _baseUrl = "http://209.105.227.109:887/api";
+  final String _baseUrl = "https://api.technomax.com.np/api";
   final client = HttpClientWithInterceptor.build(
     retryPolicy: ExpiredTokenRetryPolicy(),
     interceptors: [LoggingInterceptor()],

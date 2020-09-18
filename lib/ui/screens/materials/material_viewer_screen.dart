@@ -16,7 +16,7 @@ class MaterialViewerScreen extends StatelessWidget {
               return PdfViewer();
               break;
             case "media":
-              return VideoPlayer();
+              return VideoPlayerWidget();
               break;
             default:
               return Container();

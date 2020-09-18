@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:hrmax/network/models/learning_material.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/materials/learning_material_viewmodel.dart';
 
@@ -9,9 +10,9 @@ class PdfViewer extends StatelessWidget {
     return BaseWidget<LearningMaterialViewModel>(
       model: LearningMaterialViewModel(),
       builder: (context, model, child) {
-        // LearningMaterial material = model.selectedMaterial;
+        LearningMaterial material = model.selectedMaterial;
         return PDF().cachedFromUrl(
-          "https://google-developer-training.github.io/android-developer-fundamentals-course-concepts/en/android-developer-fundamentals-course-concepts-en.pdf",
+          material.previewLink,
           placeholder: (progress) => Center(child: Text('$progress %')),
           errorWidget: (error) => Center(child: Text(error.toString())),
         );
