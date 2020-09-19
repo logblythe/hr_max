@@ -13,15 +13,17 @@ class ResultViewmodel extends BaseViewModel {
 
   List<Question> get questions => _learningService.questionResponse.questions;
 
-  bool get showResult => _learningService.questionResponse.enableShowResult;
+  bool get showResult => _learningService.questionResponse.config.showResult;
 
   bool get showCorrectAnswer =>
-      _learningService.questionResponse.enableShowCorrectAnswer;
+      _learningService.questionResponse.config.showCorrectAnswer;
 
   bool get enableAutoClose =>
       _learningService.questionResponse.config.enableAutoClose;
 
   get percentage => _percentage;
+
+  String get submitResponse => _learningService.submitResponse;
 
   void calculatePercentage() {
     double _initialPercent = 0;

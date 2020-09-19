@@ -18,7 +18,7 @@ class LearningService {
   LearningMaterial _selectedMaterial;
   QuestionResponse _questionResponse;
   Map<int, List<Option>> _answersMap = {};
-  bool _submitted = false;
+  String _submitResponse;
 
   List<LearningTrackerRes> get learningTrackers => _learningTrackers;
 
@@ -30,7 +30,7 @@ class LearningService {
 
   QuestionResponse get questionResponse => _questionResponse;
 
-  bool get submitted => _submitted;
+  String get submitResponse => _submitResponse;
 
   Map<int, List<Option>> get answersMap => _answersMap;
 
@@ -46,21 +46,30 @@ class LearningService {
     _answersMap = answersMap;
   }
 
-  fetchTracker({int userId}) => _apiService
-      .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
-      .then((value) => _learningTrackers =
+  fetchTracker({int userId}) =>
+      _apiService
+          .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
+          .then((value) =>
+      _learningTrackers =
           List.from(value.map((e) => LearningTrackerRes.fromJsonMap(e))));
 
-  fetchMaterials({int courseId}) => _apiService
-      .get("/eLearning/getELearningMaterials?idCourse=$courseId")
-      .then((value) => _learningMaterials =
+  fetchMaterials({int courseId}) =>
+      _apiService
+          .get("/eLearning/getELearningMaterials?idCourse=$courseId")
+          .then((value) =>
+      _learningMaterials =
           List.from(value.map((e) => LearningMaterial.fromJsonMap(e))));
 
-  fetchQuestions({int idTracker}) => _apiService
-      .get("/eLearning/getELearningQuestions?idTracker=$idTracker")
-      .then((value) => _questionResponse = QuestionResponse.fromJsonMap(value));
+  fetchQuestions({int idTracker}) =>
+      _apiService
+          .get("/eLearning/getELearningQuestions?idTracker=$idTracker")
+          .then((value) =>
+      _questionResponse = QuestionResponse.fromJsonMap(value));
 
-  submitQuestions(params) => _apiService
-      .post("/eLearning/submitELearning", params: params)
-      .then((value) => _submitted = true);
+  submitQuestions(params) =>
+      _apiService
+          .post("/eLearning/submitELearning", params: params)
+          .then((value) {
+        _submitResponse = value;
+      });
 }

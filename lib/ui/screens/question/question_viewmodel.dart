@@ -73,7 +73,7 @@ class QuestionViewmodel extends BaseViewModel {
       } else {
         _navigationService.navigateTo(Routes.ResultRoute);
       }*/
-      _navigationService.navigateTo(Routes.ResultRoute);
+      _navigationService.replace(Routes.ResultRoute);
     } catch (e) {
       setError(e);
     }
