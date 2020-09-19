@@ -3,9 +3,9 @@ import 'package:injectable/injectable.dart';
 
 const String KEY_EMAIL = "username";
 const String KEY_PASSWORD = "password";
-const String KEY_FB_TOKEN = "fb_token";
 const String KEY_TOKEN = "key_token";
 const String KEY_DEVICE_ID = "key_device_id";
+const String KEY_LOGIN_RESPONSE = "key_login_response";
 
 @lazySingleton
 class StorageService {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/exam/exams_view_model.dart';
 import 'package:hrmax/ui/screens/exam/widgets/exam_card.dart';
@@ -24,21 +23,25 @@ class _ExamsScreenState extends State<ExamsScreen> {
             return Center(child: CircularProgressIndicator());
           }
           var learningTrackers = model.learningTrackers;
-          return Container(
-            color: Colors.grey.withAlpha(25),
-            child: ListView.builder(
-              itemCount: learningTrackers.length,
-              itemBuilder: (context, index) {
-                return ExamCard(
-                  tracker: learningTrackers[index],
-                  onProcess: () => model.handleProceed(learningTrackers[index]),
-                  onInstructions: () => model.handleInstructions(learningTrackers[index]),
-                  onViewMaterials: () =>
-                      model.handleViewMaterials(learningTrackers[index]),
-                );
-              },
-            ),
-          );
+          return learningTrackers.length > 0
+              ? Container(
+                  color: Colors.grey.withAlpha(25),
+                  child: ListView.builder(
+                    itemCount: learningTrackers.length,
+                    itemBuilder: (context, index) {
+                      return ExamCard(
+                        tracker: learningTrackers[index],
+                        onProcess: () =>
+                            model.handleProceed(learningTrackers[index]),
+                        onInstructions: () =>
+                            model.handleInstructions(learningTrackers[index]),
+                        onViewMaterials: () =>
+                            model.handleViewMaterials(learningTrackers[index]),
+                      );
+                    },
+                  ),
+                )
+              : Container();
         },
       ),
     );

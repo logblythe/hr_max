@@ -13,7 +13,15 @@ class PdfViewer extends StatelessWidget {
         LearningMaterial material = model.selectedMaterial;
         return PDF().cachedFromUrl(
           material.previewLink,
-          placeholder: (progress) => Center(child: Text('$progress %')),
+          placeholder: (progress) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                Text('$progress %'),
+              ],
+            ),
+          ),
           errorWidget: (error) => Center(child: Text(error.toString())),
         );
       },

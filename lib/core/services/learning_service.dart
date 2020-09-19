@@ -12,7 +12,7 @@ class LearningService {
 
   LearningService({@required ApiService apiService}) : _apiService = apiService;
 
-  List<LearningTrackerRes> _learningTrackers;
+  List<LearningTrackerRes> _learningTrackers = [];
   LearningTrackerRes _selectedTracker;
   List<LearningMaterial> _learningMaterials;
   LearningMaterial _selectedMaterial;
@@ -46,28 +46,21 @@ class LearningService {
     _answersMap = answersMap;
   }
 
-  fetchTracker({int userId}) =>
-      _apiService
-          .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
-          .then((value) =>
-      _learningTrackers =
+  fetchTracker({int userId}) => _apiService
+      .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
+      .then((value) => _learningTrackers =
           List.from(value.map((e) => LearningTrackerRes.fromJsonMap(e))));
 
-  fetchMaterials({int courseId}) =>
-      _apiService
-          .get("/eLearning/getELearningMaterials?idCourse=$courseId")
-          .then((value) =>
-      _learningMaterials =
+  fetchMaterials({int courseId}) => _apiService
+      .get("/eLearning/getELearningMaterials?idCourse=$courseId")
+      .then((value) => _learningMaterials =
           List.from(value.map((e) => LearningMaterial.fromJsonMap(e))));
 
-  fetchQuestions({int idTracker}) =>
-      _apiService
-          .get("/eLearning/getELearningQuestions?idTracker=$idTracker")
-          .then((value) =>
-      _questionResponse = QuestionResponse.fromJsonMap(value));
+  fetchQuestions({int idTracker}) => _apiService
+      .get("/eLearning/getELearningQuestions?idTracker=$idTracker")
+      .then((value) => _questionResponse = QuestionResponse.fromJsonMap(value));
 
-  submitQuestions(params) =>
-      _apiService
+  submitQuestions(params) => _apiService
           .post("/eLearning/submitELearning", params: params)
           .then((value) {
         _submitResponse = value;

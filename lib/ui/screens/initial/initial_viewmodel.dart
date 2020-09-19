@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
@@ -12,13 +14,9 @@ class InitialViewmodel extends BaseViewModel {
 
   init() async {
     if (await _storageService.get(KEY_TOKEN) != null) {
+      String storedModel = await _storageService.get(KEY_LOGIN_RESPONSE);
+      _userService.loginModel = jsonDecode(storedModel);
       _navigationService.replace(Routes.HomeRoute);
-      _userService.login({
-        "username":await _storageService.get(KEY_EMAIL),
-        "password":await _storageService.get(KEY_PASSWORD),
-        "deviceId":await _storageService.get(KEY_DEVICE_ID)
-      });
-      
     } else {
       _navigationService.replace(Routes.LoginRoute);
     }
