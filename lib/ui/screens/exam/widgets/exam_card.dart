@@ -29,21 +29,16 @@ class ExamCard extends StatelessWidget {
             ),
             shadowColor: Colors.grey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.only(top: 16, bottom: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          tracker.courseName ?? "",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                    child: Text(
+                      tracker.courseName ?? "",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                   Text("Attempt count : ${tracker.attemptCount} ",
@@ -80,10 +75,12 @@ class ExamCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(bottom: 12),
-                    child: Button(
-                      label: VIEW_READING_MATERIALS,
-                      onPressed: onViewMaterials,
-                    ),
+                    child: tracker.readingMaterialExist
+                        ? Button(
+                            label: VIEW_READING_MATERIALS,
+                            onPressed: onViewMaterials,
+                          )
+                        : SizedBox.shrink(),
                   )
                 ],
               ),
@@ -94,7 +91,7 @@ class ExamCard extends StatelessWidget {
           right: 26,
           top: 20,
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
             decoration: BoxDecoration(
                 color: Colors.green,
                 borderRadius: BorderRadius.only(
@@ -102,9 +99,10 @@ class ExamCard extends StatelessWidget {
                     bottomRight: Radius.circular(8))),
             child: Text(
               tracker.status,
-              style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    color: Colors.white,
-                  ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(color: Colors.white),
             ),
           ),
         )

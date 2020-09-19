@@ -32,7 +32,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                 return ExamCard(
                   tracker: learningTrackers[index],
                   onProcess: () => model.handleProceed(learningTrackers[index]),
-                  onInstructions: () => {},
+                  onInstructions: () => model.handleInstructions(learningTrackers[index]),
                   onViewMaterials: () =>
                       model.handleViewMaterials(learningTrackers[index]),
                 );

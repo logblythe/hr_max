@@ -39,4 +39,9 @@ class ExamsViewModel extends BaseViewModel {
       getLearningTrackers();
     }
   }
+
+  handleInstructions(LearningTrackerRes learningTracker) {
+    _learningService.setSelectedTracker(learningTracker);
+    _navigationService.navigateTo(Routes.InstructionRoute);
+  }
 }

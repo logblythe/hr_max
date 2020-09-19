@@ -4,6 +4,7 @@ class LearningTrackerRes {
   int idELearningTracker;
   int idHRCourse;
   String courseName;
+  String instruction;
   String courseCode;
   int idELearningSetting;
   String assignedOn;
@@ -16,6 +17,7 @@ class LearningTrackerRes {
   bool isAttended;
   int attemptCount;
   int allowStartTraining;
+  bool readingMaterialExist;
 
   LearningTrackerRes.fromJsonMap(Map<String, dynamic> map)
       : learningFromDateTime = map["learningFromDateTime"],
@@ -23,6 +25,7 @@ class LearningTrackerRes {
         idELearningTracker = map["idELearningTracker"],
         idHRCourse = map["idHRCourse"],
         courseName = map["courseName"],
+        instruction = map["instruction"],
         courseCode = map["courseCode"],
         idELearningSetting = map["idELearningSetting"],
         assignedOn = map["assignedOn"],
@@ -34,7 +37,8 @@ class LearningTrackerRes {
         enableRepeat = map["enableRepeat"],
         isAttended = map["isAttended"],
         attemptCount = map["attemptCount"],
-        allowStartTraining = map["allowStartTraining"];
+        allowStartTraining = map["allowStartTraining"],
+        readingMaterialExist = map["readingMaterialExist"];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -43,6 +47,7 @@ class LearningTrackerRes {
     data['idELearningTracker'] = idELearningTracker;
     data['idHRCourse'] = idHRCourse;
     data['courseName'] = courseName;
+    data['instruction'] = instruction;
     data['courseCode'] = courseCode;
     data['idELearningSetting'] = idELearningSetting;
     data['assignedOn'] = assignedOn;
@@ -55,6 +60,7 @@ class LearningTrackerRes {
     data['isAttended'] = isAttended;
     data['attemptCount'] = attemptCount;
     data['allowStartTraining'] = allowStartTraining;
+    data['readingMaterialExist'] = readingMaterialExist;
     return data;
   }
 }
