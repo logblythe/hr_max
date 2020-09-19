@@ -48,6 +48,8 @@ class ExamCard extends StatelessWidget {
                   ),
                   Text("Attempt count : ${tracker.attemptCount} ",
                       style: Theme.of(context).textTheme.caption),
+                  Text("Scored marks : ${tracker.obtainedMark} ",
+                      style: Theme.of(context).textTheme.caption),
                   SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

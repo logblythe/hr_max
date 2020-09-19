@@ -10,7 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../ui/screens/exam/exams_screen.dart';
-import '../ui/screens/home_screen.dart';
+import '../ui/screens/home/home_screen.dart';
 import '../ui/screens/initial/initial_screen.dart';
 import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
 import '../ui/screens/login/login_screen.dart';

@@ -16,7 +16,9 @@ class _ExamsScreenState extends State<ExamsScreen> {
       appBar: AppBar(title: Text('Exams')),
       body: BaseWidget<ExamsViewModel>(
         model: ExamsViewModel(),
-        onModelReady: (model) => model.getLearningTrackers(),
+        onModelReady: (model) {
+          model.getLearningTrackers();
+        },
         builder: (context, model, child) {
           if (model.loading) {
             return Center(child: CircularProgressIndicator());

@@ -62,15 +62,18 @@ class QuestionViewmodel extends BaseViewModel {
         }
       });
       await _learningService.submitQuestions({
-        "idELearningTracker": "10002",
-        "questionAnsweredString": _listToSubmit.toString()
+        "idELearningTracker":
+            _learningService.selectedTracker.idELearningTracker.toString(),
+        "questionAnsweredString": _listToSubmit.toString(),
       });
       setCompleted();
-      if (autoClose) {
+      //FIXME irrespective of autoclose flag, popping questions screen after viewing result
+      /*if (autoClose) {
         _navigationService.replace(Routes.ResultRoute);
       } else {
         _navigationService.navigateTo(Routes.ResultRoute);
-      }
+      }*/
+      _navigationService.navigateTo(Routes.ResultRoute);
     } catch (e) {
       setError(e);
     }

@@ -15,7 +15,7 @@ import 'package:mime/mime.dart';
 
 @lazySingleton
 class ApiService {
-  final String _baseUrl = "https://api.technomax.com.np/api";
+  static final String baseUrl = "https://api.technomax.com.np/api";
   final client = HttpClientWithInterceptor.build(
     retryPolicy: ExpiredTokenRetryPolicy(),
     interceptors: [LoggingInterceptor()],
@@ -46,7 +46,7 @@ class ApiService {
   Future<dynamic> get(String url) async {
     var _headers = await getHeaders();
     try {
-      var response = await client.get(_baseUrl + url, headers: _headers);
+      var response = await client.get(baseUrl + url, headers: _headers);
       if (response.statusCode == 401) {
         await refreshToken();
         response = await post(url);
@@ -62,7 +62,7 @@ class ApiService {
     print('the params $params');
     try {
       var response = await client.post(
-        _baseUrl + url,
+        baseUrl + url,
         headers: _headers,
         body: params,
       );
@@ -82,7 +82,7 @@ class ApiService {
     var responseJson;
     try {
       final response = await client.patch(
-        _baseUrl + url,
+        baseUrl + url,
         headers: _headers,
         body: params,
       );
@@ -97,7 +97,7 @@ class ApiService {
     var responseJson;
     try {
       var _headers = await getHeaders();
-      var request = http.MultipartRequest("PATCH", Uri.parse(_baseUrl + url));
+      var request = http.MultipartRequest("PATCH", Uri.parse(baseUrl + url));
       request.headers
         ..addAll({HttpHeaders.contentTypeHeader: "multipart/form-data"})
         ..addAll(_headers);

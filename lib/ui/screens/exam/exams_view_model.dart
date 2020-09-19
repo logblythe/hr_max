@@ -30,8 +30,13 @@ class ExamsViewModel extends BaseViewModel {
     _navigationService.navigateTo(Routes.MaterialsRoute);
   }
 
-  handleProceed(LearningTrackerRes learningTracker) {
-    _learningService.setSelectedTracker(learningTracker);
-    _navigationService.navigateTo(Routes.QuestionRoute);
+  handleProceed(LearningTrackerRes learningTracker) async {
+    if (learningTracker.attemptCount == 0) {
+      showToast('Maximum available attempt count completed');
+    } else {
+      _learningService.setSelectedTracker(learningTracker);
+      await _navigationService.navigateTo(Routes.QuestionRoute);
+      getLearningTrackers();
+    }
   }
 }

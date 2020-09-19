@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/materials/learning_material_viewmodel.dart';
+import 'package:hrmax/ui/shared/ui_helpers.dart';
 
 class MaterialScreen extends StatelessWidget {
   @override
@@ -14,20 +15,46 @@ class MaterialScreen extends StatelessWidget {
           if (model.loading) {
             return Center(child: CircularProgressIndicator());
           }
-
-          return ListView.builder(
+          if (model.materials.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.hourglass_empty,
+                    size: 80,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  UIHelper.verticalSpaceMedium,
+                  Text(
+                    "No learning materials available for this course",
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )
+                ],
+              ),
+            );
+          }
+          return GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (context, index) {
               var material = model.materials.elementAt(index);
               return Card(
-                child: ListTile(
-                  onTap: () => model.selectMaterial(material),
-                  title: Text(material.title.toUpperCase()),
-                  subtitle: Text(material.fileName),
-                  leading: Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: buildIcon(material.materialType),
-                  ),
-                ),
+                margin: EdgeInsets.all(16),
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                child: InkWell(
+                    onTap: () => model.selectMaterial(material),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildIcon(material.materialType, context),
+                        UIHelper.verticalSpaceMedium,
+                        Text(material.title,
+                            style: Theme.of(context).textTheme.bodyText2),
+                      ],
+                    )),
               );
             },
             itemCount: model.materials.length,
@@ -37,11 +64,19 @@ class MaterialScreen extends StatelessWidget {
     );
   }
 
-  buildIcon(String materialType) {
+  buildIcon(String materialType, context) {
     if (materialType == "pdf") {
-      return Icon(Icons.picture_as_pdf);
+      return Icon(
+        Icons.picture_as_pdf,
+        size: 80,
+        color: Theme.of(context).hintColor,
+      );
     } else if (materialType == "media") {
-      return Icon(Icons.video_library);
+      return Icon(
+        Icons.video_library,
+        size: 80,
+        color: Theme.of(context).hintColor,
+      );
     } else {
       return Icon(Icons.not_interested);
     }

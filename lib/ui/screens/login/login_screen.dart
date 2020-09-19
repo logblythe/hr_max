@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/constants/image_paths.dart';
+import 'package:hrmax/core/services/api_service.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
@@ -44,7 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        Image.asset(ImagePath.LOGO),
+                        CachedNetworkImage(
+                          imageUrl: "${ApiService.baseUrl}/company/getCompanyLogo",
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
                         UIHelper.verticalSpaceLarge,
                         UIHelper.verticalSpaceLarge,
                         TextInput(
