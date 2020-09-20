@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               busy: model.loading,
                               onPressed: handleLogin),
                           UIHelper.verticalSpaceLarge,
-                          Text(FORGOT_PASSWORD)
+                          // Text(FORGOT_PASSWORD)
                         ],
                       ),
                     ),

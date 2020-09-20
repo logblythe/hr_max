@@ -31,13 +31,9 @@ class ExamsViewModel extends BaseViewModel {
   }
 
   handleProceed(LearningTrackerRes learningTracker) async {
-    if (learningTracker.attemptCount == 0) {
-      showToast('Maximum available attempt count completed');
-    } else {
-      _learningService.setSelectedTracker(learningTracker);
-      await _navigationService.navigateTo(Routes.QuestionRoute);
-      getLearningTrackers();
-    }
+    _learningService.setSelectedTracker(learningTracker);
+    await _navigationService.navigateTo(Routes.QuestionRoute);
+    getLearningTrackers();
   }
 
   handleInstructions(LearningTrackerRes learningTracker) {

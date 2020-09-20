@@ -30,7 +30,8 @@ class QuestionViewmodel extends BaseViewModel {
   }
 
   void submit(Map<int, List<Option>> answersMap) async {
-    if (questionResponse.enableReview) {
+    if (questionResponse.config.allowReview ||
+        !questionResponse.config.isAnswerMandatory) {
       int _answeredCount = 0;
       answersMap.forEach((key, value) {
         if (value.length != 0) {

@@ -8,9 +8,9 @@ class HomeViewmodel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _storageService = locator<StorageService>();
 
-  void handleLogout() {
+  handleLogout() {
     _storageService.deleteAll();
-    _navigationService.navigateTo(Routes.LoginRoute);
+    _navigationService.popAllAndNavigateTo(Routes.LoginRoute);
   }
 
   handleElearning() {

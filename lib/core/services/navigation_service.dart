@@ -14,12 +14,12 @@ class NavigationService {
         .pushReplacementNamed(routeName, arguments: arguments);
   }
 
-  goBack() {
+  pop() {
     return navigatorKey.currentState.pop();
   }
 
-  removeAllAndNavigateTo(String routeName) {
+  popAllAndNavigateTo(String routeName) {
     return navigatorKey.currentState
-        .pushNamedAndRemoveUntil(routeName, (route) => route.isFirst);
+        .pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
 import 'package:hrmax/ui/widgets/button.dart';
+import 'package:intl/intl.dart';
 
 class ExamCard extends StatelessWidget {
   final Function onProcess;
@@ -49,17 +50,24 @@ class ExamCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          width: double.infinity,
-                          child: Button(
-                            label: Proceed,
-                            onPressed: onProcess,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8),
+                      (tracker.attemptCount > 0 ||
+                              (DateTime.now().isAfter(DateFormat("M/dd/yyyy")
+                                      .parse(tracker.learningFromDateTime)) &&
+                                  DateTime.now().isBefore(
+                                      DateFormat("M/dd/yyyy")
+                                          .parse(tracker.learningToDateTime))))
+                          ? Flexible(
+                              flex: 1,
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 8),
+                                width: double.infinity,
+                                child: Button(
+                                  label: Proceed,
+                                  onPressed: onProcess,
+                                ),
+                              ),
+                            )
+                          : Container(),
                       Flexible(
                         flex: 1,
                         child: Container(

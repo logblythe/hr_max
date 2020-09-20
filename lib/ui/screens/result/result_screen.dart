@@ -37,11 +37,11 @@ class _ResultScreenState extends State<ResultScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                /*Text(
                   model.submitResponse ?? "",
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                UIHelper.verticalSpaceMedium,
+                UIHelper.verticalSpaceMedium,*/
                 (model.showResult || model.showCorrectAnswer)
                     ? Expanded(
                         child: Card(

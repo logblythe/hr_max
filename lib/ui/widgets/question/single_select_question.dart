@@ -72,38 +72,40 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
     super.build(context);
     return Stack(
       children: <Widget>[
-        Container(
-          child: Column(
-            children: <Widget>[
-              widget.questionDuration != null && widget.questionDuration > 0
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: QuestionTimer(
-                        duration: Duration(seconds: _expireTime),
-                        onExpired: () {
-                          setState(() => _questionTimerExpired = true);
-                          widget.onQuestionTimerExpired(widget.question.id);
-                        },
+        Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    widget.questionDuration != null &&
+                            widget.questionDuration > 0
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: QuestionTimer(
+                              duration: Duration(seconds: _expireTime),
+                              onExpired: () {
+                                setState(() => _questionTimerExpired = true);
+                                widget
+                                    .onQuestionTimerExpired(widget.question.id);
+                              },
+                            ),
+                          )
+                        : Container(),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
+                      child: Text(
+                        widget.question.name,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 18),
+                        textAlign: TextAlign.start,
                       ),
-                    )
-                  : Container(),
-              Container(
-                padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
-                child: Text(
-                  widget.question.name,
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              UIHelper.verticalSpaceMedium,
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: IgnorePointer(
-                    ignoring: widget.showCorrectAnswer ||
-                        (widget.questionDuration != null &&
-                            _questionTimerExpired),
-                    child: ListView(
+                    ),
+                    UIHelper.verticalSpaceMedium,
+                    ListView(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       children: widget.question.options
                           .map(
                             (option) => Container(
@@ -112,78 +114,84 @@ class _SingleSelectQuestionState extends State<SingleSelectQuestion>
                                     color: Colors.grey.withAlpha(25)),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Row(
-                                children: <Widget>[
-                                  Radio(
-                                    value: option.id,
-                                    groupValue: _groupValue,
-                                    onChanged: (value) =>
-                                        _handleRadioValueChange(
-                                      option,
-                                      value: value,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () =>
-                                          _handleRadioValueChange(option),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(option.name),
+                              child: IgnorePointer(
+                                ignoring: widget.showCorrectAnswer ||
+                                    (widget.questionDuration != null &&
+                                        _questionTimerExpired),
+                                child: Row(
+                                  children: <Widget>[
+                                    Radio(
+                                      value: option.id,
+                                      groupValue: _groupValue,
+                                      onChanged: (value) =>
+                                          _handleRadioValueChange(
+                                        option,
+                                        value: value,
                                       ),
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () =>
+                                            _handleRadioValueChange(option),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.all(16.0),
+                                          child: Text(option.name),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           )
                           .toList(),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              widget.showCorrectAnswer
-                  ? Container(
-                      margin: EdgeInsets.all(4),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              offset: Offset(0, -1),
-                              spreadRadius: 0.5,
-                              blurRadius: 1,
-                            )
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            "Correct Answer is",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Theme.of(context).primaryColorDark,
-                            ),
-                          ),
-                          UIHelper.verticalSpaceSmall,
-                          Divider(height: 5, color: Colors.grey),
-                          UIHelper.verticalSpaceSmall,
-                          Text(
-                            getCorrectAnswer(),
-                            style: TextStyle(fontSize: 12),
+            ),
+            widget.showCorrectAnswer
+                ? Container(
+                    margin: EdgeInsets.all(4),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            offset: Offset(0, -1),
+                            spreadRadius: 0.5,
+                            blurRadius: 1,
                           )
-                        ],
-                      ),
-                    )
-                  : Container()
-            ],
-          ),
+                        ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          "Correct Answer is",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                        ),
+                        UIHelper.verticalSpaceSmall,
+                        Divider(height: 5, color: Colors.grey),
+                        UIHelper.verticalSpaceSmall,
+                        Text(
+                          getCorrectAnswer(),
+                          style: TextStyle(fontSize: 12),
+                        )
+                      ],
+                    ),
+                  )
+                : Container()
+          ],
         ),
         widget.showResult
             ? Positioned(
