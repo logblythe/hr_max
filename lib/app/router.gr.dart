@@ -17,6 +17,7 @@ import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
 import '../ui/screens/login/login_screen.dart';
 import '../ui/screens/materials/material_viewer_screen.dart';
 import '../ui/screens/materials/materials_screen.dart';
+import '../ui/screens/profile/profile_screen.dart';
 import '../ui/screens/question/questions_screen.dart';
 import '../ui/screens/result/result_screen.dart';
 
@@ -29,6 +30,7 @@ class Routes {
   static const String LoginRoute = '/login-screen';
   static const String MaterialsRoute = '/material-screen';
   static const String MaterialViewerRoute = '/material-viewer-screen';
+  static const String ProfileRoute = '/profile-screen';
   static const String QuestionRoute = '/questions-screen';
   static const String ResultRoute = '/result-screen';
   static const all = <String>{
@@ -40,6 +42,7 @@ class Routes {
     LoginRoute,
     MaterialsRoute,
     MaterialViewerRoute,
+    ProfileRoute,
     QuestionRoute,
     ResultRoute,
   };
@@ -57,6 +60,7 @@ class Router extends RouterBase {
     RouteDef(Routes.LoginRoute, page: LoginScreen),
     RouteDef(Routes.MaterialsRoute, page: MaterialScreen),
     RouteDef(Routes.MaterialViewerRoute, page: MaterialViewerScreen),
+    RouteDef(Routes.ProfileRoute, page: ProfileScreen),
     RouteDef(Routes.QuestionRoute, page: QuestionsScreen),
     RouteDef(Routes.ResultRoute, page: ResultScreen),
   ];
@@ -108,6 +112,12 @@ class Router extends RouterBase {
     MaterialViewerScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => MaterialViewerScreen(),
+        settings: data,
+      );
+    },
+    ProfileScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProfileScreen(),
         settings: data,
       );
     },

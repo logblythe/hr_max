@@ -18,6 +18,8 @@ class LoginRes {
   String department;
   String functionalTitle;
   String corporateTitle;
+  String email;
+  String phone;
 
   LoginRes.fromJsonMap(Map<String, dynamic> map)
       : idUser = map["idUser"],
@@ -38,7 +40,9 @@ class LoginRes {
         branch = map["branch"],
         department = map["department"],
         functionalTitle = map["functionalTitle"],
-        corporateTitle = map["corporateTitle"];
+        corporateTitle = map["corporateTitle"],
+        email = map["emailID"],
+        phone = map["mobileNumber"];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -61,6 +65,8 @@ class LoginRes {
     data['department'] = department;
     data['functionalTitle'] = functionalTitle;
     data['corporateTitle'] = corporateTitle;
+    data['emailID'] = email;
+    data['mobileNumber'] = phone;
     return data;
   }
 }

@@ -5,6 +5,7 @@ import 'package:hrmax/ui/screens/home/home_viewmodel.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/box_widget.dart';
 import 'package:hrmax/ui/widgets/dialog_widget.dart';
+import 'package:hrmax/ui/widgets/profile_image.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,15 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       model: HomeViewmodel(),
       builder: (context, model, child) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text(MENU),
-            actions: [
-              FlatButton(
-                child: Text('Logout', style: TextStyle(color: Colors.white)),
-                onPressed: model.handleLogout,
-              ),
-            ],
-          ),
+          appBar: buildAppBar(model),
           body: WillPopScope(
             onWillPop: _onWillPop,
             child: Column(
@@ -53,26 +46,50 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                UIHelper.verticalSpaceMedium,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Expanded(
-                        child: BoxWidget(
-                          text: ISSUE_TICKET,
-                          imagePath: 'assets/images/ticket.png',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // UIHelper.verticalSpaceMedium,
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.max,
+                //     children: <Widget>[
+                //       Expanded(
+                //         child: BoxWidget(
+                //           text: ISSUE_TICKET,
+                //           imagePath: 'assets/images/ticket.png',
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  AppBar buildAppBar(HomeViewmodel model) {
+    //TODO if we want to show image
+    /*Container(
+      padding: const EdgeInsets.all(4),
+      child: ProfileImage(
+        name: model.loginRes.fullName,
+        userId: model.loginRes.idUser,
+      ),
+    )*/
+    return AppBar(
+      title: Text(MENU),
+      leading: InkResponse(
+        child: Icon(Icons.perm_identity),
+        onTap: model.handleShowProfile,
+      ),
+      actions: [
+        InkResponse(
+          child: Icon(Icons.exit_to_app),
+          onTap: model.handleLogout,
+        )
+      ],
     );
   }
 

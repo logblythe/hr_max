@@ -6,10 +6,10 @@ import 'package:hrmax/network/models/question.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/question/question_viewmodel.dart';
-import 'package:hrmax/ui/widgets/dialog_widget.dart';
 import 'package:hrmax/ui/screens/question/widgets/review_dialog.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/button.dart';
+import 'package:hrmax/ui/widgets/dialog_widget.dart';
 import 'package:hrmax/ui/widgets/question/multi_select_question.dart';
 import 'package:hrmax/ui/widgets/question/single_select_question.dart';
 import 'package:hrmax/ui/widgets/timer.dart';
@@ -203,7 +203,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         children: <Widget>[
           Expanded(
             child: Visibility(
-              visible: response.config.allowBack,
+              visible: _initialPage > 0 && response.config.allowBack,
               child: Button(label: PREV, onPressed: _handlePrev),
             ),
           ),

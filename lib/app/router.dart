@@ -7,6 +7,7 @@ import 'package:hrmax/ui/screens/learning_dashboard/learning_dashboard_screen.da
 import 'package:hrmax/ui/screens/login/login_screen.dart';
 import 'package:hrmax/ui/screens/materials/material_viewer_screen.dart';
 import 'package:hrmax/ui/screens/materials/materials_screen.dart';
+import 'package:hrmax/ui/screens/profile/profile_screen.dart';
 import 'package:hrmax/ui/screens/question/questions_screen.dart';
 import 'package:hrmax/ui/screens/result/result_screen.dart';
 
@@ -20,6 +21,7 @@ import 'package:hrmax/ui/screens/result/result_screen.dart';
     MaterialRoute(page: LoginScreen, name: "LoginRoute"),
     MaterialRoute(page: MaterialScreen, name: "MaterialsRoute"),
     MaterialRoute(page: MaterialViewerScreen, name: "MaterialViewerRoute"),
+    MaterialRoute(page: ProfileScreen, name: "ProfileRoute"),
     MaterialRoute(page: QuestionsScreen, name: "QuestionRoute"),
     MaterialRoute(page: ResultScreen, name: "ResultRoute"),
   ],
