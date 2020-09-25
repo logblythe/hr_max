@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       Expanded(
                         child: BoxWidget(
-                          text: PROFILE,
+                          text: "Materials",
                           imagePath: 'assets/images/profile.png',
                         ),
                       ),

@@ -1,5 +1,7 @@
+import 'package:hrmax/app/dialog_response.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
+import 'package:hrmax/core/services/dialog_service.dart';
 import 'package:hrmax/core/services/learning_service.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
@@ -7,6 +9,7 @@ import 'package:hrmax/core/view_models/base_view_model.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
 
 class ExamsViewModel extends BaseViewModel {
+  final _dialogService = locator<DialogService>();
   final _learningService = locator<LearningService>();
   final _navigationService = locator<NavigationService>();
   final _userService = locator<UserService>();
@@ -31,9 +34,17 @@ class ExamsViewModel extends BaseViewModel {
   }
 
   handleProceed(LearningTrackerRes learningTracker) async {
-    _learningService.setSelectedTracker(learningTracker);
-    await _navigationService.navigateTo(Routes.QuestionRoute);
-    getLearningTrackers();
+    DialogResponse result = await _dialogService.showDialog(
+        title: "Confirm proceed?",
+        description:
+            "Are you sure you want to start ${learningTracker.courseName}?",
+        buttonTitleNegative: "Cancel",
+        buttonTitlePositive: "Yes");
+    if (result.confirmed) {
+      _learningService.setSelectedTracker(learningTracker);
+      await _navigationService.navigateTo(Routes.QuestionRoute);
+      getLearningTrackers();
+    }
   }
 
   handleInstructions(LearningTrackerRes learningTracker) {
