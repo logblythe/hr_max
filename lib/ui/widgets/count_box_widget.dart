@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 
 class CountBoxWidget extends StatelessWidget {
-  final int count;
+  final dynamic count;
   final double imageSize;
   final String imagePath;
   final String text;
@@ -32,13 +32,13 @@ class CountBoxWidget extends StatelessWidget {
                 children: <Widget>[
                   Image.asset(
                     imagePath,
-                    height: imageSize ?? 40,
-                    width: imageSize ?? 40,
+                    height: imageSize ?? 32,
+                    width: imageSize ?? 32,
                   ),
                   UIHelper.horizontalSpaceSmall,
                   Text(
                     count.toString(),
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   )
                 ],
               ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
+import 'package:hrmax/core/constants/image_paths.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/learning_dashboard/learning_view_model.dart';
-import 'package:hrmax/ui/screens/learning_dashboard/widgets/learning_analytics.dart';
+import 'package:hrmax/ui/shared/ui_helpers.dart';
+import 'package:hrmax/ui/widgets/circle.dart';
+import 'package:hrmax/ui/widgets/count_box_widget.dart';
 
 class LearningDashboardScreen extends StatefulWidget {
   @override
@@ -12,23 +14,115 @@ class LearningDashboardScreen extends StatefulWidget {
 }
 
 class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
-  LearningViewModel learningViewModel;
+  LearningViewModel _model;
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<LearningViewModel>(
       model: LearningViewModel(),
-      onModelReady: (model) => learningViewModel = model,
+      onModelReady: (model) {
+        _model = model;
+        _model.fetchLearningStats();
+      },
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(title: Text(LEARNING_DASHBOARD)),
-          body: LearningAnalytics(
-            onPendingClick: _handlePendingClick,
-          ),
+          body: _buildBody(),
         );
       },
     );
   }
 
-  _handlePendingClick() => Navigator.pushNamed(context, Routes.ExamRoute);
+  _buildBody() {
+    return Column(
+      children: <Widget>[
+        UIHelper.verticalSpaceMedium,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: CountBoxWidget(
+                  count:
+                      _model.loading ? 0 : _model.learningCount.TotalAttempted,
+                  text: "Attempted",
+                  imagePath: ImagePath.PROFILE,
+                ),
+              ),
+              UIHelper.horizontalSpaceSmall,
+              Expanded(
+                child: CountBoxWidget(
+                  onPressed: _model.navigateToExams,
+                  count: _model.loading ? 0 : _model.learningCount.TotalPending,
+                  text: PENDING,
+                  imagePath: ImagePath.LEARNING,
+                ),
+              )
+            ],
+          ),
+        ),
+        UIHelper.verticalSpaceSmall,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: CountBoxWidget(
+                  count: _model.loading ? 0 : _model.learningCount.TotalLearning,
+                  text: "Total",
+                  imagePath: ImagePath.LEARNING,
+                ),
+              ),
+              UIHelper.horizontalSpaceSmall,
+              Expanded(
+                child: CountBoxWidget(
+                  count: _model.loading ? 0 : _model.learningCount.TotalAverage,
+                  text: "Average",
+                  imagePath: ImagePath.LEARNING,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  left: 24,
+                  right: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Circle(
+                          size: 12,
+                          margin: const EdgeInsets.only(right: 8),
+                        ),
+                        Text(
+                          LEARNING,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).disabledColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 }

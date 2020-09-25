@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     )*/
     return AppBar(
-      title: Text(MENU),
+      title: Text("Hr Max"),
       leading: InkResponse(
         child: Icon(Icons.perm_identity),
         onTap: model.handleShowProfile,

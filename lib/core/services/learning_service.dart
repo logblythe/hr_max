@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/services/api_service.dart';
+import 'package:hrmax/network/models/learning_count.dart';
 import 'package:hrmax/network/models/learning_material.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
 import 'package:hrmax/network/models/option.dart';
@@ -12,6 +13,7 @@ class LearningService {
 
   LearningService({@required ApiService apiService}) : _apiService = apiService;
 
+  LearningCount _learningCount;
   List<LearningTrackerRes> _learningTrackers = [];
   LearningTrackerRes _selectedTracker;
   List<LearningMaterial> _learningMaterials;
@@ -19,6 +21,8 @@ class LearningService {
   QuestionResponse _questionResponse;
   Map<int, List<Option>> _answersMap = {};
   String _submitResponse;
+
+  LearningCount get learningCount => _learningCount;
 
   List<LearningTrackerRes> get learningTrackers => _learningTrackers;
 
@@ -64,5 +68,11 @@ class LearningService {
           .post("/eLearning/submitELearning", params: params)
           .then((value) {
         _submitResponse = value;
+      });
+
+  fetchLearningStats(int userId) => _apiService
+          .get('/eLearning/getELearningCount?paramSessionUserId=$userId')
+          .then((value) {
+        _learningCount = LearningCount.fromJsonMap(value);
       });
 }

@@ -22,4 +22,5 @@ class NavigationService {
     return navigatorKey.currentState
         .pushNamedAndRemoveUntil(routeName, (route) => false);
   }
+
 }
