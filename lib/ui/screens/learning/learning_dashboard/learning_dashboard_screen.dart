@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/constants/image_paths.dart';
 import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/learning_dashboard/learning_view_model.dart';
+import 'package:hrmax/ui/screens/learning/learning_dashboard/learning_view_model.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/circle.dart';
 import 'package:hrmax/ui/widgets/count_box_widget.dart';
@@ -44,7 +44,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
               Expanded(
                 child: CountBoxWidget(
                   count:
-                      _model.loading ? 0 : _model.learningCount.TotalAttempted,
+                      _model.loading ? 0 : _model.learningCount.totalAttempted,
                   text: "Attempted",
                   imagePath: ImagePath.PROFILE,
                 ),
@@ -53,7 +53,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
               Expanded(
                 child: CountBoxWidget(
                   onPressed: _model.navigateToExams,
-                  count: _model.loading ? 0 : _model.learningCount.TotalPending,
+                  count: _model.loading ? 0 : _model.learningCount.totalPending,
                   text: PENDING,
                   imagePath: ImagePath.LEARNING,
                 ),
@@ -68,7 +68,8 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
             children: [
               Expanded(
                 child: CountBoxWidget(
-                  count: _model.loading ? 0 : _model.learningCount.TotalLearning,
+                  count:
+                      _model.loading ? 0 : _model.learningCount.totalLearning,
                   text: "Total",
                   imagePath: ImagePath.LEARNING,
                 ),
@@ -76,7 +77,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
               UIHelper.horizontalSpaceSmall,
               Expanded(
                 child: CountBoxWidget(
-                  count: _model.loading ? 0 : _model.learningCount.TotalAverage,
+                  count: _model.loading ? 0 : _model.learningCount.totalAverage,
                   text: "Average",
                   imagePath: ImagePath.LEARNING,
                 ),

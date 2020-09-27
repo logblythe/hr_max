@@ -27,7 +27,7 @@ class ProfileImage extends StatelessWidget {
             height: size ?? 80,
             width: size ?? 80,
             imageUrl:
-                "${ApiService.baseUrl}/Company/getProfilePhoto?paramSessionUserId=${userId}",
+                "${ApiService.baseUrl}/Company/getProfilePhoto?paramSessionUserId=$userId",
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
             errorWidget: (context, string, d) {

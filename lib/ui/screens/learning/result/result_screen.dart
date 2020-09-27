@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/result/result_viewmodel.dart';
-import 'package:hrmax/ui/shared/ui_helpers.dart';
+import 'package:hrmax/ui/screens/learning/result/result_viewmodel.dart';
 import 'package:hrmax/ui/widgets/question/multi_select_question.dart';
 import 'package:hrmax/ui/widgets/question/single_select_question.dart';
 

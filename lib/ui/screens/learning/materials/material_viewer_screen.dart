@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/materials/learning_material_viewmodel.dart';
-import 'package:hrmax/ui/screens/materials/widgets/pdf_viewer.dart';
-import 'package:hrmax/ui/screens/materials/widgets/video_player.dart';
+import 'package:hrmax/ui/screens/learning/materials/learning_material_viewmodel.dart';
+import 'package:hrmax/ui/screens/learning/materials/widgets/pdf_viewer.dart';
+import 'package:hrmax/ui/screens/learning/materials/widgets/video_player.dart';
 
 class MaterialViewerScreen extends StatelessWidget {
   @override

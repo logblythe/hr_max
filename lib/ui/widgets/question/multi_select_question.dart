@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/network/models/option.dart';
 import 'package:hrmax/network/models/question.dart';
-import 'package:hrmax/ui/screens/question/widgets/question_timer.dart';
+import 'package:hrmax/ui/screens/learning/question/widgets/question_timer.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/utils.dart';
 

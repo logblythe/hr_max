@@ -5,7 +5,6 @@ import 'package:hrmax/ui/screens/home/home_viewmodel.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/box_widget.dart';
 import 'package:hrmax/ui/widgets/dialog_widget.dart';
-import 'package:hrmax/ui/widgets/profile_image.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

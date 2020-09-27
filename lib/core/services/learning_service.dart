@@ -3,6 +3,8 @@ import 'package:hrmax/core/services/api_service.dart';
 import 'package:hrmax/network/models/learning_count.dart';
 import 'package:hrmax/network/models/learning_material.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
+import 'package:hrmax/network/models/material_file.dart';
+import 'package:hrmax/network/models/material_folder.dart';
 import 'package:hrmax/network/models/option.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:injectable/injectable.dart';
@@ -13,14 +15,19 @@ class LearningService {
 
   LearningService({@required ApiService apiService}) : _apiService = apiService;
 
+  Map<int, List<Option>> _answersMap = {};
   LearningCount _learningCount;
   List<LearningTrackerRes> _learningTrackers = [];
-  LearningTrackerRes _selectedTracker;
   List<LearningMaterial> _learningMaterials;
-  LearningMaterial _selectedMaterial;
+  List<MaterialFolder> _folders;
+  List<MaterialFile> _files;
   QuestionResponse _questionResponse;
-  Map<int, List<Option>> _answersMap = {};
+  LearningTrackerRes _selectedTracker;
+  LearningMaterial _selectedMaterial;
+  MaterialFolder _selectedFolder;
   String _submitResponse;
+
+  List<MaterialFolder> get folders => _folders;
 
   LearningCount get learningCount => _learningCount;
 
@@ -37,6 +44,14 @@ class LearningService {
   String get submitResponse => _submitResponse;
 
   Map<int, List<Option>> get answersMap => _answersMap;
+
+  MaterialFolder get selectedFolder => _selectedFolder;
+
+  List<MaterialFile> get files => _files;
+
+  setSelectedFolder(MaterialFolder value) {
+    _selectedFolder = value;
+  }
 
   setSelectedTracker(LearningTrackerRes learningTracker) {
     _selectedTracker = learningTracker;
@@ -74,5 +89,17 @@ class LearningService {
           .get('/eLearning/getELearningCount?paramSessionUserId=$userId')
           .then((value) {
         _learningCount = LearningCount.fromJsonMap(value);
+      });
+
+  fetchMaterialFolder(int userId) => _apiService
+          .get('/Circular/getFolder?paramSessionUserId=$userId')
+          .then((value) {
+        _folders = List.from(value.map((e) => MaterialFolder.fromJsonMap(e)));
+      });
+
+  fetchMaterialFiles(int folderId) => _apiService
+          .get('/Circular/getFile?paramIdFolder=$folderId')
+          .then((value) {
+        _files = List.from(value.map((e) => MaterialFile.fromJsonMap(e)));
       });
 }

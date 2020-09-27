@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/exam/exams_view_model.dart';
-import 'package:hrmax/ui/screens/exam/widgets/exam_card.dart';
+import 'package:hrmax/ui/screens/learning/exam/exams_view_model.dart';
+import 'package:hrmax/ui/screens/learning/exam/widgets/exam_card.dart';
 
 class ExamsScreen extends StatefulWidget {
   @override

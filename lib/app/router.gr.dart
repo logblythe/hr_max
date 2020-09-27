@@ -9,17 +9,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../ui/screens/exam/exams_screen.dart';
 import '../ui/screens/home/home_screen.dart';
 import '../ui/screens/initial/initial_screen.dart';
-import '../ui/screens/instructions/instructions_screen.dart';
-import '../ui/screens/learning_dashboard/learning_dashboard_screen.dart';
+import '../ui/screens/learning/exam/exams_screen.dart';
+import '../ui/screens/learning/instructions/instructions_screen.dart';
+import '../ui/screens/learning/learning_dashboard/learning_dashboard_screen.dart';
+import '../ui/screens/learning/materials/learning_materials_screen.dart';
+import '../ui/screens/learning/materials/material_viewer_screen.dart';
+import '../ui/screens/learning/question/questions_screen.dart';
+import '../ui/screens/learning/result/result_screen.dart';
 import '../ui/screens/login/login_screen.dart';
-import '../ui/screens/materials/material_viewer_screen.dart';
-import '../ui/screens/materials/materials_screen.dart';
+import '../ui/screens/materials/files/files_screen.dart';
+import '../ui/screens/materials/folder/folder_screen.dart';
 import '../ui/screens/profile/profile_screen.dart';
-import '../ui/screens/question/questions_screen.dart';
-import '../ui/screens/result/result_screen.dart';
 
 class Routes {
   static const String InitialRoute = '/';
@@ -28,8 +30,10 @@ class Routes {
   static const String InstructionRoute = '/instructions-screen';
   static const String LearningDashRoute = '/learning-dashboard-screen';
   static const String LoginRoute = '/login-screen';
-  static const String MaterialsRoute = '/material-screen';
+  static const String MaterialsRoute = '/learning-material-screen';
   static const String MaterialViewerRoute = '/material-viewer-screen';
+  static const String FolderRoute = '/folder-screen';
+  static const String FilesRoute = '/files-screen';
   static const String ProfileRoute = '/profile-screen';
   static const String QuestionRoute = '/questions-screen';
   static const String ResultRoute = '/result-screen';
@@ -42,6 +46,8 @@ class Routes {
     LoginRoute,
     MaterialsRoute,
     MaterialViewerRoute,
+    FolderRoute,
+    FilesRoute,
     ProfileRoute,
     QuestionRoute,
     ResultRoute,
@@ -58,8 +64,10 @@ class Router extends RouterBase {
     RouteDef(Routes.InstructionRoute, page: InstructionsScreen),
     RouteDef(Routes.LearningDashRoute, page: LearningDashboardScreen),
     RouteDef(Routes.LoginRoute, page: LoginScreen),
-    RouteDef(Routes.MaterialsRoute, page: MaterialScreen),
+    RouteDef(Routes.MaterialsRoute, page: LearningMaterialScreen),
     RouteDef(Routes.MaterialViewerRoute, page: MaterialViewerScreen),
+    RouteDef(Routes.FolderRoute, page: FolderScreen),
+    RouteDef(Routes.FilesRoute, page: FilesScreen),
     RouteDef(Routes.ProfileRoute, page: ProfileScreen),
     RouteDef(Routes.QuestionRoute, page: QuestionsScreen),
     RouteDef(Routes.ResultRoute, page: ResultScreen),
@@ -103,15 +111,27 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    MaterialScreen: (data) {
+    LearningMaterialScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => MaterialScreen(),
+        builder: (context) => LearningMaterialScreen(),
         settings: data,
       );
     },
     MaterialViewerScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => MaterialViewerScreen(),
+        settings: data,
+      );
+    },
+    FolderScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FolderScreen(),
+        settings: data,
+      );
+    },
+    FilesScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FilesScreen(),
         settings: data,
       );
     },
