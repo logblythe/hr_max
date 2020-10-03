@@ -35,13 +35,14 @@ class LearningMaterialScreen extends StatelessWidget {
             );
           }
           return GridView.builder(
-            gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.25,
+            ),
             itemBuilder: (context, index) {
               var material = model.materials.elementAt(index);
               return Card(
                 margin: EdgeInsets.all(16),
-                elevation: 8,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
                 child: InkWell(
