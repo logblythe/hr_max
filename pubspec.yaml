@@ -30,7 +30,6 @@ dependencies:
   injectable:
   intl: ^0.16.1
   provider:
-  rflutter_alert: ^1.0.8
   video_player: 0.10.12+2
 
 dev_dependencies:

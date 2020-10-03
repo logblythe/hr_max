@@ -46,21 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                // UIHelper.verticalSpaceMedium,
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.max,
-                //     children: <Widget>[
-                //       Expanded(
-                //         child: BoxWidget(
-                //           text: ISSUE_TICKET,
-                //           imagePath: 'assets/images/ticket.png',
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -70,14 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AppBar buildAppBar(HomeViewmodel model) {
-    //TODO if we want to show image
-    /*Container(
-      padding: const EdgeInsets.all(4),
-      child: ProfileImage(
-        name: model.loginRes.fullName,
-        userId: model.loginRes.idUser,
-      ),
-    )*/
     return AppBar(
       title: Text("Hr Max"),
       leading: InkResponse(
