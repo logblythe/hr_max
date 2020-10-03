@@ -1,12 +1,9 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hrmax/network/models/learning_material.dart';
-import 'package:hrmax/ui/base_widget.dart';
-import 'package:hrmax/ui/screens/learning/materials/learning_material_viewmodel.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPlayerWidget extends StatelessWidget {
+/*class VideoPlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<LearningMaterialViewModel>(
@@ -17,18 +14,18 @@ class VideoPlayerWidget extends StatelessWidget {
       },
     );
   }
-}
+}*/
 
-class VideoWidget extends StatefulWidget {
+class VideoPlayerWidget extends StatefulWidget {
   final String url;
 
-  VideoWidget({Key key, this.url}) : super(key: key);
+  VideoPlayerWidget({Key key, this.url}) : super(key: key);
 
   @override
-  _VideoWidgetState createState() => _VideoWidgetState();
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
 }
 
-class _VideoWidgetState extends State<VideoWidget> {
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   FlickManager flickManager;
 
   @override

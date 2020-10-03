@@ -25,4 +25,8 @@ class HomeViewmodel extends BaseViewModel {
   handleElearning() {
     _navigationService.navigateTo(Routes.LearningDashRoute);
   }
+
+  handleMaterials() {
+    _navigationService.navigateTo(Routes.FolderRoute);
+  }
 }
