@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/network/models/material_folder.dart';
+import 'package:hrmax/network/models/material_file.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
 
-class FoldersGrid extends StatelessWidget {
-  final List<MaterialFolder> folders;
-  final Function(int) onFolderSelect;
+class FilesGrid extends StatelessWidget {
+  final List<MaterialFile> files;
+  final Function(int) onSelectFile;
 
-  const FoldersGrid({
-    Key key,
-    this.folders,
-    this.onFolderSelect,
-  }) : super(key: key);
+  const FilesGrid({Key key, this.files, this.onSelectFile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1.25,
       ),
-      shrinkWrap: true,
-      itemCount: folders.length,
       itemBuilder: (context, index) {
+        var file = files.elementAt(index);
         return Card(
           margin: EdgeInsets.all(16),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: InkWell(
-            onTap: () => onFolderSelect(index),
-            // model.selectFolder(folders.elementAt(index))
+            onTap: () => onSelectFile(index),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -36,19 +31,17 @@ class FoldersGrid extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle, color: Colors.black12),
-                  child: Icon(
-                    Icons.folder,
-                    size: 32,
-                    color: Color(0xff026ec1),
-                  ),
+                  child: UIHelper.buildIcon(file.materialType),
                 ),
                 UIHelper.verticalSpaceMedium,
-                Text(folders.elementAt(index).folderName),
+                Text(file.circularName,
+                    style: Theme.of(context).textTheme.bodyText2),
               ],
             ),
           ),
         );
       },
+      itemCount: files.length,
     );
   }
 }

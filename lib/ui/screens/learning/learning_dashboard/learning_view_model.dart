@@ -5,6 +5,7 @@ import 'package:hrmax/core/services/navigation_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
 import 'package:hrmax/network/models/learning_count.dart';
+import 'package:hrmax/network/models/month_wise_stat_res.dart';
 
 class LearningViewModel extends BaseViewModel {
   final _learningService = locator<LearningService>();
@@ -13,10 +14,23 @@ class LearningViewModel extends BaseViewModel {
 
   LearningCount get learningCount => _learningService.learningCount;
 
-  fetchLearningStats() async{
+  MonthWiseStatResponse get monthWiseStats => _learningService.monthWiseStat;
+
+  fetchLearningStats() async {
     setLoading();
     try {
       await _learningService.fetchLearningStats(_userService.loginModel.idUser);
+      setCompleted();
+    } catch (e) {
+      setError(e);
+    }
+  }
+
+  fetchMonthWiseStats() async {
+    setLoading();
+    try {
+      await _learningService
+          .fetchMonthWiseStats(_userService.loginModel.idUser);
       setCompleted();
     } catch (e) {
       setError(e);

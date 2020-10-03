@@ -6,6 +6,7 @@ import 'package:hrmax/network/models/learning_material.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
 import 'package:hrmax/network/models/material_file.dart';
 import 'package:hrmax/network/models/material_folder.dart';
+import 'package:hrmax/network/models/month_wise_stat_res.dart';
 import 'package:hrmax/network/models/option.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:injectable/injectable.dart';
@@ -27,6 +28,7 @@ class LearningService {
   LearningTrackerRes _selectedTracker;
   MaterialFolder _selectedFolder;
   MaterialFile _selectedFile;
+  MonthWiseStatResponse _monthWiseStatResponse;
   QuestionResponse _questionResponse;
 
   String _submitResponse;
@@ -54,6 +56,8 @@ class LearningService {
   MaterialFile get selectedFile => _selectedFile;
 
   List<MaterialFile> get files => _files;
+
+  MonthWiseStatResponse get monthWiseStat => _monthWiseStatResponse;
 
   setSelectedFile(MaterialFile file) {
     _selectedFile = file;
@@ -99,6 +103,13 @@ class LearningService {
           .get('/eLearning/getELearningCount?paramSessionUserId=$userId')
           .then((value) {
         _learningCount = LearningCount.fromJsonMap(value);
+      });
+
+  fetchMonthWiseStats(int userId) => _apiService
+          .get(
+              '/eLearning/getAssignedCoursesByMonth?paramSessionUserId=$userId')
+          .then((value) {
+        _monthWiseStatResponse = MonthWiseStatResponse.fromJsonMap(value);
       });
 
   fetchMaterialFolder(int userId) => _apiService
