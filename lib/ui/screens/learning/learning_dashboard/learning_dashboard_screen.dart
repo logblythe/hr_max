@@ -43,6 +43,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
             children: <Widget>[
               Expanded(
                 child: CountBoxWidget(
+                  onPressed: _model.navigateToExams,
                   count:
                       _model.loading ? 0 : _model.learningCount.totalAttempted,
                   text: "Attempted",
@@ -68,6 +69,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
             children: [
               Expanded(
                 child: CountBoxWidget(
+                  onPressed: _model.navigateToExams,
                   count:
                       _model.loading ? 0 : _model.learningCount.totalLearning,
                   text: "Total",
@@ -77,6 +79,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
               UIHelper.horizontalSpaceSmall,
               Expanded(
                 child: CountBoxWidget(
+                  onPressed: _model.navigateToExams,
                   count: _model.loading ? 0 : _model.learningCount.totalAverage,
                   text: "Average",
                   imagePath: ImagePath.LEARNING,

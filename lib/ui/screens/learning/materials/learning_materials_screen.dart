@@ -49,7 +49,7 @@ class LearningMaterialScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        buildIcon(material.materialType, context),
+                        UIHelper.buildIcon(material.materialType),
                         UIHelper.verticalSpaceMedium,
                         Text(material.title,
                             style: Theme.of(context).textTheme.bodyText2),
@@ -62,23 +62,5 @@ class LearningMaterialScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  buildIcon(String materialType, context) {
-    if (materialType == "pdf") {
-      return Icon(
-        Icons.picture_as_pdf,
-        size: 80,
-        color: Theme.of(context).hintColor,
-      );
-    } else if (materialType == "media") {
-      return Icon(
-        Icons.video_library,
-        size: 80,
-        color: Theme.of(context).hintColor,
-      );
-    } else {
-      return Icon(Icons.not_interested);
-    }
   }
 }

@@ -11,12 +11,13 @@ class MaterialViewerScreen extends StatelessWidget {
       body: BaseWidget<LearningMaterialViewModel>(
         model: LearningMaterialViewModel(),
         builder: (context, model, child) {
-          switch (model.selectedMaterial.materialType) {
+          dynamic selection = model.selectedMaterial ?? model.selectedFile;
+          switch (selection.materialType) {
             case "pdf":
-              return PdfViewer();
+              return PdfViewer(url: selection.previewLink);
               break;
             case "media":
-              return VideoPlayerWidget();
+              return VideoPlayerWidget(url: selection.previewLink);
               break;
             default:
               return Container();

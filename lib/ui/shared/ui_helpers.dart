@@ -49,4 +49,22 @@ class UIHelper {
     backgroundColor: Colors.grey[200],
     brightness: Brightness.light,
   );
+
+  static buildIcon(String materialType) {
+    if (materialType == "pdf") {
+      return Icon(
+        Icons.picture_as_pdf,
+        size: 32,
+        color: Color(0xff026ec1),
+      );
+    } else if (materialType == "media") {
+      return Icon(
+        Icons.video_library,
+        size: 32,
+        color: Color(0xff026ec1),
+      );
+    } else {
+      return Icon(Icons.not_interested);
+    }
+  }
 }

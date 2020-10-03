@@ -16,6 +16,7 @@ import 'package:mime/mime.dart';
 @lazySingleton
 class ApiService {
   static final String baseUrl = "https://api.technomax.com.np/api";
+  // static final String baseUrl = "https://elearning.megabank.com.np/api";
   final client = HttpClientWithInterceptor.build(
     retryPolicy: ExpiredTokenRetryPolicy(),
     interceptors: [LoggingInterceptor()],

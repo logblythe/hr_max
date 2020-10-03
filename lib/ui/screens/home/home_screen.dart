@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: BoxWidget(
                           text: "Materials",
                           imagePath: 'assets/images/profile.png',
+                          onPressed: model.handleMaterials,
                         ),
                       ),
                       UIHelper.horizontalSpaceSmall,

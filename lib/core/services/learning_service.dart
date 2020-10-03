@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/services/api_service.dart';
+import 'package:hrmax/network/models/files_response.dart';
 import 'package:hrmax/network/models/learning_count.dart';
 import 'package:hrmax/network/models/learning_material.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
@@ -19,12 +20,15 @@ class LearningService {
   LearningCount _learningCount;
   List<LearningTrackerRes> _learningTrackers = [];
   List<LearningMaterial> _learningMaterials;
+  FilesResponse _filesResponse;
   List<MaterialFolder> _folders;
   List<MaterialFile> _files;
-  QuestionResponse _questionResponse;
-  LearningTrackerRes _selectedTracker;
   LearningMaterial _selectedMaterial;
+  LearningTrackerRes _selectedTracker;
   MaterialFolder _selectedFolder;
+  MaterialFile _selectedFile;
+  QuestionResponse _questionResponse;
+
   String _submitResponse;
 
   List<MaterialFolder> get folders => _folders;
@@ -47,10 +51,16 @@ class LearningService {
 
   MaterialFolder get selectedFolder => _selectedFolder;
 
+  MaterialFile get selectedFile => _selectedFile;
+
   List<MaterialFile> get files => _files;
 
-  setSelectedFolder(MaterialFolder value) {
-    _selectedFolder = value;
+  setSelectedFile(MaterialFile file) {
+    _selectedFile = file;
+  }
+
+  setSelectedFolder(MaterialFolder folder) {
+    _selectedFolder = folder;
   }
 
   setSelectedTracker(LearningTrackerRes learningTracker) {
@@ -97,9 +107,12 @@ class LearningService {
         _folders = List.from(value.map((e) => MaterialFolder.fromJsonMap(e)));
       });
 
-  fetchMaterialFiles(int folderId) => _apiService
-          .get('/Circular/getFile?paramIdFolder=$folderId')
+  fetchMaterialFiles(int folderId, int userId) => _apiService
+          .get(
+              '/Circular/getFile?paramIdFolder=$folderId&&paramSessionUserId=$userId')
           .then((value) {
-        _files = List.from(value.map((e) => MaterialFile.fromJsonMap(e)));
+        _filesResponse = FilesResponse.fromJsonMap(value);
+        _folders = _filesResponse.folders;
+        _files = _filesResponse.files;
       });
 }
