@@ -38,7 +38,7 @@ class QuestionViewmodel extends BaseViewModel {
           _answeredCount = _answeredCount + 1;
         }
       });
-      DialogResponse result = await _dialogService.showDialog2(
+      DialogResponse result = await _dialogService.showModal(
           title: "Confirm submission?",
           description:
               "You have answered $_answeredCount out of ${questionResponse.questions.length} questions. Are you sure you want to submit?",

@@ -12,7 +12,7 @@ class DialogService {
   Completer<DialogResponse> _dialogCompleter;
   DialogRequest _dialogRequest;
 
-  Future<DialogResponse> showDialog2({
+  Future<DialogResponse> showModal({
     String title,
     String description,
     String buttonTitlePositive,

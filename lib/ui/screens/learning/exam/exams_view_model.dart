@@ -34,7 +34,7 @@ class ExamsViewModel extends BaseViewModel {
   }
 
   handleProceed(LearningTrackerRes learningTracker) async {
-    DialogResponse result = await _dialogService.showDialog2(
+    DialogResponse result = await _dialogService.showModal(
         title: "Confirm proceed?",
         description:
             "Are you sure you want to start ${learningTracker.courseName}?",

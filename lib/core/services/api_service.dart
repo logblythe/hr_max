@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:hrmax/core/services/storage_service.dart';
 import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/network/logging_interceptor.dart';
@@ -15,12 +16,27 @@ import 'package:mime/mime.dart';
 
 @lazySingleton
 class ApiService {
-  static final String baseUrl = "https://api.technomax.com.np/api";
+  // static final String baseUrl = "https://api.technomax.com.np/api";
   // static final String baseUrl = "https://elearning.megabank.com.np/api";
+
+  final StorageService _storageService;
+  String baseUrl;
   final client = HttpClientWithInterceptor.build(
     retryPolicy: ExpiredTokenRetryPolicy(),
     interceptors: [LoggingInterceptor()],
   );
+
+  ApiService({@required StorageService storageService})
+      : _storageService = storageService {
+    initBaseUrl();
+  }
+
+  void initBaseUrl() async {
+    String savedUrl = await _storageService.get(KEY_BASE_URL);
+    if (savedUrl != null) {
+      baseUrl = savedUrl + "api/";
+    }
+  }
 
   Future<Map<String, String>> getHeaders() async {
     StorageService _storage = StorageService();
@@ -45,6 +61,7 @@ class ApiService {
   }
 
   Future<dynamic> get(String url) async {
+    initBaseUrl();
     var _headers = await getHeaders();
     try {
       var response = await client.get(baseUrl + url, headers: _headers);
@@ -59,6 +76,7 @@ class ApiService {
   }
 
   Future<dynamic> post(String url, {Map<String, dynamic> params}) async {
+    initBaseUrl();
     var _headers = await getHeaders();
     print('the params $params');
     try {

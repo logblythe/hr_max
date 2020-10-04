@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
+import 'package:hrmax/core/constants/image_paths.dart';
 import 'package:hrmax/core/services/api_service.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
+import 'package:hrmax/ui/widgets/drop_down.dart';
 import 'package:hrmax/ui/widgets/primary_button.dart';
 import 'package:hrmax/ui/widgets/text_input.dart';
 
@@ -41,15 +43,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
-                          CachedNetworkImage(
+                          /* CachedNetworkImage(
                             imageUrl:
                                 "${ApiService.baseUrl}/company/getCompanyLogo",
                             placeholder: (context, url) =>
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
-                          ),
+                          ),*/
+                          Image.asset(ImagePath.LOGO),
                           UIHelper.verticalSpaceLarge,
+                          Dropdown(
+                            options: model.clients
+                                .map((client) => client.name)
+                                .toList(),
+                            onSelect: (index) {
+                              model.selectOrganisation(index);
+                            },
+                          ),
                           UIHelper.verticalSpaceLarge,
                           TextInput(
                             prefixIcon: Icon(Icons.verified_user),

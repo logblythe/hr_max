@@ -23,12 +23,13 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
-  gh.lazySingleton<ApiService>(() => ApiService());
   gh.lazySingleton<DialogService>(() => DialogService());
-  gh.lazySingleton<LearningService>(
-      () => LearningService(apiService: get<ApiService>()));
   gh.lazySingleton<NavigationService>(() => NavigationService());
   gh.lazySingleton<StorageService>(() => StorageService());
+  gh.lazySingleton<ApiService>(
+      () => ApiService(storageService: get<StorageService>()));
+  gh.lazySingleton<LearningService>(
+      () => LearningService(apiService: get<ApiService>()));
   gh.lazySingleton<UserService>(() => UserService(
       apiService: get<ApiService>(), storageService: get<StorageService>()));
   return get;

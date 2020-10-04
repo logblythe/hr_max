@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/core/services/api_service.dart';
 
 class ProfileImage extends StatelessWidget {
+  final ApiService _apiService = locator<ApiService>();
   final double size;
   final int userId;
   final String name;
 
-  const ProfileImage({Key key, this.size, this.userId, this.name})
-      : super(key: key);
+  ProfileImage({Key key, this.size, this.userId, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class ProfileImage extends StatelessWidget {
             height: size ?? 80,
             width: size ?? 80,
             imageUrl:
-                "${ApiService.baseUrl}/Company/getProfilePhoto?paramSessionUserId=$userId",
+                "${_apiService.baseUrl}/Company/getProfilePhoto?paramSessionUserId=$userId",
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
             errorWidget: (context, string, d) {
