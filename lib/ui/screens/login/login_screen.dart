@@ -1,8 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/constants/image_paths.dart';
-import 'package:hrmax/core/services/api_service.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/login/login_view_model.dart';
 import 'package:hrmax/ui/shared/ui_helpers.dart';
@@ -31,9 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       builder: (context, model, child) {
         return Scaffold(
-          body: SafeArea(
-            child: Container(
-              color: Colors.white,
+          resizeToAvoidBottomPadding: true,
+          resizeToAvoidBottomInset: true,
+          body: Container(
+            color: Colors.white,
+            child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
@@ -79,9 +79,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           UIHelper.verticalSpaceLarge,
                           UIHelper.verticalSpaceMedium,
                           PrimaryButton(
-                              text: LOGIN,
-                              busy: model.loading,
-                              onPressed: handleLogin),
+                            text: LOGIN,
+                            busy: model.loading,
+                            onPressed: handleLogin,
+                          ),
                           UIHelper.verticalSpaceLarge,
                           // Text(FORGOT_PASSWORD)
                         ],

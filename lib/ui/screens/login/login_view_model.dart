@@ -32,7 +32,9 @@ class LoginViewmodel extends BaseViewModel {
   }
 
   login(String username, String password) async {
-    if (_selectedClient != null && _selectedClient.status == "Registered") {
+    if (_selectedClient == null) {
+      setError("Please select your organisation");
+    } else if (_selectedClient.status == "Registered") {
       _userService.saveBaseUrl(_selectedClient.baseUrl);
       try {
         setLoading();
@@ -106,6 +108,9 @@ class LoginViewmodel extends BaseViewModel {
   }
 
   void selectOrganisation(int index) {
-    _selectedClient = _clients.elementAt(index);
+    if (index >= 0)
+      _selectedClient = _clients.elementAt(index);
+    else
+      _selectedClient = null;
   }
 }

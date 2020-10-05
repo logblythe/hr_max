@@ -16,25 +16,24 @@ class LearningViewModel extends BaseViewModel {
 
   MonthWiseStatResponse get monthWiseStats => _learningService.monthWiseStat;
 
-  fetchLearningStats() async {
+  init() async {
     setLoading();
     try {
-      await _learningService.fetchLearningStats(_userService.loginModel.idUser);
+      await fetchLearningStats();
+      await fetchMonthWiseStats();
       setCompleted();
     } catch (e) {
       setError(e);
     }
   }
 
+  fetchLearningStats() async {
+    await _learningService.fetchLearningStats(_userService.loginModel.idUser);
+  }
+
   fetchMonthWiseStats() async {
-    setLoading();
-    try {
-      await _learningService
-          .fetchMonthWiseStats(_userService.loginModel.idUser);
-      setCompleted();
-    } catch (e) {
-      setError(e);
-    }
+    await _learningService.fetchMonthWiseStats(_userService.loginModel.idUser);
+    setCompleted();
   }
 
   navigateToExams() {

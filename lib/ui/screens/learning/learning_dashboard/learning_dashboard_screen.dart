@@ -22,8 +22,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
       model: LearningViewModel(),
       onModelReady: (model) {
         _model = model;
-        _model.fetchLearningStats();
-        _model.fetchMonthWiseStats();
+        _model.init();
       },
       builder: (context, model, child) {
         return Scaffold(

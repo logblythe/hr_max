@@ -62,9 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: model.handleShowProfile,
       ),
       actions: [
-        InkResponse(
-          child: Icon(Icons.exit_to_app),
-          onTap: model.handleLogout,
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: InkResponse(
+            child: Icon(Icons.exit_to_app),
+            onTap: model.handleLogout,
+          ),
         )
       ],
     );

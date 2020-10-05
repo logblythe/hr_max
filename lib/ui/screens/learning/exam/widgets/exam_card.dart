@@ -50,12 +50,7 @@ class ExamCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      (tracker.attemptCount > 0 ||
-                              (DateTime.now().isAfter(DateFormat("M/dd/yyyy")
-                                      .parse(tracker.learningFromDateTime)) &&
-                                  DateTime.now().isBefore(
-                                      DateFormat("M/dd/yyyy")
-                                          .parse(tracker.learningToDateTime))))
+                      (tracker.attemptCount > 0 && withinRange())
                           ? Flexible(
                               flex: 1,
                               child: Container(
@@ -116,5 +111,13 @@ class ExamCard extends StatelessWidget {
         )
       ],
     );
+  }
+
+  bool withinRange() {
+    bool inRange = DateTime.now().isAfter(
+            DateFormat("M/dd/yyyy").parse(tracker.learningFromDateTime)) &&
+        DateTime.now().isBefore(
+            DateFormat("M/dd/yyyy").parse(tracker.learningToDateTime));
+    return inRange;
   }
 }

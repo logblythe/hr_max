@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrmax/network/models/question_model.dart';
 import 'package:hrmax/ui/base_widget.dart';
 import 'package:hrmax/ui/screens/learning/result/result_viewmodel.dart';
+import 'package:hrmax/ui/shared/ui_helpers.dart';
 import 'package:hrmax/ui/widgets/question/multi_select_question.dart';
 import 'package:hrmax/ui/widgets/question/single_select_question.dart';
 
@@ -36,11 +37,11 @@ class _ResultScreenState extends State<ResultScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                /*Text(
+                Text(
                   model.submitResponse ?? "",
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-                UIHelper.verticalSpaceMedium,*/
+                UIHelper.verticalSpaceMedium,
                 (model.showResult || model.showCorrectAnswer)
                     ? Expanded(
                         child: Card(
