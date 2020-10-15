@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hrmax/ui/shared/ui_helpers.dart';
 
 class Dropdown extends StatefulWidget {
   final String selectedOption;
@@ -8,7 +7,7 @@ class Dropdown extends StatefulWidget {
 
   const Dropdown(
       {Key key,
-      this.selectedOption = "Select organisation",
+      this.selectedOption,
       @required this.options,
       @required this.onSelect})
       : super(key: key);
@@ -19,7 +18,7 @@ class Dropdown extends StatefulWidget {
 
 class _DropdownState extends State<Dropdown> {
   String dropdownValue;
-  List<String> options = ['Select organisation'];
+  List<String> options = [];
 
   @override
   void initState() {
@@ -30,38 +29,26 @@ class _DropdownState extends State<Dropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(32),
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        contentPadding: const EdgeInsets.all(16),
+        prefixIcon: Icon(Icons.account_balance, color: Colors.black45),
       ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.account_balance,
-            color: Colors.black45,
-          ),
-          UIHelper.horizontalSpaceMedium,
-          Expanded(
-            child: DropdownButton<String>(
-              isExpanded: true,
-              value: dropdownValue,
-              underline: Container(height: 2),
-              onChanged: (String newValue) {
-                setState(() => dropdownValue = newValue);
-                widget.onSelect(options.indexOf(newValue) - 1);
-              },
-              items: options.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
+      hint: Text("Select your organisation"),
+      value: dropdownValue,
+      validator: (value) =>
+          value == null ? "Required" : null,
+      onChanged: (String newValue) {
+        setState(() => dropdownValue = newValue);
+        widget.onSelect(options.indexOf(newValue));
+      },
+      items: options.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

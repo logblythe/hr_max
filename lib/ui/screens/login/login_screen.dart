@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           resizeToAvoidBottomPadding: true,
           resizeToAvoidBottomInset: true,
           body: Container(
+            height: double.infinity,
             color: Colors.white,
             child: SingleChildScrollView(
               child: Column(
@@ -57,9 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             options: model.clients
                                 .map((client) => client.name)
                                 .toList(),
-                            onSelect: (index) {
-                              model.selectOrganisation(index);
-                            },
+                            onSelect: model.selectOrganisation,
                           ),
                           UIHelper.verticalSpaceLarge,
                           TextInput(
