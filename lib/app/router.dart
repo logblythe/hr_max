@@ -30,4 +30,4 @@ import 'package:hrmax/ui/screens/profile/profile_screen.dart';
     MaterialRoute(page: ResultScreen, name: "ResultRoute"),
   ],
 )
-class $Router {}
+class $CustomRouter {}

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hrmax/app/locator.dart';
-import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
+
+import 'app/router.gr.dart';
 
 void main() {
   setupLocator();
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: APP_TITLE,
-      onGenerateRoute: Router().onGenerateRoute,
+      onGenerateRoute: CustomRouter().onGenerateRoute,
       navigatorKey: navigatorKey,
     );
   }
