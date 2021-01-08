@@ -70,10 +70,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           UIHelper.verticalSpaceLarge,
                           TextInput(
                             prefixIcon: Icon(Icons.lock),
+                            suffixIcon: InkWell(
+                              child: Icon(Icons.remove_red_eye,
+                                  color: model.obscureText
+                                      ? Colors.grey
+                                      : Colors.blue),
+                              onTap: model.toggleObscureText,
+                            ),
                             title: PASSWORD,
                             controller: passwordController,
                             keyboardType: TextInputType.visiblePassword,
-                            obscureText: true,
+                            obscureText: model.obscureText,
                           ),
                           UIHelper.verticalSpaceLarge,
                           UIHelper.verticalSpaceMedium,
