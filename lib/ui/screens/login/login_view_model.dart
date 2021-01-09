@@ -104,7 +104,7 @@ class LoginViewmodel extends BaseViewModel {
       HrClient(
           name: Organisations.TECHNOMAX,
           status: OrganisationStatus.REGISTERED,
-          baseUrl: OrganisationUrls.MEGA),
+          baseUrl: OrganisationUrls.TECHNOMAX),
     ];
   }
 
