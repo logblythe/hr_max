@@ -4,6 +4,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/app/router.gr.dart';
+import 'package:hrmax/core/constants/hr_clients.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
@@ -34,7 +35,7 @@ class LoginViewmodel extends BaseViewModel {
   login(String username, String password) async {
     if (_selectedClient == null) {
       setError("Please select your organisation");
-    } else if (_selectedClient.status == "Registered") {
+    } else if (_selectedClient.status == OrganisationStatus.REGISTERED) {
       _userService.saveBaseUrl(_selectedClient.baseUrl);
       try {
         setLoading();
@@ -81,29 +82,29 @@ class LoginViewmodel extends BaseViewModel {
   void getClients() {
     _clients = [
       HrClient(
-          name: "Mega Bank Nepal",
-          status: "Registered",
-          baseUrl: "https://elearning.megabank.com.np/"),
+          name: Organisations.MEGA,
+          status: OrganisationStatus.REGISTERED,
+          baseUrl: OrganisationUrls.MEGA),
       HrClient(
-        name: "Macchapucchre Bank",
-        status: "NotRegistered",
+        name: Organisations.MACCHAPUCCHRE,
+        status: OrganisationStatus.NOT_REGISTERED,
       ),
       HrClient(
-        name: "Kamana Sewa Bikas Bank",
-        status: "NotRegistered",
+        name: Organisations.KAMANA,
+        status: OrganisationStatus.NOT_REGISTERED,
       ),
       HrClient(
-        name: "Kumari Bank",
-        status: "NotRegistered",
+        name: Organisations.KUMARI,
+        status: OrganisationStatus.NOT_REGISTERED,
       ),
       HrClient(
-        name: "Global Ime Bank",
-        status: "NotRegistered",
+        name: Organisations.GLOBAL_IME,
+        status: OrganisationStatus.NOT_REGISTERED,
       ),
       HrClient(
-          name: "Technomax",
-          status: "Registered",
-          baseUrl: "https://api.technomax.com.np/"),
+          name: Organisations.TECHNOMAX,
+          status: OrganisationStatus.REGISTERED,
+          baseUrl: OrganisationUrls.MEGA),
     ];
   }
 
