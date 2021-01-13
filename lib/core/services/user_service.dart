@@ -33,7 +33,7 @@ class UserService {
         (value) {
           _loginModel = LoginRes.fromJsonMap(value);
           _storage.set(KEY_LOGIN_RESPONSE, value: jsonEncode(_loginModel));
-          _storage.set(KEY_EMAIL, value: params["username"]);
+          _storage.set(KEY_USERNAME, value: params["username"]);
           _storage.set(KEY_PASSWORD, value: params["password"]);
           _storage.set(KEY_DEVICE_ID, value: params["deviceId"]);
           _storage.set(KEY_TOKEN, value: _loginModel.userToken);

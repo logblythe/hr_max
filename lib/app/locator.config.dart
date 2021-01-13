@@ -11,6 +11,7 @@ import '../core/services/api_service.dart';
 import '../core/services/dialog_service.dart';
 import '../core/services/learning_service.dart';
 import '../core/services/navigation_service.dart';
+import '../core/services/permission_service.dart';
 import '../core/services/storage_service.dart';
 import '../core/services/user_service.dart';
 
@@ -25,6 +26,7 @@ GetIt $initGetIt(
   final gh = GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<DialogService>(() => DialogService());
   gh.lazySingleton<NavigationService>(() => NavigationService());
+  gh.lazySingleton<PermissionService>(() => PermissionService());
   gh.lazySingleton<StorageService>(() => StorageService());
   gh.lazySingleton<ApiService>(
       () => ApiService(storageService: get<StorageService>()));

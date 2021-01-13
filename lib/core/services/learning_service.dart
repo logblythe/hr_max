@@ -81,8 +81,10 @@ class LearningService {
 
   fetchTracker({int userId}) => _apiService
       .get("/eLearning/getELearningTracker?paramSessionUserId=$userId")
-      .then((value) => _learningTrackers =
-          List.from(value.map((e) => LearningTrackerRes.fromJsonMap(e))));
+      .then((value) {
+    _learningTrackers =
+        List.from(value.map((e) => LearningTrackerRes.fromJsonMap(e)));
+  });
 
   fetchMaterials({int courseId}) => _apiService
       .get("/eLearning/getELearningMaterials?idCourse=$courseId")
@@ -126,4 +128,9 @@ class LearningService {
         _folders = _filesResponse.folders;
         _files = _filesResponse.files;
       });
+
+  downloadCertificate(String fullName) => _apiService.downloadCertificate(
+      '/eLearning/generateCertificate?idTracker=${selectedTracker.idELearningTracker}&idTrackerHistory=${selectedTracker.idTrackerHistory}&loginName=$fullName',
+      selectedTracker.idELearningTracker,
+      selectedTracker.idTrackerHistory);
 }

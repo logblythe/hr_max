@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const String KEY_DEVICE_ID = "key_device_id";
-const String KEY_EMAIL = "username";
+const String KEY_USERNAME = "username";
 const String KEY_LOGIN_RESPONSE = "key_login_response";
 const String KEY_PASSWORD = "password";
 const String KEY_TOKEN = "key_token";

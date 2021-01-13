@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:hrmax/app/locator.dart';
 import 'package:hrmax/core/constants/constants.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
 
 import 'app/router.gr.dart';
 
-void main() {
+const debug = true; //setting true to enable logs of FlutterDownloader
+
+void main() async {
   setupLocator();
+  await FlutterDownloader.initialize(debug: true);
   runApp(MyApp());
 }
 

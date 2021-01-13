@@ -6,7 +6,6 @@ const E_LEARNING = "eLearning";
 const ISSUE_TICKET = "Issue Ticket";
 const LEARNING_DASHBOARD = "Learning Dashboard";
 const COMPLETED = "Completed";
-const PENDING = "Pending";
 const MONTH_LEARNING = "This Month Learning(s)";
 const USERNAME = "Username";
 const PASSWORD = "Password";
