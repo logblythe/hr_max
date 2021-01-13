@@ -28,7 +28,7 @@ class _ReviewSubmitDialogState extends State<ReviewSubmitDialog>
   void initState() {
     super.initState();
     controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync:this, duration: Duration(milliseconds: 500));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
     controller.forward();

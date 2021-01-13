@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:hrmax/core/services/storage_service.dart';
 import 'package:hrmax/network/api_exceptions.dart';
 import 'package:hrmax/network/logging_interceptor.dart';
@@ -13,6 +14,7 @@ import 'package:http_interceptor/http_client_with_interceptor.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mime/mime.dart';
+import 'package:path_provider/path_provider.dart';
 
 @lazySingleton
 class ApiService {
@@ -49,7 +51,7 @@ class ApiService {
   Future<dynamic> refreshToken() async {
     StorageService _storage = StorageService();
     post("/account/userLogin", params: {
-      "username": await _storage.get(KEY_EMAIL),
+      "username": await _storage.get(KEY_USERNAME),
       "password": await _storage.get(KEY_PASSWORD),
       "deviceId": await _storage.get(KEY_DEVICE_ID),
     }).then(
@@ -138,6 +140,33 @@ class ApiService {
       throw FetchDataException({"message": 'No Internet connection'});
     }
     return responseJson;
+  }
+
+  downloadCertificate(String url, int idTracker, int idTrackerHistory) async {
+    StorageService _storage = StorageService();
+    String userName = await _storage.get(KEY_USERNAME);
+    var _headers = await getHeaders();
+    String _localPath =
+        (await _findLocalPath()) + Platform.pathSeparator + 'Download';
+    final savedDir = Directory(_localPath);
+    bool hasExisted = await savedDir.exists();
+    if (!hasExisted) {
+      savedDir.create();
+    }
+    await FlutterDownloader.enqueue(
+        url: baseUrl + url,
+        headers: _headers,
+        savedDir: _localPath,
+        showNotification: true,
+        openFileFromNotification: true,
+        fileName: "${userName}_${idTracker}_$idTrackerHistory.pdf");
+  }
+
+  Future<String> _findLocalPath() async {
+    final directory = Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
   dynamic _returnResponse(http.Response response) {

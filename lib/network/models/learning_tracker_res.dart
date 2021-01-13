@@ -2,6 +2,7 @@ class LearningTrackerRes {
   String learningFromDateTime;
   String learningToDateTime;
   int idELearningTracker;
+  int idTrackerHistory;
   int idHRCourse;
   String courseName;
   String instruction;
@@ -18,11 +19,14 @@ class LearningTrackerRes {
   int attemptCount;
   int allowStartTraining;
   bool readingMaterialExist;
+  bool enableGenerateCertificate;
+  bool downloading = false;
 
   LearningTrackerRes.fromJsonMap(Map<String, dynamic> map)
       : learningFromDateTime = map["learningFromDateTime"],
         learningToDateTime = map["learningToDateTime"],
         idELearningTracker = map["idELearningTracker"],
+        idTrackerHistory = map["idTrackerHistory"],
         idHRCourse = map["idHRCourse"],
         courseName = map["courseName"],
         instruction = map["instruction"],
@@ -38,13 +42,15 @@ class LearningTrackerRes {
         isAttended = map["isAttended"],
         attemptCount = map["attemptCount"],
         allowStartTraining = map["allowStartTraining"],
-        readingMaterialExist = map["readingMaterialExist"];
+        readingMaterialExist = map["readingMaterialExist"],
+        enableGenerateCertificate=map["enableGenerateCertificate"];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['learningFromDateTime'] = learningFromDateTime;
     data['learningToDateTime'] = learningToDateTime;
     data['idELearningTracker'] = idELearningTracker;
+    data['idTrackerHistory'] = idTrackerHistory;
     data['idHRCourse'] = idHRCourse;
     data['courseName'] = courseName;
     data['instruction'] = instruction;
@@ -61,6 +67,7 @@ class LearningTrackerRes {
     data['attemptCount'] = attemptCount;
     data['allowStartTraining'] = allowStartTraining;
     data['readingMaterialExist'] = readingMaterialExist;
+    data['enableGenerateCertificate'] = enableGenerateCertificate;
     return data;
   }
 }

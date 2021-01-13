@@ -4,14 +4,17 @@ import 'package:hrmax/app/router.gr.dart';
 import 'package:hrmax/core/services/dialog_service.dart';
 import 'package:hrmax/core/services/learning_service.dart';
 import 'package:hrmax/core/services/navigation_service.dart';
+import 'package:hrmax/core/services/permission_service.dart';
 import 'package:hrmax/core/services/user_service.dart';
 import 'package:hrmax/core/view_models/base_view_model.dart';
 import 'package:hrmax/network/models/learning_tracker_res.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ExamsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _learningService = locator<LearningService>();
   final _navigationService = locator<NavigationService>();
+  final _permissionService = locator<PermissionService>();
   final _userService = locator<UserService>();
 
   List<LearningTrackerRes> get learningTrackers =>
@@ -50,5 +53,28 @@ class ExamsViewModel extends BaseViewModel {
   handleInstructions(LearningTrackerRes learningTracker) {
     _learningService.setSelectedTracker(learningTracker);
     _navigationService.navigateTo(Routes.InstructionRoute);
+  }
+
+  handleDownloadCertificate(LearningTrackerRes learningTracker) {
+    _learningService.setSelectedTracker(learningTracker);
+    _permissionService
+        .checkPermission(Permission.storage)
+        .then((hasPermission) async {
+      learningTracker.downloading = true;
+      _learningService.downloadCertificate(_userService.loginModel.fullName);
+      notifyListeners();
+    });
+  }
+
+  void onDownloadComplete() {
+    showToast("Download Complete.");
+    _learningService.selectedTracker.downloading = false;
+    notifyListeners();
+  }
+
+  void onDownloadFailed() {
+    showError("Something went wrong.");
+    _learningService.selectedTracker.downloading = false;
+    notifyListeners();
   }
 }

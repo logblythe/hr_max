@@ -35,21 +35,19 @@ class CountBoxWidget extends StatelessWidget {
                     width: imageSize ?? 32,
                   ),
                   UIHelper.horizontalSpaceSmall,
-                  Text(
-                    count.toString(),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  Expanded(
+                    child: Text(
+                      count.toString(),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
                   )
                 ],
               ),
               UIHelper.verticalSpaceSmall,
-              Row(
-                children: <Widget>[
-                  Text(
-                    text,
-                    style: TextStyle(
-                        fontSize: 16, color: Theme.of(context).disabledColor),
-                  ),
-                ],
+              Text(
+                text,
+                style: TextStyle(
+                    fontSize: 16, color: Theme.of(context).disabledColor),
               )
             ],
           ),

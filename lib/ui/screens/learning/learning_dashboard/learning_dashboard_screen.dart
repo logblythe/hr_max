@@ -55,7 +55,7 @@ class _LearningDashboardScreenState extends State<LearningDashboardScreen> {
                 child: CountBoxWidget(
                   onPressed: _model.navigateToExams,
                   count: _model.loading ? 0 : _model.learningCount.totalPending,
-                  text: PENDING,
+                  text: "Not Attempted",
                   imagePath: ImagePath.LEARNING,
                 ),
               )

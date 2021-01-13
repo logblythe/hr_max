@@ -9,28 +9,37 @@ class ExamCard extends StatelessWidget {
   final Function onProcess;
   final Function onInstructions;
   final Function onViewMaterials;
+  final Function onDownloadCertificate;
   final LearningTrackerRes tracker;
+  final bool downloading;
 
   ExamCard({
     this.onProcess,
     this.onInstructions,
     this.onViewMaterials,
+    this.onDownloadCertificate,
     this.tracker,
+    this.downloading,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool showMaterials = tracker.readingMaterialExist;
+    bool showProceed = (tracker.attemptCount > 0 && withinRange());
+    bool showDownload =
+        tracker.enableGenerateCertificate && tracker.status == "Passed";
     return Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(bottom: 8, left: 16, right: 16, top: 16),
+          margin:
+              const EdgeInsets.only(bottom: 8, left: 16, right: 16, top: 16),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             shadowColor: Colors.grey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -50,40 +59,46 @@ class ExamCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      (tracker.attemptCount > 0 && withinRange())
-                          ? Flexible(
-                              flex: 1,
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 8),
-                                width: double.infinity,
-                                child: Button(
-                                  label: Proceed,
-                                  onPressed: onProcess,
-                                ),
+                      showProceed
+                          ? Expanded(
+                              child: Button(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                label: Proceed,
+                                onPressed: onProcess,
                               ),
                             )
-                          : Container(),
-                      Flexible(
-                        flex: 1,
-                        child: Container(
-                          width: double.infinity,
-                          child: Button(
-                            label: Instructions,
-                            onPressed: onInstructions,
-                          ),
+                          : SizedBox.shrink(),
+                      Expanded(
+                        child: Button(
+                          margin: EdgeInsets.symmetric(horizontal: 8),
+                          label: Instructions,
+                          onPressed: onInstructions,
                         ),
                       )
                     ],
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 12),
-                    child: tracker.readingMaterialExist
-                        ? Button(
-                            label: VIEW_READING_MATERIALS,
-                            onPressed: onViewMaterials,
-                          )
-                        : SizedBox.shrink(),
+                  Row(
+                    children: [
+                      showMaterials
+                          ? Expanded(
+                              child: Button(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                label: VIEW_READING_MATERIALS,
+                                onPressed: onViewMaterials,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      showDownload
+                          ? Expanded(
+                              child: Button(
+                                loading: downloading,
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                label: "Download certificate",
+                                onPressed: onDownloadCertificate,
+                              ),
+                            )
+                          : SizedBox.shrink()
+                    ],
                   )
                 ],
               ),
