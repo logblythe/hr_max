@@ -61,7 +61,8 @@ class ExamsViewModel extends BaseViewModel {
         .checkPermission(Permission.storage)
         .then((hasPermission) async {
       learningTracker.downloading = true;
-      _learningService.downloadCertificate(_userService.loginModel.fullName);
+      String name = _userService.loginModel.fullName.trim().split(" ").join("");
+      _learningService.downloadCertificate(name);
       notifyListeners();
     });
   }

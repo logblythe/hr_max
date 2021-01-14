@@ -49,6 +49,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       int progress = data[2];
       if (status == DownloadTaskStatus.complete) {
         _model.onDownloadComplete();
+        FlutterDownloader.open(taskId: id);
       } else if (status == DownloadTaskStatus.failed) {
         _model.onDownloadFailed();
       }

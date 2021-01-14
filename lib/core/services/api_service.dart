@@ -153,7 +153,7 @@ class ApiService {
     if (!hasExisted) {
       savedDir.create();
     }
-    await FlutterDownloader.enqueue(
+    FlutterDownloader.enqueue(
         url: baseUrl + url,
         headers: _headers,
         savedDir: _localPath,
