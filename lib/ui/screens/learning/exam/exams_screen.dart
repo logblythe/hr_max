@@ -47,9 +47,12 @@ class _ExamsScreenState extends State<ExamsScreen> {
       String id = data[0];
       DownloadTaskStatus status = data[1];
       int progress = data[2];
-      if (status == DownloadTaskStatus.complete) {
+      if (status == DownloadTaskStatus.complete && progress == 100) {
         _model.onDownloadComplete();
-        FlutterDownloader.open(taskId: id);
+        Future.delayed(
+          Duration(seconds: 1),
+          () => FlutterDownloader.open(taskId: id),
+        );
       } else if (status == DownloadTaskStatus.failed) {
         _model.onDownloadFailed();
       }
@@ -60,7 +63,8 @@ class _ExamsScreenState extends State<ExamsScreen> {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
   }
 
-  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
     if (debug) {
       print(
           'Background Isolate Callback: task ($id) is in status ($status) and process ($progress)');
