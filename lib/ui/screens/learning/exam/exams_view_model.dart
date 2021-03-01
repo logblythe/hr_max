@@ -57,14 +57,22 @@ class ExamsViewModel extends BaseViewModel {
 
   handleDownloadCertificate(LearningTrackerRes learningTracker) {
     _learningService.setSelectedTracker(learningTracker);
-    _permissionService
-        .checkPermission(Permission.storage)
-        .then((hasPermission) async {
-      learningTracker.downloading = true;
-      String name = _userService.loginModel.fullName.trim().split(" ").join("");
-      _learningService.downloadCertificate(name);
-      notifyListeners();
-    });
+    try {
+      _permissionService
+          .checkPermission(Permission.storage)
+          .then((hasPermission) {
+        print('hasPermission $hasPermission');
+        if (hasPermission) {
+          learningTracker.downloading = true;
+          String name =
+              _userService.loginModel.fullName.trim().split(" ").join("");
+          _learningService.downloadCertificate(name);
+          notifyListeners();
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void onDownloadComplete() {
