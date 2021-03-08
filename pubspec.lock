@@ -306,14 +306,14 @@ packages:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   flutter_cached_pdfview:
     dependency: "direct main"
     description:
       name: flutter_cached_pdfview
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.9"
+    version: "0.3.5"
   flutter_downloader:
     dependency: "direct main"
     description:

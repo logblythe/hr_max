@@ -13,11 +13,15 @@ class InitialViewmodel extends BaseViewModel {
   final _userService = locator<UserService>();
 
   init() async {
-    if (await _storageService.get(KEY_TOKEN) != null) {
-      String storedModel = await _storageService.get(KEY_LOGIN_RESPONSE);
-      _userService.loginModel = jsonDecode(storedModel);
-      _navigationService.replace(Routes.HomeRoute);
-    } else {
+    try{
+      if (await _storageService.get(KEY_TOKEN) != null) {
+        String storedModel = await _storageService.get(KEY_LOGIN_RESPONSE);
+        _userService.loginModel = jsonDecode(storedModel);
+        _navigationService.replace(Routes.HomeRoute);
+      } else {
+        _navigationService.replace(Routes.LoginRoute);
+      }
+    }catch(e){
       _navigationService.replace(Routes.LoginRoute);
     }
   }

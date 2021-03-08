@@ -14,5 +14,5 @@ class OrganisationStatus {
 
 class OrganisationUrls{
   static const String MEGA = "https://elearning.megabank.com.np/";
-  static const String TECHNOMAX ="https://api.technomax.com.np/";
+  static const String TECHNOMAX ="http://209.105.227.109:887/";
 }

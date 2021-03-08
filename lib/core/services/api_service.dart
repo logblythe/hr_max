@@ -36,7 +36,7 @@ class ApiService {
   void initBaseUrl() async {
     String savedUrl = await _storageService.get(KEY_BASE_URL);
     if (savedUrl != null) {
-      baseUrl = savedUrl + "api/";
+      baseUrl = savedUrl + "api";
     }
   }
 

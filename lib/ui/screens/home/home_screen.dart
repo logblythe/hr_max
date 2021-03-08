@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   AppBar buildAppBar(HomeViewmodel model) {
     return AppBar(
-      title: Text("Hr Max"),
+      title: Text("eDrill"),
       leading: InkResponse(
         child: Icon(Icons.perm_identity),
         onTap: model.handleShowProfile,
