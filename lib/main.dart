@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       title: APP_TITLE,
       onGenerateRoute: CustomRouter().onGenerateRoute,
       navigatorKey: navigatorKey,
+      theme: ThemeData(fontFamily: 'Poppins'),
     );
   }
 }

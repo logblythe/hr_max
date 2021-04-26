@@ -29,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       builder: (context, model, child) {
         return Scaffold(
-          resizeToAvoidBottomPadding: true,
           resizeToAvoidBottomInset: true,
           body: Container(
             height: double.infinity,

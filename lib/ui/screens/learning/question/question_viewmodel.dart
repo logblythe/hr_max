@@ -58,8 +58,12 @@ class QuestionViewmodel extends BaseViewModel {
       _learningService.setAnswers(answersMap);
       StringBuffer _listToSubmit = StringBuffer();
       answersMap.forEach((questionId, options) {
-        for (Option option in options) {
-          _listToSubmit.write("$questionId:${option.id},");
+        if (options?.length == 0) {
+          _listToSubmit.write("$questionId:,");
+        } else {
+          for (Option option in options) {
+            _listToSubmit.write("$questionId:${option.id},");
+          }
         }
       });
       await _learningService.submitQuestions({
